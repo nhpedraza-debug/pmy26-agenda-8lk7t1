@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VOYAGE · PUERTO MADRYN 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E %3Cdefs%3E %3ClinearGradient id=%22bg%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E %3Cstop offset=%220%22 stop-color=%22#1c6f8a%22/%3E%3Cstop offset=%221%22 stop-color=%22#0b2f47%22/%3E %3C/linearGradient%3E %3ClinearGradient id=%22n%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E %3Cstop offset=%220%22 stop-color=%22#ff5a4e%22/%3E%3Cstop offset=%221%22 stop-color=%22#c62828%22/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22url(#bg)%22/%3E %3Ccircle cx=%22256%22 cy=%22256%22 r=%22196%22 fill=%22none%22 stroke=%22#ffffff%22 stroke-opacity=%22.22%22 stroke-width=%2210%22/%3E %3Ccircle cx=%22256%22 cy=%22256%22 r=%22150%22 fill=%22none%22 stroke=%22#ffffff%22 stroke-opacity=%22.12%22 stroke-width=%224%22 stroke-dasharray=%226 14%22/%3E %3C%21-- 8-point rose: minor points --%3E %3Cg fill=%22#ffffff%22 fill-opacity=%22.55%22%3E %3Cpolygon points=%22256,256 296,216 372,140 336,216%22/%3E %3Cpolygon points=%22256,256 296,296 372,372 336,296%22/%3E %3Cpolygon points=%22256,256 216,296 140,372 176,296%22/%3E %3Cpolygon points=%22256,256 216,216 140,140 176,216%22/%3E %3C/g%3E %3C%21-- major points --%3E %3Cg fill=%22#ffffff%22%3E %3Cpolygon points=%22256,256 236,236 256,70 276,236%22/%3E %3Cpolygon points=%22256,256 276,276 256,442 236,276%22/%3E %3Cpolygon points=%22256,256 236,276 70,256 236,236%22/%3E %3Cpolygon points=%22256,256 276,236 442,256 276,276%22/%3E %3C/g%3E %3Cg fill=%22#cfe3ec%22%3E %3Cpolygon points=%22256,256 236,236 256,70%22 /%3E %3Cpolygon points=%22256,256 276,276 256,442%22 /%3E %3Cpolygon points=%22256,256 236,276 70,256%22 /%3E %3Cpolygon points=%22256,256 276,236 442,256%22 /%3E %3C/g%3E %3C%21-- red north --%3E %3Cpolygon points=%22256,256 236,236 256,70 276,236%22 fill=%22url(#n)%22/%3E %3Ccircle cx=%22256%22 cy=%22256%22 r=%2226%22 fill=%22#0b2f47%22 stroke=%22#ffffff%22 stroke-width=%228%22/%3E %3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/voyage-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/voyage-180.png">
+<link rel="manifest" href="icons/manifest.webmanifest">
+<meta name="theme-color" content="#173b4a">
+<meta name="application-name" content="VOYAGE">
+<meta name="apple-mobile-web-app-title" content="VOYAGE">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+    :root{
+      --bg:#f7f4ee;
+      --paper:#fffaf2;
+      --ink:#1f2933;
+      --muted:#5b6470;
+      --line:#d9cdbb;
+      --accent:#315f72;
+      --accent2:#8a5a44;
+      --soft:#e9f0f2;
+      --ok:#2f6f4e;
+      --warn:#9f6b15;
+      --bad:#b42318;
+      --badSoft:#ffe7e4;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.55;
+    }
+
+    header{
+      background:linear-gradient(135deg,#173b4a 0%,#315f72 55%,#8a5a44 100%);
+      color:#fff;
+      padding:48px 28px 34px;
+    }
+
+    .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+    header .wrap{padding:0}
+
+    h1{
+      font-size:40px;
+      line-height:1.05;
+      margin:0 0 12px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    h1.voy{margin:0 0 6px}
+    .voy-brand{letter-spacing:.16em;font-size:1.05em}
+    .voy-dest{font-size:.66em;font-weight:800;letter-spacing:.02em;opacity:.96}
+    .voy-ver{margin:0 0 4px;font-size:17px;font-weight:700;opacity:.92}
+    .voy-stamp{font-weight:500;opacity:.85;font-size:15px}
+    .voy-avance{margin:0 0 14px;font-size:16px;font-weight:800;color:#7ff0a4;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+    .voy-avance:empty{display:none}
+    .km-table td,.km-table th,.monedas-table td,.monedas-table th{font-size:13.5px;padding:6px 8px}
+    .km-table tr.km-today td{background:#fff3b0;font-weight:700}
+    .table-wrap{overflow-x:auto}
+
+    h2{
+      font-size:28px;
+      margin:34px 0 14px;
+      line-height:1.18;
+      color:#173b4a;
+    }
+
+    h3{font-size:20px;margin:0 0 8px;color:#254d5e}
+    h4{margin:0 0 4px;color:#254d5e}
+    p{margin:8px 0 12px}
+    a{color:#225c74;text-decoration:none;border-bottom:1px solid rgba(34,92,116,.25)}
+
+    .subtitle{
+      font-size:18px;
+      max-width:980px;
+      opacity:.94;
+      margin:0 0 20px;
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border-radius:999px;
+      padding:7px 12px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.28);
+      font-size:14px;
+    }
+
+    .pill.red{
+      background:rgba(255,231,228,.18);
+      border-color:rgba(255,255,255,.45);
+    }
+
+    nav{
+      background:#fff;
+      border-bottom:1px solid var(--line);
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+
+    nav .wrap{
+      display:flex;
+      gap:12px;
+      overflow:auto;
+      white-space:nowrap;
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+
+    nav a{
+      font-size:14px;
+      border:0;
+      background:#f1eadf;
+      padding:7px 10px;
+      border-radius:999px;
+      color:#254d5e;
+    }
+
+    section{padding:18px 0}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+    }
+
+    .panel{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 5px 16px rgba(31,41,51,.05);
+    }
+
+    .span-4{grid-column:span 4}
+    .span-5{grid-column:span 5}
+    .span-6{grid-column:span 6}
+    .span-7{grid-column:span 7}
+    .span-8{grid-column:span 8}
+    .span-12{grid-column:span 12}
+
+    .callout{
+      border-left:5px solid var(--accent);
+      background:#eef5f6;
+      padding:14px 16px;
+      border-radius:12px;
+      margin:12px 0;
+    }
+
+    .warning{border-left-color:var(--warn);background:#fff5df}
+    .good{border-left-color:var(--ok);background:#eef8f1}
+    .red-note{border-left-color:var(--bad);background:var(--badSoft)}
+
+    #map{
+      height:650px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      overflow:hidden;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    th,td{
+      padding:10px 11px;
+      border-bottom:1px solid #eadfce;
+      vertical-align:top;
+      text-align:left;
+      font-size:14px;
+    }
+
+    th{background:#f0e7d8;color:#173b4a}
+    tr:last-child td{border-bottom:0}
+
+    .day-card{
+      display:grid;
+      grid-template-columns:82px 1fr;
+      gap:16px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      margin:12px 0;
+    }
+
+    .day-num{
+      background:#315f72;
+      color:#fff;
+      border-radius:14px;
+      padding:10px;
+      text-align:center;
+      font-weight:800;
+      height:max-content;
+    }
+
+    .transport{
+      color:#384b55;
+      background:#f4efe7;
+      padding:9px 10px;
+      border-radius:10px;
+      margin-top:8px;
+    }
+
+    .visit-time{
+      background:#eef8f1;
+      border-left:4px solid var(--ok);
+      padding:8px 10px;
+      border-radius:10px;
+      color:#263f30;
+      margin-top:8px;
+    }
+
+    .small-note{color:var(--muted);font-size:13px}
+    ul{margin-top:8px;padding-left:22px}
+    li{margin:6px 0}
+
+    .tag{
+      display:inline-block;
+      background:#e9f0f2;
+      color:#254d5e;
+      border-radius:999px;
+      padding:4px 8px;
+      font-size:12px;
+      font-weight:700;
+      margin:2px;
+    }
+
+    .tag.red{background:var(--badSoft);color:var(--bad)}
+    .overnight-text,.overnight-cell{color:var(--bad);font-weight:800}
+
+    .route-numbered{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:12px 0 6px;
+    }
+
+    .route-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:13px;
+      color:#254d5e;
+    }
+
+    .route-chip b{
+      display:inline-grid;
+      place-items:center;
+      min-width:24px;
+      height:24px;
+      border-radius:50%;
+      background:#315f72;
+      color:#fff;
+      font-size:12px;
+      line-height:1;
+    }
+
+    .route-chip em{
+      font-style:normal;
+      color:#6b7280;
+      font-size:11px;
+      margin-left:2px;
+    }
+
+    .route-chip.sleep{
+      border:2px solid var(--bad);
+      background:var(--badSoft);
+      color:#7a1b14;
+      font-weight:700;
+    }
+
+    .route-chip.sleep b{background:var(--bad)}
+    .route-chip.sleep em{color:#7a1b14;font-weight:800}
+
+    .legend{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:10px 0 0;
+    }
+
+    .legend-item{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:13px;
+    }
+
+    .dot{width:14px;height:14px;border-radius:50%;display:inline-block}
+    .dot.red{background:var(--bad)}
+    .dot.blue{background:#315f72}
+
+    .numbered-marker{
+      color:#fff;
+      border:2px solid #fff;
+      border-radius:50%;
+      width:30px;
+      height:30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,.35);
+    }
+
+    .numbered-marker.sleep{background:var(--bad)}
+    .numbered-marker.visit{background:#315f72}
+
+    .muted{color:var(--muted)}
+
+    .rec-card{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-left:5px solid var(--accent2);
+      border-radius:14px;
+      padding:16px;
+      margin:0 0 16px;
+    }
+
+    .rec-card h3{color:#7a3f28}
+    .rec-card .rec-meta{font-size:12px;color:var(--muted);margin:0 0 8px}
+
+    .print-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    tr.noche-hoy td{background:#fff3bf !important;box-shadow:inset 0 0 0 2px #b42318}
+    .pdf-btn{
+      border:0;
+      border-radius:999px;
+      background:#fff;
+      color:#173b4a;
+      font-weight:800;
+      padding:10px 16px;
+      cursor:pointer;
+      box-shadow:0 4px 12px rgba(0,0,0,.18);
+      font-size:14px;
+    }
+
+    .pdf-btn:hover{filter:brightness(.96)}
+
+    footer{
+      padding:28px 0 48px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media(max-width:800px){
+      h1{font-size:32px}
+      .grid{display:block}
+      .panel{margin:0 0 16px}
+      #map{height:500px}
+      .day-card{grid-template-columns:1fr}
+    }
+
+    @media print{
+      @page{size:Letter portrait;margin:.45in}
+      html,body{background:#fff!important;color:#111;font-size:9.6pt;line-height:1.24}
+      .wrap{max-width:none!important;padding:0!important}
+      header{background:#fff!important;color:#111!important;padding:0 0 8pt!important;border-bottom:1pt solid #bbb}
+      header h1{font-size:18pt;line-height:1.05;margin:0 0 4pt;color:#111!important}
+      .subtitle{font-size:9pt;max-width:none;margin:0 0 5pt;opacity:1;color:#111!important}
+      .meta{gap:4pt;margin-top:5pt}
+      .pill{font-size:7.8pt;padding:2pt 5pt;background:#fff!important;color:#111!important;border:.5pt solid #bbb}
+      nav,#map,.legend,#mapa .muted,.no-print{display:none!important}
+      section{padding:5pt 0!important}
+      h2{font-size:13.5pt;margin:9pt 0 4pt;color:#111;break-after:avoid}
+      h3{font-size:10.8pt;margin:0 0 3pt;color:#111}
+      p{margin:2pt 0 4pt}
+      .grid{display:block!important}
+      .panel,.day-card,table,.rec-card{box-shadow:none!important;background:#fff!important;border:.75pt solid #ccc!important;border-radius:4pt!important}
+      .panel,.rec-card{padding:6pt;margin:0 0 6pt;break-inside:avoid}
+      .callout{border-left:3pt solid #777!important;background:#fff!important;padding:5pt;margin:5pt 0;border-radius:3pt;break-inside:avoid}
+      .day-card{display:grid;grid-template-columns:38pt 1fr;gap:6pt;padding:6pt;margin:5pt 0;break-inside:avoid;page-break-inside:avoid}
+      .day-num{background:#333!important;color:#fff!important;border-radius:3pt;padding:5pt;font-size:8.8pt;height:auto}
+      .transport,.visit-time{background:#fff!important;border:.5pt solid #ddd!important;border-left:2pt solid #777!important;padding:3pt 4pt;border-radius:3pt;font-size:8.6pt;color:#111!important}
+      th,td{font-size:7.8pt;padding:3.2pt 4pt;line-height:1.14;border-bottom:.5pt solid #ddd}
+      th{background:#eee!important;color:#111!important}
+      .route-chip{font-size:7.2pt;padding:1.8pt 4pt;border-radius:9pt;background:#fff!important;color:#111!important;border:.5pt solid #bbb!important}
+      .route-chip b{min-width:13pt;height:13pt;font-size:7pt;background:#555!important;color:#fff!important}
+      .tag{font-size:7.2pt;padding:1pt 3pt}
+      footer{padding:8pt 0 0;font-size:8pt;color:#333}
+      a{border-bottom:0;color:#111;text-decoration:none}
+    }
+  </style>
+<style>
+#langflags{position:fixed;top:8px;right:12px;z-index:60;display:flex;gap:6px}
+#langflags button{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.6);background:rgba(0,0,0,.3);border-radius:8px;padding:4px 8px;font-size:12px;font-weight:700;color:#fff;line-height:1;cursor:pointer}#langflags button.active{color:#173b4a}
+#langflags button.active{outline:3px solid #f5c518;background:rgba(255,255,255,.9)}
+.t-en{display:none}.lt-en{display:none}
+body.lang-en .t-es{display:none}body.lang-en .t-en{display:block}
+body.lang-en .lt-es{display:none}body.lang-en .lt-en{display:inline}
+@media print{#langflags{display:none}}
+</style>
+<style>
+.pend-summary{display:flex;flex-wrap:wrap;gap:12px;margin:6px 0 14px}
+.pend-card{flex:1 1 180px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.pend-card .lbl{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.pend-card .big{font-size:22px;font-weight:800;margin:3px 0}
+.pend-card.g{border-left:6px solid var(--ok,#2f6f4e)}.pend-card.g .big{color:var(--ok,#2f6f4e)}
+.pend-card.r{border-left:6px solid var(--bad,#b42318)}.pend-card.r .big{color:var(--bad,#b42318)}
+.pend-card .note{font-size:11.5px;color:var(--muted)}
+.pend-legend{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.pend-legend span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.pend-sw{width:13px;height:13px;border-radius:4px;display:inline-block}
+.pend-sw.g{background:#dff3e6;border:1.5px solid #2f6f4e}.pend-sw.r{background:#ffe3e0;border:1.5px solid #b42318}.pend-sw.n{background:#eee8dd;border:1.5px solid var(--line)}
+.pend-sw.a{background:#fff3bf;border:1.5px solid #c99700}
+.pend-sw.p{background:repeating-linear-gradient(45deg,#dff3e6,#dff3e6 4px,#fff3bf 4px,#fff3bf 8px);border:1.5px dashed #c99700}
+.pend-months{display:grid;grid-template-columns:1fr;gap:24px;margin-top:14px}
+.pend-month{background:#faf6ee;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.pend-month h3{margin:0 0 8px;color:#173b4a}
+.pend-grid{display:grid;grid-template-columns:repeat(7,minmax(62px,1fr));gap:4px;min-width:460px}
+.pend-month{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pend-dow{font-size:10px;font-weight:700;color:var(--muted);text-align:center}
+.pend-cell{min-height:60px;border-radius:8px;padding:4px 5px;display:flex;flex-direction:column;justify-content:space-between;font-size:9.5px;border:1px solid transparent}
+.pend-cell.empty{border:0;background:transparent}
+.pend-cell.neutral{background:#eee8dd;border-color:var(--line);color:var(--muted)}
+.pend-cell.green{background:#dff3e6;border-color:#2f6f4e}
+.pend-cell.red{background:#ffe3e0;border-color:#b42318}
+.pend-cell.amber{background:#fff3bf;border-color:#c99700}
+.pend-cell.pending{background:repeating-linear-gradient(45deg,#dff3e6,#dff3e6 6px,#fff3bf 6px,#fff3bf 12px);border-color:#c99700;border-style:dashed;border-width:1.5px}
+.pend-cell.pending .b{color:#8a6100}
+.pend-cell .d{font-weight:800;font-size:10px;opacity:.8}
+.pend-cell .b{font-weight:700;line-height:1.05;font-size:9px}
+.pend-cell.green .b{color:#2f6f4e}.pend-cell.red .b{color:#b42318}
+.pend-resp{font-size:8.5px;font-weight:800;border-radius:4px;padding:1px 3px;margin-top:2px;text-align:center;line-height:1.2}
+.pend-resp.ra{background:#dbe8ff;color:#1a4f9c}.pend-resp.rb{background:#efe0ff;color:#6b2fb3}.pend-resp.rc{background:#d7f2ee;color:#127d6e}
+.pend-tour{font-size:8px;font-weight:800;border-radius:4px;padding:1px 3px;margin-top:2px;text-align:center;line-height:1.2}
+.pend-tour.tn{background:#ffe0d6;color:#b42318}.pend-tour.tb{background:#dff3e6;color:#2f6f4e}
+
+.auto-grid{display:grid;grid-template-columns:1fr;gap:14px}
+</style>
+</head>
+<body>
+<div id="langflags"><button id="fl-es" onclick="setLang('es')" title="Castellano (Argentina)"><svg width="22" height="15" viewBox="0 0 30 20" style="display:block;border-radius:2px"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" y="0" fill="#75AADB"/><rect width="30" height="6.67" y="13.33" fill="#75AADB"/><circle cx="15" cy="10" r="2.3" fill="#F6B40E"/></svg><span>ES</span></button><button id="fl-en" onclick="setLang('en')" title="English (USA)"><svg width="22" height="15" viewBox="0 0 30 20" style="display:block;border-radius:2px"><rect width="30" height="20" fill="#fff"/><g fill="#B22234"><rect width="30" height="1.54" y="0"/><rect width="30" height="1.54" y="3.08"/><rect width="30" height="1.54" y="6.15"/><rect width="30" height="1.54" y="9.23"/><rect width="30" height="1.54" y="12.31"/><rect width="30" height="1.54" y="15.38"/><rect width="30" height="1.54" y="18.46"/></g><rect width="12" height="10.77" fill="#3C3B6E"/></svg><span>EN</span></button></div>
+<header><div class="wrap">
+<h1 class="voy"><span class="voy-brand">VOYAGE</span><br><span class="voy-dest">PUERTO MADRYN 2026</span></h1>
+<p class="voy-ver">V. 0.02 <span class="voy-stamp">(10/16/2026 21:03 ET)</span></p>
+<p class="voy-avance" id="voy-avance"></p>
+<p class="subtitle"><span class="t-es">Escapada a Península Valdés para ver ballenas: Buenos Aires ✈ Puerto Madryn, auto propio y 3 noches en Puerto Pirámides, con la pingüinera de Estancia San Lorenzo y la lobería de Punta Loma por cerrar. Lun 16 → jue 19 nov 2026. Nivel confort, 3 adultos. Todo vía Centurion (Tatiana Segatti).</span><span class="t-en">A whale-watching escape to Península Valdés: Buenos Aires ✈ Puerto Madryn, own car and 3 nights in Puerto Pirámides, with the Estancia San Lorenzo penguins and the Punta Loma sea lions still to close. Mon Nov 16 → Thu Nov 19, 2026. Comfort level, 3 adults. All via Centurion (Tatiana Segatti).</span></p>
+<div class="meta">
+<span class="pill red">📅 16 → 19 nov 2026</span>
+<span class="pill"><span class="lt-es">3 noches · 4 días</span><span class="lt-en">3 nights · 4 days</span></span>
+<span class="pill"><span class="lt-es">1 auto · ~386 km</span><span class="lt-en">1 car · ~386 km</span></span>
+<span class="pill"><span class="lt-es">2 vuelos · 2 avistajes</span><span class="lt-en">2 flights · 2 whale trips</span></span>
+<span class="pill red"><span class="lt-es">Noches en rojo</span><span class="lt-en">Nights in red</span></span>
+<span class="pill"><span class="lt-es">Mapa interactivo</span><span class="lt-en">Interactive map</span></span>
+<span class="pill">🎂 19 nov</span>
+<span class="pill">VOYAGE · V. 0.02</span>
+</div>
+<p class="subtotal-line" style="margin-top:12px;font-size:15px;font-weight:700;background:rgba(255,255,255,.12);padding:8px 12px;border-radius:8px;display:inline-block"><span class="lt-es">💰 Subtotal reservado: <b>ARS 5.317.444 ≈ US$ 3.475</b> · promedio <b>≈ ARS 1.772.481/noche</b> <span style="font-weight:400;opacity:.82;font-size:12.5px">(aéreo + hotel + auto + avistajes; @ ARS 1.530 por US$, BNA vendedor 15 oct 2026)</span><br><span style="font-size:13.5px">🏨 Alojamiento: <b>ARS 461.718/noche</b> <span style="font-weight:400;opacity:.82;font-size:12px">(2 habitaciones con desayuno · Amex/Centurion · 3 cuotas)</span></span><br><span style="font-size:12.5px">— Desglose por canal: <b>Amex/Centurion</b> 3 noches · ARS 1.385.153 · <b>Hertz</b> prepago ARS 548.395 · <b>Avistajes</b> ARS 1.203.940 &nbsp;·&nbsp; pendientes: Estancia San Lorenzo ARS 822.600 · Lobería ARS 147.675 o ARS 963.900</span><br><span style="font-size:13.5px">🚗 Transporte sin aéreos: <b>ARS 182.798/noche</b> <span style="font-weight:400;opacity:.82;font-size:12px">(Hertz ARS 548.395 ÷ 3 noches)</span></span></span><span class="lt-en">💰 Booked subtotal: <b>ARS 5.317.444 ≈ US$ 3,475</b> · average <b>≈ ARS 1.772.481/night</b> <span style="font-weight:400;opacity:.82;font-size:12.5px">(flights + hotel + car + whale trips; @ ARS 1,530 per US$, BNA selling rate Oct 15, 2026)</span><br><span style="font-size:13.5px">🏨 Lodging: <b>ARS 461.718/night</b> <span style="font-weight:400;opacity:.82;font-size:12px">(2 rooms with breakfast · Amex/Centurion · 3 instalments)</span></span><br><span style="font-size:12.5px">— By channel: <b>Amex/Centurion</b> 3 nights · ARS 1.385.153 · <b>Hertz</b> prepaid ARS 548.395 · <b>Whales</b> ARS 1.203.940 &nbsp;·&nbsp; pending: Estancia San Lorenzo ARS 822.600 · Sea lions ARS 147.675 or ARS 963.900</span><br><span style="font-size:13.5px">🚗 Ground transport, no flights: <b>ARS 182.798/night</b> <span style="font-weight:400;opacity:.82;font-size:12px">(Hertz ARS 548.395 ÷ 3 nights)</span></span></span></p>
+<p style="margin-top:12px;font-size:14px;opacity:.95"><span class="lt-es">Documento bilingüe — usá las banderas de arriba a la derecha para cambiar idioma.</span><span class="lt-en">Bilingual document — use the flags at the top right to switch language.</span></p>
+<div class="print-actions no-print"><button class="pdf-btn" type="button" id="alertas-btn" onclick="alertasShow()" style="background:#b42318;color:#fff">⚠️ <span class="lt-es">ALERTAS</span><span class="lt-en">ALERTS</span></button><button class="pdf-btn" type="button" id="hoy-btn" onclick="hoyShow(0)" style="background:#ffe9a8">📅 <span class="lt-es">HOY</span><span class="lt-en">TODAY</span></button><button class="pdf-btn" type="button" id="man-btn" onclick="hoyShow(1)" style="background:#dcebf3">🌙 <span class="lt-es">MAÑANA</span><span class="lt-en">TOMORROW</span></button><button class="pdf-btn" type="button" onclick="location.hash='#guias';document.getElementById('guias').scrollIntoView({behavior:'smooth'})" style="background:#e8f1ff">📘 <span class="lt-es">GUÍAS</span><span class="lt-en">GUIDES</span></button><button class="pdf-btn" type="button" id="noches-btn" onclick="nocheHoy()" style="background:#fde2e2">🛏 <span class="lt-es">NOCHES</span><span class="lt-en">NIGHTS</span></button><button class="pdf-btn" type="button" onclick="generarPDFModeloANA()">📄 PDF</button><button class="pdf-btn" type="button" onclick="window.print()"><span class="lt-es">Imprimir / Guardar PDF</span><span class="lt-en">Print / Save PDF</span></button></div>
+</div></header>
+<nav><div class="wrap">
+<a href="#anulaciones"><span class="lt-es">⊘ Anulaciones</span><span class="lt-en">⊘ To cancel</span></a>
+<a href="#autos"><span class="lt-es">Autos</span><span class="lt-en">Cars</span></a>
+<a href="#calendario"><span class="lt-es">📅 Calendario</span><span class="lt-en">📅 Calendar</span></a>
+<a href="#concepto"><span class="lt-es">Concepto</span><span class="lt-en">Concept</span></a>
+<a href="#costos"><span class="lt-es">Costos</span><span class="lt-en">Costs</span></a>
+<a href="#itinerario"><span class="lt-es">Día por día</span><span class="lt-en">Day by day</span></a>
+<a href="#distancias"><span class="lt-es">Distancias</span><span class="lt-en">Distances</span></a>
+<a href="#documentos"><span class="lt-es">Documentos</span><span class="lt-en">Documents</span></a>
+<a href="#experiencias"><span class="lt-es">Experiencias</span><span class="lt-en">Experiences</span></a>
+<a href="#guias"><span class="lt-es">📘 Guías</span><span class="lt-en">📘 Guides</span></a>
+<a href="#hoteles"><span class="lt-es">Hoteles</span><span class="lt-en">Hotels</span></a>
+<a href="#km">KM</a>
+<a href="#mapa"><span class="lt-es">Mapa</span><span class="lt-en">Map</span></a>
+<a href="#monedas"><span class="lt-es">Monedas</span><span class="lt-en">Currencies</span></a>
+<a href="#noches"><span class="lt-es">Noches</span><span class="lt-en">Nights</span></a>
+<a href="#pendientes"><span class="lt-es">Pendientes</span><span class="lt-en">To-do</span></a>
+<a href="#recomendaciones"><span class="lt-es">Recomendaciones</span><span class="lt-en">Recommendations</span></a>
+<a href="#reqatencion" style="background:#b42318;color:#fff;font-weight:800"><span class="lt-es">⚠️ REQ. ATENCIÓN</span><span class="lt-en">⚠️ NEEDS ATTENTION</span></a>
+<a href="#resumen"><span class="lt-es">Resumen</span><span class="lt-en">Summary</span></a>
+<a href="#tips">Tips</a>
+<a href="#tours">Tours</a>
+<a href="#vuelos"><span class="lt-es">Vuelos</span><span class="lt-en">Flights</span></a>
+</div></nav>
+<main class="wrap">
+<section id="concepto"><div class="t-es">
+ <h2>1. Concepto del viaje</h2>
+ <div class="grid">
+  <div class="panel span-8">
+  <h3>Escapada de 4 días a Península Valdés para ver ballenas</h3>
+  <p>Vuelo Aeroparque → Puerto Madryn el lunes 16 de noviembre a la tarde, auto propio desde el aeropuerto y <b>base única de 3 noches en Puerto Pirámides</b>, el único puerto desde donde zarpan los avistajes embarcados. Dos salidas de ballenas (martes 17 y miércoles 18, a primera hora), la pingüinera de Estancia San Lorenzo (Punta Norte) por confirmar, y el jueves 19 se baja a Puerto Madryn (Lobería de Punta Loma por decidir) para devolver el auto y volar de regreso a las 19:05.</p>
+  <p>Noviembre es el cierre de la temporada de ballena franca austral (junio → principios de diciembre): en Pirámides quedan sobre todo madres con crías cerca de la costa. El Yellow Submarine (avistaje submarino) ya no opera en estas fechas.</p>
+  <p><b>Todo se gestionó por Centurion Travel (Tatiana Segatti, Amex)</b>: aéreo emitido, hotel con 2 habitaciones vista a la playa, Hertz prepago, y las dos excursiones de ballenas con el operador Amichi. Lo que falta cerrar se ve en <a href="#reqatencion">REQ. ATENCIÓN</a> y <a href="#pendientes">Pendientes</a>.</p>
+  </div>
+  <div class="panel span-4">
+  <h3>Ficha</h3>
+  <ul>
+   <li><b>Viajeros:</b> Néstor, Ana y Carolina (3 adultos · 2 habitaciones).</li>
+   <li><b>Fechas:</b> lun 16 → jue 19 nov 2026 · 4 días · 3 noches.</li>
+   <li><b>Base:</b> Puerto Pirámides (Rayentray Océano, frente a la playa).</li>
+   <li><b>Auto:</b> Hertz SUV compacto automático, retiro y devolución en el aeropuerto PMY · pagado.</li>
+   <li><b>Km:</b> ≈ 386 km en 3 días de manejo (≈ 152 km de ripio dentro de la península).</li>
+   <li><b>Documento:</b> DNI (vuelo de cabotaje).</li>
+   <li><b>🎂 Jueves 19 nov:</b> cumpleaños de Néstor y de Carolina.</li>
+  </ul>
+  </div>
+ </div>
+</div><div class="t-en">
+ <h2>1. Trip concept</h2>
+ <div class="grid">
+  <div class="panel span-8">
+  <h3>A 4-day whale-watching escape to Península Valdés</h3>
+  <p>Flight Aeroparque → Puerto Madryn on Monday Nov 16 in the afternoon, own car from the airport and a <b>single 3-night base in Puerto Pirámides</b>, the only port the whale boats sail from. Two whale-watching trips (Tue 17 and Wed 18, first thing in the morning), the Estancia San Lorenzo penguin colony (Punta Norte) to be confirmed, and on Thursday 19 down to Puerto Madryn (Punta Loma sea-lion colony to be decided) to return the car and fly back at 19:05.</p>
+  <p>November is the end of the southern right whale season (June → early December): mothers with calves stay close to the shore at Pirámides. The Yellow Submarine (underwater viewing) no longer runs on these dates.</p>
+  <p><b>Everything was arranged through Centurion Travel (Tatiana Segatti, Amex)</b>: tickets issued, hotel with 2 beach-view rooms, prepaid Hertz, and the two whale trips with the operator Amichi. What is still open is under <a href="#reqatencion">NEEDS ATTENTION</a> and <a href="#pendientes">To-do</a>.</p>
+  </div>
+  <div class="panel span-4">
+  <h3>At a glance</h3>
+  <ul>
+   <li><b>Travellers:</b> Néstor, Ana and Carolina (3 adults · 2 rooms).</li>
+   <li><b>Dates:</b> Mon Nov 16 → Thu Nov 19, 2026 · 4 days · 3 nights.</li>
+   <li><b>Base:</b> Puerto Pirámides (Rayentray Océano, on the beach).</li>
+   <li><b>Car:</b> Hertz compact automatic SUV, pick-up and return at PMY airport · paid.</li>
+   <li><b>Km:</b> ≈ 386 km over 3 driving days (≈ 152 km of gravel inside the peninsula).</li>
+   <li><b>ID:</b> DNI (domestic flight).</li>
+   <li><b>🎂 Thursday Nov 19:</b> Néstor's and Carolina's birthday.</li>
+  </ul>
+  </div>
+ </div>
+</div></section>
+
+<section id="resumen"><div class="t-es">
+ <h2>2. Resumen ejecutivo</h2>
+ <div class="callout" style="border-left:6px solid #315f72;background:#eef4f7"><b>Estado al 17 oct 2026:</b> ✅ aéreo emitido (EKOLXX) · ✅ hotel confirmado en 3 cuotas · ✅ Hertz pagado (saldo 0) · ✅ 2 avistajes de ballenas con horario y punto de encuentro · ⏳ Estancia San Lorenzo (falta tu autorización para que la estancia te mande el link de pago) · ⏳ Lobería Punta Loma del 19 (regular «sujeto a grupo» vs privada) · ⚠️ llegada al hotel ≈ 22:45: el voucher dice que el Rayentray Océano <b>no tiene recepción propia</b> (presentarse en Rayentray Las Restingas o Rayentray Pirámides) — falta confirmar que atienden a esa hora, ver <a href="#reqatencion">REQ. ATENCIÓN</a>.</div>
+ <table>
+ <thead><tr><th>Día</th><th>Fecha</th><th>Qué pasa</th><th>Reservas</th></tr></thead>
+ <tbody>
+ <tr><td>1</td><td>lun 16 nov</td><td>✈ AR1814 AEP 18:25 → PMY 20:30 · 🚗 Hertz en el aeropuerto · 98 km a Puerto Pirámides (llegada ≈ 22:45)</td><td>✅ vuelo · ✅ auto · ✅ hotel (⚠️ llegada tardía)</td></tr>
+ <tr><td>2</td><td>mar 17 nov</td><td>🐋 09:00 avistaje de ballenas (Punta Ballena) · tarde libre en Pirámides / lobería de Punta Pirámide</td><td>✅ avistaje</td></tr>
+ <tr><td>3</td><td>mié 18 nov</td><td>🐋 08:45 avistaje (Southern Spirit) · 🐧 Estancia San Lorenzo 14:00 + sunset 18:00 (Punta Norte, 76 km de ripio por tramo)</td><td>✅ avistaje · ⏳ estancia</td></tr>
+ <tr><td>4</td><td>jue 19 nov 🎂</td><td>Checkout 10:00 → Puerto Madryn (95 km) · 🦭 Lobería Punta Loma · 🚗 devolución Hertz 18:00 · ✈ AR1813 19:05 → AEP 20:55</td><td>⏳ lobería · ✅ auto · ✅ vuelo</td></tr>
+ </tbody></table>
+ <p class="muted">Horarios en hora argentina (ART, UTC−3). Km por OSRM (ruta real ≈ 10 % más). Detalle y fuentes en cada pestaña.</p>
+</div><div class="t-en">
+ <h2>2. Executive summary</h2>
+ <div class="callout" style="border-left:6px solid #315f72;background:#eef4f7"><b>Status as of Oct 17, 2026:</b> ✅ tickets issued (EKOLXX) · ✅ hotel confirmed in 3 instalments · ✅ Hertz paid (balance 0) · ✅ 2 whale trips with time and meeting point · ⏳ Estancia San Lorenzo (your authorization is missing so the estancia can send you the payment link) · ⏳ Punta Loma sea lions on the 19th (regular "subject to group" vs private) · ⚠️ hotel arrival ≈ 22:45: the voucher says Rayentray Océano <b>has no reception of its own</b> (report to Rayentray Las Restingas or Rayentray Pirámides) — still to confirm they're staffed at that hour, see <a href="#reqatencion">NEEDS ATTENTION</a>.</div>
+ <table>
+ <thead><tr><th>Day</th><th>Date</th><th>What happens</th><th>Bookings</th></tr></thead>
+ <tbody>
+ <tr><td>1</td><td>Mon Nov 16</td><td>✈ AR1814 AEP 18:25 → PMY 20:30 · 🚗 Hertz at the airport · 98 km to Puerto Pirámides (arrival ≈ 22:45)</td><td>✅ flight · ✅ car · ✅ hotel (⚠️ late arrival)</td></tr>
+ <tr><td>2</td><td>Tue Nov 17</td><td>🐋 09:00 whale watching (Punta Ballena) · free afternoon in Pirámides / Punta Pirámide sea lions</td><td>✅ whales</td></tr>
+ <tr><td>3</td><td>Wed Nov 18</td><td>🐋 08:45 whale watching (Southern Spirit) · 🐧 Estancia San Lorenzo 14:00 + sunset 18:00 (Punta Norte, 76 km of gravel each way)</td><td>✅ whales · ⏳ estancia</td></tr>
+ <tr><td>4</td><td>Thu Nov 19 🎂</td><td>Checkout 10:00 → Puerto Madryn (95 km) · 🦭 Punta Loma sea lions · 🚗 Hertz return 18:00 · ✈ AR1813 19:05 → AEP 20:55</td><td>⏳ sea lions · ✅ car · ✅ flight</td></tr>
+ </tbody></table>
+ <p class="muted">Times in Argentina time (ART, UTC−3). Km by OSRM (real route ≈ 10 % more). Details and sources in each tab.</p>
+</div></section>
+
+<section id="noches"><div class="t-es">
+ <h2>3. Noches — fuente de verdad (1 → 3)</h2>
+ <p class="muted">Tabla maestra del viaje. <span class="overnight-cell">Rojo</span> = dónde se duerme. Las 3 noches son en el mismo hotel de Puerto Pirámides; el día 4 no tiene noche (vuelo de regreso a Buenos Aires 19:05). Cada día de manejo lleva el total de km y las parciales con tiempos.</p>
+ <table>
+ <thead><tr><th>Noche</th><th>Fecha</th><th>Dormir en</th><th>Plan del día</th></tr></thead>
+ <tbody>
+ <tr><td>1</td><td>lun 16 nov</td><td><span class="overnight-cell">Puerto Pirámides</span></td><td>✈ AR1814 AEP 18:25 → PMY 20:30 · 🚗 Hertz PMY 20:30 → Puerto Pirámides · 🚗 98 km (1 h 34, asfalto; de noche: fauna en la ruta)</td></tr>
+ <tr><td>2</td><td>mar 17 nov</td><td><span class="overnight-cell">Puerto Pirámides</span></td><td>🐋 09:00 avistaje de ballenas — presentarse PUNTUALES en Punta Ballena · tarde: playa / lobería de Punta Pirámide (4 km) · sin manejo largo</td></tr>
+ <tr><td>3</td><td>mié 18 nov</td><td><span class="overnight-cell">Puerto Pirámides</span></td><td>🐋 08:45 avistaje — Southern Spirit · 🐧 ⏳ Estancia San Lorenzo (Punta Norte): Experiencia Pingüinos 14:00 + Sunset 18:00 · 🚗 152 km (Pirámides → San Lorenzo 76 km / 2 h 08 ripio · vuelta 76 km / 2 h 08, de noche)</td></tr>
+ <tr><td>—</td><td>jue 19 nov 🎂</td><td><span class="muted">✈ PMY → AEP (noche en Buenos Aires)</span></td><td>Checkout (10:00) → Puerto Madryn · 🦭 ⏳ Lobería Punta Loma · almuerzo de cumpleaños en Madryn · 🚗 devolución Hertz PMY 18:00 · ✈ AR1813 19:05 → AEP 20:55 · 🚗 136 km (Pirámides → Madryn 95 km / 1 h 36 · Madryn → Punta Loma 16 km / 22 min · Punta Loma → aeropuerto 25 km / 35 min)</td></tr>
+ </tbody></table>
+</div><div class="t-en">
+ <h2>3. Nights — source of truth (1 → 3)</h2>
+ <p class="muted">Master table. <span class="overnight-cell">Red</span> = where we sleep. All 3 nights are at the same hotel in Puerto Pirámides; day 4 has no night (return flight to Buenos Aires at 19:05). Each driving day shows the total km and the partial legs with times.</p>
+ <table>
+ <thead><tr><th>Night</th><th>Date</th><th>Sleep in</th><th>Plan of the day</th></tr></thead>
+ <tbody>
+ <tr><td>1</td><td>Mon Nov 16</td><td><span class="overnight-cell">Puerto Pirámides</span></td><td>✈ AR1814 AEP 18:25 → PMY 20:30 · 🚗 Hertz PMY 20:30 → Puerto Pirámides · 🚗 98 km (1 h 34, paved; at night: wildlife on the road)</td></tr>
+ <tr><td>2</td><td>Tue Nov 17</td><td><span class="overnight-cell">Puerto Pirámides</span></td><td>🐋 09:00 whale watching — be ON TIME at Punta Ballena · afternoon: beach / Punta Pirámide sea lions (4 km) · no long drive</td></tr>
+ <tr><td>3</td><td>Wed Nov 18</td><td><span class="overnight-cell">Puerto Pirámides</span></td><td>🐋 08:45 whale watching — Southern Spirit · 🐧 ⏳ Estancia San Lorenzo (Punta Norte): Penguin Experience 14:00 + Sunset 18:00 · 🚗 152 km (Pirámides → San Lorenzo 76 km / 2 h 08 gravel · back 76 km / 2 h 08, after dark)</td></tr>
+ <tr><td>—</td><td>Thu Nov 19 🎂</td><td><span class="muted">✈ PMY → AEP (night in Buenos Aires)</span></td><td>Checkout (10:00) → Puerto Madryn · 🦭 ⏳ Punta Loma sea lions · birthday lunch in Madryn · 🚗 Hertz return PMY 18:00 · ✈ AR1813 19:05 → AEP 20:55 · 🚗 136 km (Pirámides → Madryn 95 km / 1 h 36 · Madryn → Punta Loma 16 km / 22 min · Punta Loma → airport 25 km / 35 min)</td></tr>
+ </tbody></table>
+</div></section>
+
+<section id="mapa">
+<h2><span class="lt-es">4. Mapa del recorrido</span><span class="lt-en">4. Route map</span></h2>
+<div class="legend"><span class="legend-item"><span class="dot red"></span> <span class="lt-es">Rojo = noche</span><span class="lt-en">Red = night</span></span><span class="legend-item"><span class="dot blue"></span> <span class="lt-es">Azul = visita/parada</span><span class="lt-en">Blue = visit/stop</span></span></div>
+<div id="map"></div>
+<p class="muted"><span class="lt-es">Aeropuerto PMY → Puerto Pirámides (asfalto, RN3 + RP2) → Estancia San Lorenzo / Punta Norte (ripio, RP3) → Pirámides → Puerto Madryn → Punta Loma → aeropuerto. El salto Buenos Aires ⇄ Puerto Madryn es en avión.</span><span class="lt-en">PMY airport → Puerto Pirámides (paved, RN3 + RP2) → Estancia San Lorenzo / Punta Norte (gravel, RP3) → Pirámides → Puerto Madryn → Punta Loma → airport. The Buenos Aires ⇄ Puerto Madryn hop is by air.</span></p>
+</section>
+
+<section id="itinerario"><div class="t-es">
+<h2>5. Itinerario día por día (1 → 4)</h2>
+<article class="day-card"><div class="day-num">Día 1<small>lun 16 nov</small></div><div>
+ <h3>✈ Buenos Aires → Puerto Madryn · 🚗 Hertz · noche en Puerto Pirámides</h3>
+ <p><strong>Dormir:</strong> <span class="overnight-text">Puerto Pirámides</span></p>
+ <p>Aeroparque: presentarse ≈ 16:45 (check-in de Aerolíneas cierra 45 min antes; 1 valija de 15 kg en bodega por persona). <b>AR1814 18:25 → PMY 20:30</b>, Premium Economy, asientos 1D · 1C · 1A, ref Amex <b>EKOLXX</b> / Aerolíneas <b>NFWYEM</b> · tickets 044-3977-775105/06/07 · Aerolíneas Plus 26425207 cargado — <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">📄 billete</a>.</p>
+ <p>En el aeropuerto El Tehuelche: mostrador de <b>Hertz</b>, reserva <b>#1918761</b> (SUV compacto automático, Chevrolet Tracker o similar, <b>ya pagado</b>, saldo 0). Llevar DNI, licencia vigente y la Centurion a nombre de Néstor (garantía bloqueada en tarjeta ARS 900.000). Revisar el auto antes de salir (fotos de cubiertas y parabrisas: el ripio de la península castiga). — <a href="documentos/hertz%20pedraza%2016nov%20PMY.pdf" target="_blank" rel="noopener">📄 Hertz</a></p>
+ <p class="transport">🚗 Aeropuerto PMY → RN3 (norte) → RP2 → Puerto Pirámides · <b>98 km · 1 h 34</b> (asfalto). Salida ≈ 21:10, llegada ≈ 22:45. <b>De noche hay guanacos y maras en la ruta: 90 km/h máximo y luces altas.</b> Entrada al Área Natural Protegida Península Valdés en el acceso de RP2 (se paga ahí, no está incluida — ver REQ. ATENCIÓN).</p>
+ <p class="visit-time">⚠️ El voucher dice que el Rayentray Océano <b>no tiene recepción propia: presentarse en Rayentray Las Restingas o Rayentray Pirámides</b> (check-in 14:00). Llegada ≈ 22:45: <b>le pediste a Tatiana el 17 oct</b> que avisen y confirmen que esa recepción atiende a esa hora, más un teléfono de guardia. Tel. del hotel +54 280 4459300. Cenar algo en Aeroparque o comprar algo en Madryn: a las 23:00 en Pirámides es difícil encontrar cocina abierta.</p>
+ <p class="hotel">🏨 <strong>Puerto Pirámides ✅ CONFIRMADO:</strong> Rayentray Océano (<b>Acceso Ballenero S/N y el mar, Puerto Pirámides (U9121), Chubut</b> · tel. <b>+54 280 4459300</b> · frente a la playa · 2 habitaciones: Suite Std Playa Doble (Néstor + Ana) + Suite Std Playa Single (Carolina) · desayuno · voucher Amichi Viajes <b>5FY8F2</b> · localizador externo <b>#12041832</b> · ARS 1.385.152,95 en 3 cuotas s/i) — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 voucher</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">resumen</a>. <b>Check-in 14:00 · checkout 10:00 · el hotel no tiene recepción propia: presentarse en Rayentray Las Restingas o Rayentray Pirámides (el desayuno también se sirve ahí).</b> Cancelación sin penalidad hasta el <b>mié 11 nov</b>; 3–4 días antes = 1 noche; ≤2 días = 100 %.</p>
+</div></article>
+<article class="day-card"><div class="day-num">Día 2<small>mar 17 nov</small></div><div>
+ <h3>🐋 Avistaje de ballenas 09:00 · tarde en Puerto Pirámides</h3>
+ <p><strong>Dormir:</strong> <span class="overnight-text">Puerto Pirámides</span></p>
+ <p class="visit-time">🐋 <b>09:00 — presentarse PUNTUALES en Punta Ballena</b> (<a href="https://maps.app.goo.gl/txfpDCesEjqdMLkJ6" target="_blank" rel="noopener">📍 mapa</a>). Operador Amichi · 3 adultos · ≈ 1 h 30 embarcados · guía bilingüe · ropa de abrigo e impermeable (viento y salpicaduras) · ✅ confirmado en 3 cuotas — <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">📄 comprobante</a>. Si el mar está feo, el operador reprograma: el teléfono de Centurion está en Documentos.</p>
+ <p>Desayuno temprano (está incluido; confirmar desde qué hora lo sirven). Vuelta a tierra ≈ 10:45. Tarde libre: playa frente al hotel, caminata al mirador y <b>lobería de Punta Pirámide</b> (4 km, lobos marinos de un pelo; sendero corto desde el estacionamiento) y ver la bajada de las lanchas. Si sobra energía, no conviene gastar la tarde en el circuito largo de la península (Caleta Valdés / Punta Delgada son 200+ km de ripio): el 18 ya se va a Punta Norte.</p>
+ <p class="transport">🚗 Sin manejo largo (lobería de Punta Pirámide: 4 km ida).</p>
+ <p class="hotel">🏨 <strong>Puerto Pirámides ✅ CONFIRMADO:</strong> Rayentray Océano (<b>Acceso Ballenero S/N y el mar, Puerto Pirámides (U9121), Chubut</b> · tel. <b>+54 280 4459300</b> · frente a la playa · 2 habitaciones: Suite Std Playa Doble (Néstor + Ana) + Suite Std Playa Single (Carolina) · desayuno · voucher Amichi Viajes <b>5FY8F2</b> · localizador externo <b>#12041832</b> · ARS 1.385.152,95 en 3 cuotas s/i) — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 voucher</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">resumen</a>. <b>Check-in 14:00 · checkout 10:00 · el hotel no tiene recepción propia: presentarse en Rayentray Las Restingas o Rayentray Pirámides (el desayuno también se sirve ahí).</b> Cancelación sin penalidad hasta el <b>mié 11 nov</b>; 3–4 días antes = 1 noche; ≤2 días = 100 %.</p>
+</div></article>
+<article class="day-card"><div class="day-num">Día 3<small>mié 18 nov</small></div><div>
+ <h3>🐋 Avistaje 08:45 · 🐧 Estancia San Lorenzo (Punta Norte) — por confirmar</h3>
+ <p><strong>Dormir:</strong> <span class="overnight-text">Puerto Pirámides</span></p>
+ <p class="visit-time">🐋 <b>08:45 — presentación en Southern Spirit</b> (<a href="https://maps.app.goo.gl/AUR5L5LGCZ2GvJLV8" target="_blank" rel="noopener">📍 mapa</a>). Segunda salida de ballenas, mismas condiciones que el 17 · ✅ confirmado — <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">📄 comprobante</a>. En tierra ≈ 10:30.</p>
+ <p class="visit-time">🐧 <b>⏳ Estancia San Lorenzo — Experiencia Pingüinos 14:00</b> (caminata guiada de 700 m por la colonia de pingüinos de Magallanes con guardaparque; grupos de hasta 25; calzado cerrado, pantalón largo, protector solar; restaurante a la carta en el ex galpón de esquila; <b>salidas 11:00 · 14:00 · 16:00 · 17:30</b>, llegar 15 min antes) · <b>Sunset Pingüinos en privado 18:00</b> (la hora de más actividad; mínimo 4 pax → se paga por 4). Tarifas: ARS 270.000,00 + ARS 552.600,00 = <b>ARS 822.600,00</b>, cada una en 1 pago por link de la estancia. <b>Falta tu autorización escrita a Tatiana</b> para que compartan tu mail con la estancia y te manden los links (vos le dijiste el 16 oct que preferís hacer las dos el 18). Plan B: el descriptivo dice que se puede llegar 15 min antes y <b>pagar en el mostrador</b>, sujeto a cupo. <a href="documentos/Estancia%20San%20Lorenzo%20Descriptivo.pdf" target="_blank" rel="noopener">📄 descriptivo de la estancia</a> · <a href="https://www.google.com/maps?q=-42.1328425,-63.8912137&z=17&hl=es" target="_blank" rel="noopener">📍 ubicación</a>.</p>
+ <p class="transport">🚗 Pirámides → Estancia San Lorenzo (Punta Norte) por RP3 · <b>76 km · 2 h 08 de ripio consolidado</b>: salir a las 11:30 para llegar 13:40 (tanque lleno; 60–70 km/h; sin señal de celular en gran parte del tramo). Vuelta igual: <b>76 km · 2 h 08</b>, saliendo ≈ 19:30 tras el sunset — <b>se vuelve de noche por ripio</b>: fauna, despacio, luces altas. Total del día <b>152 km</b>. Alternativa si no querés manejar de noche: hacer solo la Experiencia de las 14:00 y volver con luz (llegada ≈ 18:00).</p>
+ <p class="hotel">🏨 <strong>Puerto Pirámides ✅ CONFIRMADO:</strong> Rayentray Océano (<b>Acceso Ballenero S/N y el mar, Puerto Pirámides (U9121), Chubut</b> · tel. <b>+54 280 4459300</b> · frente a la playa · 2 habitaciones: Suite Std Playa Doble (Néstor + Ana) + Suite Std Playa Single (Carolina) · desayuno · voucher Amichi Viajes <b>5FY8F2</b> · localizador externo <b>#12041832</b> · ARS 1.385.152,95 en 3 cuotas s/i) — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 voucher</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">resumen</a>. <b>Check-in 14:00 · checkout 10:00 · el hotel no tiene recepción propia: presentarse en Rayentray Las Restingas o Rayentray Pirámides (el desayuno también se sirve ahí).</b> Cancelación sin penalidad hasta el <b>mié 11 nov</b>; 3–4 días antes = 1 noche; ≤2 días = 100 %.</p>
+</div></article>
+<article class="day-card"><div class="day-num">Día 4<small>jue 19 nov</small></div><div>
+ <h3>🎂 Cumpleaños · Puerto Madryn · 🦭 Punta Loma · ✈ regreso 19:05</h3>
+ <p><strong>Dormir:</strong> <span class="overnight-text">Buenos Aires (vuelo PMY → AEP 19:05)</span></p>
+ <p>Cumpleaños de Néstor y de Carolina. Desayuno (en Las Restingas / Pirámides) y <b>checkout 10:00</b> (voucher). Último paseo por la playa de Pirámides y salida hacia Puerto Madryn.</p>
+ <p class="visit-time">🦭 <b>⏳ Lobería de Punta Loma</b> (13 km al sur de Madryn: lobos marinos de un pelo y cormoranes; Monumento al Indio Tehuelche y Punta Cuevas en el camino; 2 h, 40 km). Dos opciones que te pasó Tatiana: <b>regular Amichi ARS 147.675,17</b> (3 pax, «sujeto a armado de grupo», horario según marea) o <b>privada Grupo 8 USD 630 ≈ ARS 963.900</b> (salida garantizada, horario a convenir). Con auto propio la podés hacer por tu cuenta (reserva provincial, entrada en el acceso) — decidir y avisarle a Tatiana.</p>
+ <p>Almuerzo de cumpleaños en Puerto Madryn (Tatiana ofreció reservar: Náutico Bistró del Mar · Finca Caballo Blanco · Cantina El Náutico — verificar horarios y pedir reserva ≈ 13:30). Cargar nafta antes de devolver el auto (mismo nivel que al retirarlo).</p>
+ <p class="transport">🚗 Pirámides → Puerto Madryn <b>95 km · 1 h 36</b> · Madryn → Punta Loma <b>16 km · 22 min</b> (ripio final) · Punta Loma → aeropuerto PMY <b>25 km · 35 min</b>. Total <b>136 km</b>. <b>Devolución Hertz 18:00 en el aeropuerto</b> (estar 17:40) · <b>AR1813 19:05 → AEP 20:55</b>, asientos 1D · 1C · 1F.</p>
+</div></article>
+</div><div class="t-en">
+<h2>5. Day by day (1 → 4)</h2>
+<article class="day-card"><div class="day-num">Day 1<small>Mon, Nov 16</small></div><div>
+ <h3>✈ Buenos Aires → Puerto Madryn · 🚗 Hertz · night in Puerto Pirámides</h3>
+ <p><strong>Sleep:</strong> <span class="overnight-text">Puerto Pirámides</span></p>
+ <p>Aeroparque: be there ≈ 16:45 (Aerolíneas check-in closes 45 min before; 1 × 15 kg checked bag pp). <b>AR1814 18:25 → PMY 20:30</b>, Premium Economy, seats 1D · 1C · 1A, Amex ref <b>EKOLXX</b> / Aerolíneas <b>NFWYEM</b> · tickets 044-3977-775105/06/07 · Aerolíneas Plus 26425207 loaded — <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">📄 ticket</a>.</p>
+ <p>At El Tehuelche airport: <b>Hertz</b> desk, booking <b>#1918761</b> (compact automatic SUV, Chevrolet Tracker or similar, <b>already paid</b>, balance 0). Bring DNI, valid licence and the Centurion in Néstor's name (ARS 900,000 hold). Check the car before leaving (photos of tyres and windscreen: the peninsula gravel is hard on them). — <a href="documentos/hertz%20pedraza%2016nov%20PMY.pdf" target="_blank" rel="noopener">📄 Hertz</a></p>
+ <p class="transport">🚗 PMY airport → RN3 (north) → RP2 → Puerto Pirámides · <b>98 km · 1 h 34</b> (paved). Leave ≈ 21:10, arrive ≈ 22:45. <b>Guanacos and maras cross the road at night: 90 km/h max, high beams.</b> Península Valdés protected-area fee at the RP2 gate (paid there, not included — see NEEDS ATTENTION).</p>
+ <p class="visit-time">⚠️ The voucher says Rayentray Océano <b>has no reception of its own: report to Rayentray Las Restingas or Rayentray Pirámides</b> (check-in 14:00). Arrival ≈ 22:45: <b>you asked Tatiana on Oct 17</b> to notify them and confirm that reception is staffed then, plus an on-call phone. Hotel tel. +54 280 4459300. Eat something at Aeroparque or buy food in Madryn: at 23:00 in Pirámides kitchens are mostly closed.</p>
+ <p class="hotel">🏨 <strong>Puerto Pirámides ✅ CONFIRMED:</strong> Rayentray Océano (<b>Acceso Ballenero S/N y el mar, Puerto Pirámides (U9121), Chubut</b> · tel. <b>+54 280 4459300</b> · on the beach · 2 rooms: Std Beach Suite Double (Néstor + Ana) + Std Beach Suite Single (Carolina) · breakfast · Amichi Viajes voucher <b>5FY8F2</b> · external locator <b>#12041832</b> · ARS 1.385.152,95 in 3 interest-free instalments) — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 voucher</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">summary</a>. <b>Check-in 14:00 · checkout 10:00 · the hotel has no reception of its own: report to Rayentray Las Restingas or Rayentray Pirámides (breakfast is also served there).</b> Free cancellation until <b>Wed Nov 11</b>; 3–4 days before = 1 night; ≤2 days = 100%.</p>
+</div></article>
+<article class="day-card"><div class="day-num">Day 2<small>Tue, Nov 17</small></div><div>
+ <h3>🐋 Whale watching 09:00 · afternoon in Puerto Pirámides</h3>
+ <p><strong>Sleep:</strong> <span class="overnight-text">Puerto Pirámides</span></p>
+ <p class="visit-time">🐋 <b>09:00 — be ON TIME at Punta Ballena</b> (<a href="https://maps.app.goo.gl/txfpDCesEjqdMLkJ6" target="_blank" rel="noopener">📍 map</a>). Operator Amichi · 3 adults · ≈ 1 h 30 on the boat · bilingual guide · warm, waterproof clothing (wind and spray) · ✅ confirmed, 3 instalments — <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">📄 voucher</a>. In rough seas the operator reschedules: Centurion's phone is under Documents.</p>
+ <p>Early breakfast (included; confirm from what time). Back on land ≈ 10:45. Free afternoon: beach in front of the hotel, walk to the lookout and the <b>Punta Pirámide sea-lion colony</b> (4 km; short trail from the car park), watch the boats being launched. Don't spend the afternoon on the long peninsula loop (Caleta Valdés / Punta Delgada are 200+ km of gravel): the 18th already goes to Punta Norte.</p>
+ <p class="transport">🚗 No long drive (Punta Pirámide sea lions: 4 km each way).</p>
+ <p class="hotel">🏨 <strong>Puerto Pirámides ✅ CONFIRMED:</strong> Rayentray Océano (<b>Acceso Ballenero S/N y el mar, Puerto Pirámides (U9121), Chubut</b> · tel. <b>+54 280 4459300</b> · on the beach · 2 rooms: Std Beach Suite Double (Néstor + Ana) + Std Beach Suite Single (Carolina) · breakfast · Amichi Viajes voucher <b>5FY8F2</b> · external locator <b>#12041832</b> · ARS 1.385.152,95 in 3 interest-free instalments) — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 voucher</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">summary</a>. <b>Check-in 14:00 · checkout 10:00 · the hotel has no reception of its own: report to Rayentray Las Restingas or Rayentray Pirámides (breakfast is also served there).</b> Free cancellation until <b>Wed Nov 11</b>; 3–4 days before = 1 night; ≤2 days = 100%.</p>
+</div></article>
+<article class="day-card"><div class="day-num">Day 3<small>Wed, Nov 18</small></div><div>
+ <h3>🐋 Whales 08:45 · 🐧 Estancia San Lorenzo (Punta Norte) — to be confirmed</h3>
+ <p><strong>Sleep:</strong> <span class="overnight-text">Puerto Pirámides</span></p>
+ <p class="visit-time">🐋 <b>08:45 — meet at Southern Spirit</b> (<a href="https://maps.app.goo.gl/AUR5L5LGCZ2GvJLV8" target="_blank" rel="noopener">📍 map</a>). Second whale trip, same terms as the 17th · ✅ confirmed — <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">📄 voucher</a>. On land ≈ 10:30.</p>
+ <p class="visit-time">🐧 <b>⏳ Estancia San Lorenzo — Penguin Experience 14:00</b> (700 m guided walk through the Magellanic penguin colony with a ranger; groups up to 25; closed shoes, long trousers, sunscreen; à-la-carte restaurant in the old shearing shed; <b>departures 11:00 · 14:00 · 16:00 · 17:30</b>, arrive 15 min early) · <b>Private Penguin Sunset 18:00</b> (peak activity; minimum 4 pax → charged as 4). Rates: ARS 270.000,00 + ARS 552.600,00 = <b>ARS 822.600,00</b>, each in 1 payment through the estancia's link. <b>Your written authorization to Tatiana is missing</b> so they can share your e-mail with the estancia and send the links (on Oct 16 you said you'd rather do both on the 18th). Plan B: the brochure says you can arrive 15 min early and <b>pay at the counter</b>, subject to availability. <a href="documentos/Estancia%20San%20Lorenzo%20Descriptivo.pdf" target="_blank" rel="noopener">📄 estancia brochure</a> · <a href="https://www.google.com/maps?q=-42.1328425,-63.8912137&z=17&hl=es" target="_blank" rel="noopener">📍 location</a>.</p>
+ <p class="transport">🚗 Pirámides → Estancia San Lorenzo (Punta Norte) via RP3 · <b>76 km · 2 h 08 of consolidated gravel</b>: leave at 11:30 to arrive 13:40 (full tank; 60–70 km/h; no cell signal on much of the way). Same back: <b>76 km · 2 h 08</b>, leaving ≈ 19:30 after the sunset — <b>the return is on gravel after dark</b>: wildlife, slow, high beams. Day total <b>152 km</b>. Alternative if you don't want to drive at night: only the 14:00 Experience and back in daylight (arrival ≈ 18:00).</p>
+ <p class="hotel">🏨 <strong>Puerto Pirámides ✅ CONFIRMED:</strong> Rayentray Océano (<b>Acceso Ballenero S/N y el mar, Puerto Pirámides (U9121), Chubut</b> · tel. <b>+54 280 4459300</b> · on the beach · 2 rooms: Std Beach Suite Double (Néstor + Ana) + Std Beach Suite Single (Carolina) · breakfast · Amichi Viajes voucher <b>5FY8F2</b> · external locator <b>#12041832</b> · ARS 1.385.152,95 in 3 interest-free instalments) — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 voucher</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">summary</a>. <b>Check-in 14:00 · checkout 10:00 · the hotel has no reception of its own: report to Rayentray Las Restingas or Rayentray Pirámides (breakfast is also served there).</b> Free cancellation until <b>Wed Nov 11</b>; 3–4 days before = 1 night; ≤2 days = 100%.</p>
+</div></article>
+<article class="day-card"><div class="day-num">Day 4<small>Thu, Nov 19</small></div><div>
+ <h3>🎂 Birthday · Puerto Madryn · 🦭 Punta Loma · ✈ flight home 19:05</h3>
+ <p><strong>Sleep:</strong> <span class="overnight-text">Buenos Aires (flight PMY → AEP 19:05)</span></p>
+ <p>Néstor's and Carolina's birthday. Breakfast (at Las Restingas / Pirámides) and <b>checkout 10:00</b> (voucher). Last walk on the Pirámides beach, then off to Puerto Madryn.</p>
+ <p class="visit-time">🦭 <b>⏳ Punta Loma sea lions</b> (13 km south of Madryn: sea lions and rock cormorants; Tehuelche monument and Punta Cuevas on the way; 2 h, 40 km). Two options from Tatiana: <b>regular Amichi ARS 147.675,17</b> (3 pax, "subject to a group forming", time depends on the tide) or <b>private Grupo 8 USD 630 ≈ ARS 963.900</b> (guaranteed, time to agree). With your own car you can also do it on your own (provincial reserve, fee at the gate) — decide and tell Tatiana.</p>
+ <p>Birthday lunch in Puerto Madryn (Tatiana offered to book: Náutico Bistró del Mar · Finca Caballo Blanco · Cantina El Náutico — check hours and ask for ≈ 13:30). Refuel before returning the car (same level as at pick-up).</p>
+ <p class="transport">🚗 Pirámides → Puerto Madryn <b>95 km · 1 h 36</b> · Madryn → Punta Loma <b>16 km · 22 min</b> (gravel at the end) · Punta Loma → PMY airport <b>25 km · 35 min</b>. Total <b>136 km</b>. <b>Hertz return 18:00 at the airport</b> (be there 17:40) · <b>AR1813 19:05 → AEP 20:55</b>, seats 1D · 1C · 1F.</p>
+</div></article>
+</div></section>
+
+<section id="distancias"><div class="t-es">
+ <h2>6. Distancias y autos</h2>
+ <div class="callout warning"><strong>Un solo auto: Hertz SUV compacto AT, aeropuerto PMY → aeropuerto PMY, 16 → 19 nov (3 días).</strong> Total planificado <b>≈ 386 km</b> (OSRM; real ≈ 10 % más), de los cuales <b>≈ 152 km de ripio</b> (RP3 a Punta Norte, ida y vuelta) — el contrato incluye CUBIERTAS COVER. Km ilimitados no figuran como tope en la confirmación de Hertz.</div>
+ <table><thead><tr><th>Día</th><th>Tramo</th><th>Distancia</th><th>Tiempo</th><th>Superficie</th><th>Acumulado</th></tr></thead><tbody><tr><td>1</td><td>Aeropuerto PMY → Puerto Pirámides (RN3 · RP2)</td><td style="text-align:right">98 km</td><td>1 h 34</td><td>asfalto</td><td style="text-align:right">98 km</td></tr><tr><td>2</td><td>Pirámides ⇄ lobería de Punta Pirámide (opcional)</td><td style="text-align:right">—</td><td>—</td><td>ida 4 km, no suma</td><td style="text-align:right">98 km</td></tr><tr><td>3</td><td>Pirámides → Estancia San Lorenzo / Punta Norte (RP3)</td><td style="text-align:right">76 km</td><td>2 h 08</td><td>ripio</td><td style="text-align:right">174 km</td></tr><tr><td>3</td><td>Estancia San Lorenzo → Pirámides (de noche)</td><td style="text-align:right">76 km</td><td>2 h 08</td><td>ripio</td><td style="text-align:right">250 km</td></tr><tr><td>4</td><td>Pirámides → Puerto Madryn</td><td style="text-align:right">95 km</td><td>1 h 36</td><td>asfalto</td><td style="text-align:right">345 km</td></tr><tr><td>4</td><td>Puerto Madryn → Punta Loma</td><td style="text-align:right">16 km</td><td>22 min</td><td>ripio final</td><td style="text-align:right">361 km</td></tr><tr><td>4</td><td>Punta Loma → aeropuerto PMY (devolución 18:00)</td><td style="text-align:right">25 km</td><td>35 min</td><td>asfalto</td><td style="text-align:right">386 km</td></tr></tbody></table>
+ <p class="muted">Ritmo: ningún día supera los 200 km. Nafta: cargar en Puerto Madryn (YPF/Shell en la RN3) antes de entrar a la península; en Pirámides hay una estación, pero no depender de ella. Ripio: 60–70 km/h, sin frenadas bruscas, distancia con otros autos por las piedras.</p>
+</div><div class="t-en">
+ <h2>6. Distances &amp; cars</h2>
+ <div class="callout warning"><strong>One car: Hertz compact automatic SUV, PMY airport → PMY airport, Nov 16 → 19 (3 days).</strong> Planned total <b>≈ 386 km</b> (OSRM; real ≈ 10 % more), of which <b>≈ 152 km on gravel</b> (RP3 to Punta Norte, there and back) — the contract includes tyre cover. No km cap appears on the Hertz confirmation.</div>
+ <table><thead><tr><th>Day</th><th>Leg</th><th>Distance</th><th>Time</th><th>Surface</th><th>Cumulative</th></tr></thead><tbody><tr><td>1</td><td>PMY airport → Puerto Pirámides (RN3 · RP2)</td><td style="text-align:right">98 km</td><td>1 h 34</td><td>paved</td><td style="text-align:right">98 km</td></tr><tr><td>2</td><td>Pirámides ⇄ Punta Pirámide sea lions (optional)</td><td style="text-align:right">—</td><td>—</td><td>4 km each way, not counted</td><td style="text-align:right">98 km</td></tr><tr><td>3</td><td>Pirámides → Estancia San Lorenzo / Punta Norte (RP3)</td><td style="text-align:right">76 km</td><td>2 h 08</td><td>gravel</td><td style="text-align:right">174 km</td></tr><tr><td>3</td><td>Estancia San Lorenzo → Pirámides (after dark)</td><td style="text-align:right">76 km</td><td>2 h 08</td><td>gravel</td><td style="text-align:right">250 km</td></tr><tr><td>4</td><td>Pirámides → Puerto Madryn</td><td style="text-align:right">95 km</td><td>1 h 36</td><td>paved</td><td style="text-align:right">345 km</td></tr><tr><td>4</td><td>Puerto Madryn → Punta Loma</td><td style="text-align:right">16 km</td><td>22 min</td><td>gravel at the end</td><td style="text-align:right">361 km</td></tr><tr><td>4</td><td>Punta Loma → PMY airport (return 18:00)</td><td style="text-align:right">25 km</td><td>35 min</td><td>paved</td><td style="text-align:right">386 km</td></tr></tbody></table>
+ <p class="muted">Pace: no day exceeds 200 km. Fuel: fill up in Puerto Madryn (YPF/Shell on RN3) before entering the peninsula; Pirámides has a station, but don't rely on it. Gravel: 60–70 km/h, no hard braking, keep distance from other cars because of flying stones.</p>
+</div></section>
+
+<section id="vuelos"><div class="t-es">
+ <h2>7. Vuelos</h2>
+ <div class="callout good"><strong>Un solo billete ida y vuelta Aerolíneas Argentinas, Premium Economy, 3 pasajeros — emitido el 8 oct 2026 vía Centurion.</strong> Ref. Amex <b>EKOLXX</b> · localizador Aerolíneas <b>NFWYEM</b> · pasajeros PEDRAZA/NESTOR HUGO · PEDRAZA/ANA MARIA · PEDRAZA/CAROLINA (nombre de Ana corregido antes de emitir). <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">📄 Billete original EKOLXX</a> · tickets 044-3977-775105/06/07 · <a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878486361465841704" target="_blank" rel="noopener">✉️ mail «BILLETE EMITIDO» con el PDF original y el .ics</a></div>
+ <table>
+ <thead><tr><th>Vuelo</th><th>Ruta</th><th>Fecha</th><th>Horario</th><th>Clase · asientos</th><th>Reserva</th></tr></thead>
+ <tbody>
+ <tr><td>✈ AR1814</td><td>Buenos Aires Aeroparque (AEP) → Puerto Madryn El Tehuelche (PMY)</td><td>lun 16 nov</td><td>18:25 → 20:30 (2 h 05)</td><td>Premium Economy (S) · 1D · 1C · 1A · B737-700</td><td><strong>EKOLXX / NFWYEM</strong> ✅ <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ <tr><td>✈ AR1813</td><td>Puerto Madryn (PMY) → Buenos Aires Aeroparque (AEP)</td><td>jue 19 nov</td><td>19:05 → 20:55 (1 h 50)</td><td>Premium Economy (S) · 1D · 1C · 1F · B737 MAX</td><td><strong>EKOLXX / NFWYEM</strong> ✅ <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ </tbody></table>
+ <div class="callout"><strong>Tarifa y condiciones:</strong> ARS 726.652,08 por pasajero (promo del 7 oct; antes ARS 890.510,28) · total <b>ARS 2.179.956,24</b> · 1 pago Centurion. Equipaje: 1 valija de 15 kg en bodega por persona + carry-on. Cancelación: penalidad 40 % · cambios: ARS 40.000 + diferencia · siempre a través de Centurion con ≥ 72 h hábiles. Ticket vigente 1 año. Aerolíneas Plus <b>26425207</b> (✅ figura en el billete emitido).</div>
+ <div class="callout warning"><strong>⚠️ Notas:</strong> el AR1814 aterriza 20:30 = hora de retiro del Hertz: cualquier atraso del vuelo deja la reserva fuera de horario (Hertz no garantiza categoría si se llega tarde) → pedir a Tatiana que Hertz registre el número de vuelo o corra el retiro a 21:00. El AR1813 sale 19:05: devolución del auto 18:00 en el mismo aeropuerto, check-in en PMY hasta 18:20.</div>
+</div><div class="t-en">
+ <h2>7. Flights</h2>
+ <div class="callout good"><strong>One Aerolíneas Argentinas round-trip ticket, Premium Economy, 3 passengers — issued Oct 8, 2026 via Centurion.</strong> Amex ref <b>EKOLXX</b> · Aerolíneas locator <b>NFWYEM</b> · passengers PEDRAZA/NESTOR HUGO · PEDRAZA/ANA MARIA · PEDRAZA/CAROLINA (Ana's name corrected before issuing). <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">📄 Original EKOLXX ticket</a> · tickets 044-3977-775105/06/07 · <a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878486361465841704" target="_blank" rel="noopener">✉️ "TICKET ISSUED" e-mail with the original PDF and .ics</a></div>
+ <table><thead><tr><th>Flight</th><th>Route</th><th>Date</th><th>Time</th><th>Class · seats</th><th>Booking</th></tr></thead><tbody>
+ <tr><td>✈ AR1814</td><td>Buenos Aires Aeroparque (AEP) → Puerto Madryn El Tehuelche (PMY)</td><td>Mon Nov 16</td><td>18:25 → 20:30 (2 h 05)</td><td>Premium Economy (S) · 1D · 1C · 1A · B737-700</td><td><strong>EKOLXX / NFWYEM</strong> ✅ <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ <tr><td>✈ AR1813</td><td>Puerto Madryn (PMY) → Buenos Aires Aeroparque (AEP)</td><td>Thu Nov 19</td><td>19:05 → 20:55 (1 h 50)</td><td>Premium Economy (S) · 1D · 1C · 1F · B737 MAX</td><td><strong>EKOLXX / NFWYEM</strong> ✅ <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ </tbody></table>
+ <div class="callout"><strong>Fare and conditions:</strong> ARS 726.652,08 per passenger (Oct 7 promo; before ARS 890.510,28) · total <b>ARS 2.179.956,24</b> · 1 payment, Centurion. Baggage: 1 × 15 kg checked pp + carry-on. Cancellation: 40% penalty · changes: ARS 40,000 + fare difference · always through Centurion with ≥ 72 business hours. Ticket valid 1 year. Aerolíneas Plus <b>26425207</b> (✅ shows on the issued ticket).</div>
+ <div class="callout warning"><strong>⚠️ Notes:</strong> AR1814 lands at 20:30 = Hertz pick-up time: any delay puts the booking outside its slot (Hertz doesn't guarantee the category if you're late) → ask Tatiana to have Hertz record the flight number or move pick-up to 21:00. AR1813 leaves at 19:05: car return 18:00 at the same airport, PMY check-in until 18:20.</div>
+</div></section>
+
+<section id="autos"><div class="t-es">
+ <h2>8. Autos — reserva y detalle</h2>
+ <div class="auto-grid">
+ <div class="auto-card" style="border-left:6px solid #2f6f4e;background:#fff;border-radius:14px;padding:16px;margin-bottom:12px"><h3>🇦🇷 Hertz PMY ✅ PAGADO</h3>
+ <ul>
+  <li><b>Reserva #1918761</b> · Nestor Hugo Pedraza · solicitada por American Express Argentina (Centurion). <a href="documentos/hertz%20pedraza%2016nov%20PMY.pdf" target="_blank" rel="noopener">📄 confirmación de pago original (Hertz)</a> · <a href="documentos/Hertz%201918761%20SUV%20compacto%20PMY%2016-19%20nov%20PAGADO%20%28reconstruido%20del%20mail%2016%20oct%29.pdf" target="_blank" rel="noopener">resumen</a></li>
+  <li><b>Categoría (N1) SUV compacto AT</b> — Chevrolet Tracker 1.2 T AT o similar (se confirma categoría, no modelo).</li>
+  <li><b>Retiro:</b> lun 16/11 20:30 · Hertz Aeropuerto Puerto Madryn · <b>Devolución:</b> jue 19/11 18:00 · mismo lugar.</li>
+  <li><b>Tarifa prepaga «pago online» ARS 548.395,03 — PAGADA el 15 oct</b> (Mercado Pago con la Centurion; Hertz confirmó saldo ARS 0,00 el 16 oct). Desglose: 3 días × 116.210,01 + cargo aeropuerto 52.294,50 + SMART COVER 87.157,51 + CUBIERTAS 34.863,00 − 20 % + IVA.</li>
+  <li><b>Coberturas incluidas:</b> SMART COVER (RC, parabrisas, colisión, vuelco, cerraduras y cristales, intento de robo, airbags) + CUBIERTAS. Franquicia daños/vuelco <b>ARS 0</b> · franquicia robo ARS 3.198.750 · <b>garantía ARS 900.000</b> (bloqueo en la tarjeta).</li>
+  <li><b>Llevar:</b> DNI o pasaporte · licencia vigente · Centurion a nombre del titular. Cancelación de la prepaga: penalidad que fija Hertz + 4 %.</li>
+  <li><b>Atención:</b> llegar tarde al retiro NO garantiza la categoría (ver REQ. ATENCIÓN). Devolver con el mismo nivel de nafta. Hertz Argentina: 11 7090 4000 · reservas@hertz.com.ar.</li>
+ </ul></div>
+ </div>
+</div><div class="t-en">
+ <h2>8. Cars — booking &amp; detail</h2>
+ <div class="auto-grid">
+ <div class="auto-card" style="border-left:6px solid #2f6f4e;background:#fff;border-radius:14px;padding:16px;margin-bottom:12px"><h3>🇦🇷 Hertz PMY ✅ PAID</h3>
+ <ul>
+  <li><b>Booking #1918761</b> · Nestor Hugo Pedraza · requested by American Express Argentina (Centurion). <a href="documentos/hertz%20pedraza%2016nov%20PMY.pdf" target="_blank" rel="noopener">📄 original payment confirmation (Hertz)</a> · <a href="documentos/Hertz%201918761%20SUV%20compacto%20PMY%2016-19%20nov%20PAGADO%20%28reconstruido%20del%20mail%2016%20oct%29.pdf" target="_blank" rel="noopener">summary</a></li>
+  <li><b>Category (N1) compact automatic SUV</b> — Chevrolet Tracker 1.2 T AT or similar (category confirmed, not model).</li>
+  <li><b>Pick-up:</b> Mon 16/11 20:30 · Hertz Puerto Madryn Airport · <b>Return:</b> Thu 19/11 18:00 · same place.</li>
+  <li><b>Prepaid "online payment" rate ARS 548.395,03 — PAID Oct 15</b> (Mercado Pago with the Centurion; Hertz confirmed balance ARS 0.00 on Oct 16). Breakdown: 3 days × 116,210.01 + airport fee 52,294.50 + SMART COVER 87,157.51 + TYRES 34,863.00 − 20% + VAT.</li>
+  <li><b>Cover included:</b> SMART COVER (liability, windscreen, collision, rollover, locks and glass, attempted theft, airbags) + TYRES. Damage/rollover excess <b>ARS 0</b> · theft excess ARS 3,198,750 · <b>ARS 900,000 hold</b> on the card.</li>
+  <li><b>Bring:</b> DNI or passport · valid licence · Centurion in the holder's name. Cancelling the prepaid rate: Hertz penalty + 4%.</li>
+  <li><b>Note:</b> being late for pick-up does NOT guarantee the category (see NEEDS ATTENTION). Return with the same fuel level. Hertz Argentina: 11 7090 4000 · reservas@hertz.com.ar.</li>
+ </ul></div>
+ </div>
+</div></section>
+
+<section id="hoteles"><div class="t-es">
+ <h2>9. Alojamiento</h2>
+ <div class="callout good"><strong>✅ Las 3 noches en un solo hotel, 2 habitaciones, confirmado el 8 oct 2026 en 3 cuotas sin interés.</strong></div>
+ <table>
+ <thead><tr><th>Noches</th><th>Hotel</th><th>Habitaciones</th><th>Precio</th><th>Cancelación</th><th>Reserva</th></tr></thead>
+ <tbody>
+ <tr><td>16 → 19 nov (3)</td><td><b>Rayentray Océano</b> · Puerto Pirámides, Península Valdés, Chubut · frente a la playa · <b>Acceso Ballenero S/N y el mar</b> · tel. +54 280 4459300 · voucher Amichi Viajes 5FY8F2 · <b>check-in 14:00 · checkout 10:00</b></td><td>2: Suite Standard Playa Doble + Suite Standard Single · <b>vista a la playa</b> · desayuno</td><td><b>ARS 1.385.152,95</b> (ARS 461.717,65/noche las 2 hab.) · 3 cuotas s/i de ARS 461.717,65</td><td>Gratis hasta <b>mié 11 nov</b> · 3–4 días antes: 1 noche · ≤ 2 días o no-show: 100 %</td><td>Loc. <b>#12041832</b> ✅ <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">voucher 5FY8F2</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">resumen</a></td></tr>
+ </tbody></table>
+ <div class="callout warning"><strong>⚠️ El voucher (5FY8F2) dice: «No cuenta con recepción en el mismo hotel, por favor acercarse al hotel Rayentray Las Restingas y Rayentray Pirámides. El desayuno también se brinda en esos hoteles».</strong> Llegada ≈ 22:45 del lunes: el 17 oct le pediste a Tatiana que avise al hotel, confirme que esa recepción atiende a esa hora y pase un teléfono de guardia — falta su respuesta. Estacionamiento y WiFi: sin dato en el voucher.</div>
+</div><div class="t-en">
+ <h2>9. Lodging</h2>
+ <div class="callout good"><strong>✅ All 3 nights in one hotel, 2 rooms, confirmed Oct 8, 2026 in 3 interest-free instalments.</strong></div>
+ <table><thead><tr><th>Nights</th><th>Hotel</th><th>Rooms</th><th>Price</th><th>Cancellation</th><th>Booking</th></tr></thead><tbody>
+ <tr><td>Nov 16 → 19 (3)</td><td><b>Rayentray Océano</b> · Puerto Pirámides, Península Valdés, Chubut · on the beach · <b>Acceso Ballenero S/N y el mar</b> · tel. +54 280 4459300 · Amichi Viajes voucher 5FY8F2 · <b>check-in 14:00 · checkout 10:00</b></td><td>2: Standard Beach Suite Double + Standard Suite Single · <b>beach view</b> · breakfast</td><td><b>ARS 1.385.152,95</b> (ARS 461.717,65/night for both rooms) · 3 instalments of ARS 461.717,65</td><td>Free until <b>Wed Nov 11</b> · 3–4 days before: 1 night · ≤ 2 days or no-show: 100%</td><td>Loc. <b>#12041832</b> ✅ <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">voucher 5FY8F2</a> · <a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">summary</a></td></tr>
+ </tbody></table>
+ <div class="callout warning"><strong>⚠️ The voucher (5FY8F2) says: "No reception at the hotel itself, please go to the Rayentray Las Restingas and Rayentray Pirámides hotels. Breakfast is also served there."</strong> Monday arrival ≈ 22:45: on Oct 17 you asked Tatiana to notify the hotel, confirm that reception is staffed then and send an on-call phone — no answer yet. Parking and WiFi: not on the voucher.</div>
+</div></section>
+
+<section id="recomendaciones"><div class="t-es">
+ <h2>10. Recomendaciones por lugar</h2>
+ <div class="grid">
+  <div class="span-6"><div class="rec-card"><h3>Puerto Pirámides</h3><p class="rec-meta">Base · 3 noches · único puerto de avistaje</p><ul><li>Las lanchas salen según marea y viento: el operador fija la hora y puede mover la salida; estar 15 min antes en el punto indicado.</li><li>Lobería de Punta Pirámide: 4 km al sur, sendero corto con mirador sobre la colonia de lobos de un pelo (también se ven ballenas desde arriba).</li><li>La playa es el centro del pueblo; atardecer sobre el golfo desde la bajada de las lanchas.</li><li>Pueblo chico (≈ 500 habitantes): pocos restaurantes, cocinas que cierran temprano, efectivo útil.</li></ul></div></div>
+  <div class="span-6"><div class="rec-card"><h3>Estancia San Lorenzo · Punta Norte</h3><p class="rec-meta">Día 3 (por confirmar) · ripio RP3</p><ul><li>Pingüinera de Magallanes privada: sendero de 700 m con guardaparque; en noviembre hay nidos con huevos y pichones chicos.</li><li>Restaurante a la carta en el casco (ex galpón de esquila): almuerzo antes de la caminata de las 14:00.</li><li>Punta Norte (reserva provincial, a pocos km): apostadero de lobos y elefantes marinos; las orcas varan allí solo en marzo–abril y octubre, no es época.</li></ul></div></div>
+  <div class="span-6"><div class="rec-card"><h3>Puerto Madryn</h3><p class="rec-meta">Día 4 · almuerzo de cumpleaños 🎂</p><ul><li>Costanera y muelle Luis Piedra Buena; Ecocentro (museo del mar, sobre el acantilado sur, de camino a Punta Loma).</li><li>Punta Loma: lobería y cormoranes roqueros, mejor con marea baja; 13 km de ripio costero al sur.</li><li>Restaurantes que sugirió Tatiana: Náutico Bistró del Mar · Finca Caballo Blanco · Cantina El Náutico (verificar horario y reservar).</li></ul></div></div>
+  <div class="span-6"><div class="rec-card"><h3>Lo que se dejó afuera (a propósito)</h3><p class="rec-meta">Para no sobrecargar 4 días</p><ul><li>Caleta Valdés y Punta Delgada: 200+ km de ripio; no entran sin sacrificar un avistaje.</li><li>Toninas en Rawson (18 nov): se reemplazó por el segundo avistaje de ballenas (8 oct).</li><li>Valle del Río Chubut / Trelew / Gaiman: Tatiana lo cotizó (ARS 309.196,91) y se descartó el 8 oct.</li><li>Yellow Submarine: opera hasta fin de octubre; no hay extensión prevista.</li></ul></div></div>
+ </div>
+</div><div class="t-en">
+ <h2>10. Recommendations by place</h2>
+ <div class="grid">
+  <div class="span-6"><div class="rec-card"><h3>Puerto Pirámides</h3><p class="rec-meta">Base · 3 nights · the only whale-watching port</p><ul><li>Boats sail according to tide and wind: the operator sets the time and may move it; be at the meeting point 15 min early.</li><li>Punta Pirámide sea lions: 4 km south, short trail with a lookout over the colony (whales are also visible from above).</li><li>The beach is the village centre; sunset over the gulf from the boat ramp.</li><li>Tiny village (≈ 500 people): few restaurants, kitchens close early, cash is useful.</li></ul></div></div>
+  <div class="span-6"><div class="rec-card"><h3>Estancia San Lorenzo · Punta Norte</h3><p class="rec-meta">Day 3 (to be confirmed) · RP3 gravel</p><ul><li>Private Magellanic penguin colony: 700 m trail with a ranger; in November there are nests with eggs and small chicks.</li><li>À-la-carte restaurant in the old shearing shed: lunch before the 14:00 walk.</li><li>Punta Norte (provincial reserve, a few km away): sea lion and elephant seal haul-out; orcas strand there only in March–April and October, not now.</li></ul></div></div>
+  <div class="span-6"><div class="rec-card"><h3>Puerto Madryn</h3><p class="rec-meta">Day 4 · birthday lunch 🎂</p><ul><li>Seafront and Luis Piedra Buena pier; Ecocentro (sea museum on the southern cliff, on the way to Punta Loma).</li><li>Punta Loma: sea lions and rock cormorants, best at low tide; 13 km of coastal gravel to the south.</li><li>Restaurants Tatiana suggested: Náutico Bistró del Mar · Finca Caballo Blanco · Cantina El Náutico (check hours and book).</li></ul></div></div>
+  <div class="span-6"><div class="rec-card"><h3>Left out (on purpose)</h3><p class="rec-meta">So 4 days don't get overloaded</p><ul><li>Caleta Valdés and Punta Delgada: 200+ km of gravel; they don't fit without dropping a whale trip.</li><li>Dolphins at Rawson (Nov 18): replaced by the second whale trip (Oct 8).</li><li>Chubut river valley / Trelew / Gaiman: quoted by Tatiana (ARS 309,196.91) and dropped on Oct 8.</li><li>Yellow Submarine: runs until the end of October; no extension planned.</li></ul></div></div>
+ </div>
+</div></section>
+
+<section id="experiencias"><div class="t-es">
+ <h2>11. Gastronomía y experiencias</h2>
+ <div class="grid">
+  <div class="panel span-4"><h3>Experiencias clave</h3><ul><li>🐋 Dos avistajes embarcados de ballena franca austral desde Puerto Pirámides (madres y crías, fin de temporada).</li><li>🐧 Pingüinos de Magallanes a pie, en la colonia de Estancia San Lorenzo (14:00 y atardecer).</li><li>🦭 Lobos marinos de un pelo: Punta Pirámide (día 2) y Punta Loma (día 4).</li></ul></div>
+  <div class="panel span-4"><h3>Comer</h3><ul><li>Cordero patagónico y mariscos (cholgas, mejillones, langostinos) en Pirámides y Madryn; té galés en Gaiman queda fuera del plan.</li><li>Pirámides cierra temprano: cenar antes de las 22:00; el lunes se llega ≈ 22:45 → prever comida.</li><li>Almuerzo del 19 en Madryn (cumpleaños): reservar con Tatiana o directo.</li></ul></div>
+  <div class="panel span-4"><h3>Qué llevar</h3><ul><li>Para el barco: campera impermeable, gorro, anteojos de sol, protector solar; el viento patagónico baja la sensación térmica.</li><li>Para la estancia: calzado cerrado, pantalón largo, botella reutilizable (recarga a precio preferencial).</li><li>Efectivo en pesos (entradas en los accesos, pueblo chico) y la Centurion para Hertz.</li></ul></div>
+ </div>
+</div><div class="t-en">
+ <h2>11. Food &amp; experiences</h2>
+ <div class="grid">
+  <div class="panel span-4"><h3>Key experiences</h3><ul><li>🐋 Two boat trips to see southern right whales from Puerto Pirámides (mothers and calves, end of season).</li><li>🐧 Magellanic penguins on foot at the Estancia San Lorenzo colony (14:00 and sunset).</li><li>🦭 South American sea lions: Punta Pirámide (day 2) and Punta Loma (day 4).</li></ul></div>
+  <div class="panel span-4"><h3>Eating</h3><ul><li>Patagonian lamb and seafood (mussels, shrimp) in Pirámides and Madryn; the Welsh tea at Gaiman is out of the plan.</li><li>Pirámides closes early: dine before 22:00; Monday arrival ≈ 22:45 → plan food.</li><li>Lunch on the 19th in Madryn (birthday): book via Tatiana or directly.</li></ul></div>
+  <div class="panel span-4"><h3>What to bring</h3><ul><li>For the boat: waterproof jacket, hat, sunglasses, sunscreen; the Patagonian wind lowers the wind chill.</li><li>For the estancia: closed shoes, long trousers, reusable bottle (refill at a preferential price).</li><li>Cash in pesos (gate fees, small village) and the Centurion for Hertz.</li></ul></div>
+ </div>
+</div></section>
+
+<section id="costos"><div class="t-es">
+ <h2>12. Costos</h2>
+ <div class="callout good"><strong>Reservado: ARS 5.317.444 ≈ US$ 3.475</strong> (@ ARS 1.530 por US$, BNA vendedor 15 oct 2026) · <b>ARS 1.772.481 por noche</b> todo incluido (≈ US$ 1.158) · alojamiento <b>ARS 461.718 por noche</b> para las 2 habitaciones.</div>
+ <table><thead><tr><th>Concepto</th><th>Detalle</th><th>ARS</th><th>≈ US$</th><th>Pago</th><th>Estado</th></tr></thead><tbody>
+ <tr><td>✈ Aéreo</td><td>AR1814 + AR1813 · 3 pax Premium Economy · ARS 726.652,08 c/u</td><td style="text-align:right">ARS 2.179.956,24</td><td style="text-align:right">US$ 1.425</td><td>1 pago · Centurion</td><td>✅ emitido 8 oct</td></tr>
+ <tr><td>🏨 Hotel</td><td>Rayentray Océano · 2 hab · 3 noches · desayuno</td><td style="text-align:right">ARS 1.385.152,95</td><td style="text-align:right">US$ 905</td><td>3 cuotas s/i de ARS 461.717,65</td><td>✅ confirmado 8 oct</td></tr>
+ <tr><td>🚗 Auto</td><td>Hertz SUV compacto AT · 3 días · prepago −20 % · coberturas</td><td style="text-align:right">ARS 548.395,03</td><td style="text-align:right">US$ 358</td><td>1 pago · Mercado Pago/Centurion</td><td>✅ pagado 15 oct</td></tr>
+ <tr><td>🐋 Avistajes</td><td>Ballenas 17 y 18 nov · Amichi · 3 pax · ARS 601.969,82 por salida</td><td style="text-align:right">ARS 1.203.939,64</td><td style="text-align:right">US$ 787</td><td>3 cuotas s/i</td><td>✅ confirmado 8 oct</td></tr>
+ <tr style="background:#f0e7d8;font-weight:800"><td colspan="2">TOTAL RESERVADO</td><td style="text-align:right">ARS 5.317.443,86</td><td style="text-align:right">US$ 3.475</td><td colspan="2"></td></tr>
+ <tr><td>🐧 Estancia San Lorenzo</td><td>Experiencia Pingüinos 14:00 (ARS 270.000) + Sunset privado 18:00 (ARS 552.600, mínimo 4 pax)</td><td style="text-align:right">ARS 822.600,00</td><td style="text-align:right">US$ 538</td><td>1 pago c/u · link directo de la estancia</td><td>⏳ por autorizar</td></tr>
+ <tr><td>🦭 Lobería Punta Loma</td><td>Regular Amichi (3 pax, sujeto a grupo) <b>o</b> privada Grupo 8 (USD 630)</td><td style="text-align:right">ARS 147.675,17 <b>o</b> ARS 963.900</td><td style="text-align:right">US$ 97 <b>o</b> US$ 630</td><td>3 cuotas s/i</td><td>⏳ por decidir</td></tr>
+ <tr><td>🎟 Entradas</td><td>Área Natural Protegida Península Valdés (acceso RP2) · Punta Loma (acceso) · no incluidas</td><td style="text-align:right">a confirmar</td><td style="text-align:right">—</td><td>en el acceso</td><td>⏳ consultar tarifa</td></tr>
+ <tr style="background:#fff5df;font-weight:800"><td colspan="2">TOTAL CON PENDIENTES (sin entradas)</td><td style="text-align:right">ARS 6.287.719 – ARS 7.103.944</td><td style="text-align:right">US$ 4.110 – US$ 4.643</td><td colspan="2"></td></tr>
+ </tbody></table>
+ <p class="muted">Changelog de costos: v0.01 (17 oct 2026) — se cargan los 4 servicios confirmados por Centurion (mails 8 y 16 oct) y los dos pendientes cotizados (9 y 16 oct).</p>
+</div><div class="t-en">
+ <h2>12. Costs</h2>
+ <div class="callout good"><strong>Booked: ARS 5.317.444 ≈ US$ 3,475</strong> (@ ARS 1,530 per US$, BNA selling rate Oct 15, 2026) · <b>ARS 1.772.481 per night</b> all-in (≈ US$ 1,158) · lodging <b>ARS 461.718 per night</b> for both rooms.</div>
+ <table><thead><tr><th>Item</th><th>Detail</th><th>ARS</th><th>≈ US$</th><th>Payment</th><th>Status</th></tr></thead><tbody>
+ <tr><td>✈ Flights</td><td>AR1814 + AR1813 · 3 pax Premium Economy · ARS 726.652,08 each</td><td style="text-align:right">ARS 2.179.956,24</td><td style="text-align:right">US$ 1,425</td><td>1 payment · Centurion</td><td>✅ issued Oct 8</td></tr>
+ <tr><td>🏨 Hotel</td><td>Rayentray Océano · 2 rooms · 3 nights · breakfast</td><td style="text-align:right">ARS 1.385.152,95</td><td style="text-align:right">US$ 905</td><td>3 instalments of ARS 461.717,65</td><td>✅ confirmed Oct 8</td></tr>
+ <tr><td>🚗 Car</td><td>Hertz compact AT SUV · 3 days · prepaid −20% · cover</td><td style="text-align:right">ARS 548.395,03</td><td style="text-align:right">US$ 358</td><td>1 payment · Mercado Pago/Centurion</td><td>✅ paid Oct 15</td></tr>
+ <tr><td>🐋 Whales</td><td>Nov 17 and 18 · Amichi · 3 pax · ARS 601.969,82 per trip</td><td style="text-align:right">ARS 1.203.939,64</td><td style="text-align:right">US$ 787</td><td>3 instalments</td><td>✅ confirmed Oct 8</td></tr>
+ <tr style="background:#f0e7d8;font-weight:800"><td colspan="2">TOTAL BOOKED</td><td style="text-align:right">ARS 5.317.443,86</td><td style="text-align:right">US$ 3,475</td><td colspan="2"></td></tr>
+ <tr><td>🐧 Estancia San Lorenzo</td><td>Penguin Experience 14:00 (ARS 270.000) + private Sunset 18:00 (ARS 552.600, minimum 4 pax)</td><td style="text-align:right">ARS 822.600,00</td><td style="text-align:right">US$ 538</td><td>1 payment each · estancia's own link</td><td>⏳ to authorize</td></tr>
+ <tr><td>🦭 Punta Loma sea lions</td><td>Regular Amichi (3 pax, subject to group) <b>or</b> private Grupo 8 (USD 630)</td><td style="text-align:right">ARS 147.675,17 <b>or</b> ARS 963.900</td><td style="text-align:right">US$ 97 <b>or</b> US$ 630</td><td>3 instalments</td><td>⏳ to decide</td></tr>
+ <tr><td>🎟 Fees</td><td>Península Valdés protected area (RP2 gate) · Punta Loma (gate) · not included</td><td style="text-align:right">to confirm</td><td style="text-align:right">—</td><td>at the gate</td><td>⏳ check fee</td></tr>
+ <tr style="background:#fff5df;font-weight:800"><td colspan="2">TOTAL WITH PENDING ITEMS (no fees)</td><td style="text-align:right">ARS 6.287.719 – ARS 7.103.944</td><td style="text-align:right">US$ 4,110 – US$ 4,643</td><td colspan="2"></td></tr>
+ </tbody></table>
+ <p class="muted">Cost changelog: v0.01 (Oct 17, 2026) — the 4 services confirmed by Centurion (e-mails Oct 8 and 16) and the two quoted pending items (Oct 9 and 16) are loaded.</p>
+</div></section>
+
+<section id="tips"><div class="t-es">
+ <h2>13. Tips de experto</h2>
+ <div class="grid">
+  <div class="panel span-6"><h3>Manejo y ripio</h3><ul><li>Asfalto: RN3 y RP2 hasta Pirámides. Ripio: RP3 a Punta Norte (77 km) y el final a Punta Loma. 60–70 km/h, sin volantazos, distancia con el auto de adelante (piedras).</li><li>Fauna en ruta al amanecer y de noche (guanacos, maras, choiques): el lunes se llega de noche y el miércoles se vuelve de noche.</li><li>Tanque lleno en Madryn antes de entrar a la península; en Pirámides hay estación pero no contar con ella. Sin señal de celular en buena parte de la RP3.</li><li>Hertz: fotos del auto al retirar; la cobertura CUBIERTAS incluida es justamente para el ripio.</li></ul></div>
+  <div class="panel span-6"><h3>Plata y trámites</h3><ul><li>Pagar en pesos con la Centurion (tarjeta argentina: sin DCC ni impuesto PAIS). Efectivo para las entradas en los accesos y para el pueblo.</li><li>Cajeros: en Puerto Madryn (Banco del Chubut, Nación, Santander…); en Pirámides no depender de cajero.</li><li>Entrada al Área Natural Protegida Península Valdés: se cobra en el acceso de la RP2 (no incluida por Centurion); verificar tarifa vigente y si aceptan tarjeta — consultar a Tatiana.</li><li>DNI para el vuelo de cabotaje y para Hertz; licencia física.</li></ul></div>
+  <div class="panel span-6"><h3>Avistajes</h3><ul><li>Las salidas dependen del viento: el operador puede atrasar o cambiar la hora; tener el celular a mano la mañana anterior. Los puntos de presentación están en los mapas de Google de la pestaña Tours.</li><li>Mareo: pastilla 1 h antes si alguno es propenso; los botes salen cerca de la costa y navegan poco.</li><li>Ropa: la temperatura en noviembre ronda 10–22 °C, pero el viento sobre el agua lo baja mucho.</li></ul></div>
+  <div class="panel span-6"><h3>Hotel y horarios</h3><ul><li>Rayentray Océano no tiene recepción propia (voucher): check-in 14:00 en Rayentray Las Restingas o Rayentray Pirámides; la llegada tardía del lunes ya se la pediste a Tatiana.</li><li>Checkout 10:00 (voucher): el jueves conviene salir temprano para Punta Loma y el almuerzo de cumpleaños antes de devolver el auto a las 18:00.</li><li>Desayuno incluido (se sirve en Las Restingas / Pirámides): confirmar hora de inicio para llegar 08:30 al avistaje del miércoles.</li></ul></div>
+ </div>
+</div><div class="t-en">
+ <h2>13. Expert tips</h2>
+ <div class="grid">
+  <div class="panel span-6"><h3>Driving and gravel</h3><ul><li>Paved: RN3 and RP2 up to Pirámides. Gravel: RP3 to Punta Norte (77 km) and the last stretch to Punta Loma. 60–70 km/h, no sudden steering, keep distance from the car ahead (stones).</li><li>Wildlife on the road at dawn and at night (guanacos, maras, rheas): Monday you arrive after dark and Wednesday you come back after dark.</li><li>Full tank in Madryn before entering the peninsula; Pirámides has a station but don't count on it. No cell signal on much of RP3.</li><li>Hertz: photos of the car at pick-up; the tyre cover included is exactly for the gravel.</li></ul></div>
+  <div class="panel span-6"><h3>Money and paperwork</h3><ul><li>Pay in pesos with the Centurion (Argentine card: no DCC or PAIS tax). Cash for gate fees and the village.</li><li>ATMs: in Puerto Madryn (Banco del Chubut, Nación, Santander…); in Pirámides don't rely on an ATM.</li><li>Península Valdés protected-area fee: charged at the RP2 gate (not included by Centurion); check the current fee and whether cards are accepted — ask Tatiana.</li><li>DNI for the domestic flight and for Hertz; physical licence.</li></ul></div>
+  <div class="panel span-6"><h3>Whale trips</h3><ul><li>Departures depend on the wind: the operator may delay or change the time; keep the phone handy the morning before. Meeting points are in the Google Maps links under Tours.</li><li>Seasickness: a pill 1 h before if anyone is prone; boats stay close to the shore.</li><li>Clothing: November runs 10–22 °C, but the wind over the water drops it a lot.</li></ul></div>
+  <div class="panel span-6"><h3>Hotel and timings</h3><ul><li>Rayentray Océano has no reception of its own (voucher): check-in 14:00 at Rayentray Las Restingas or Rayentray Pirámides; Monday's late arrival already requested from Tatiana.</li><li>Checkout 10:00 (voucher): leave early on Thursday for Punta Loma and the birthday lunch before returning the car at 18:00.</li><li>Breakfast included (served at Las Restingas / Pirámides): confirm the start time to reach Wednesday's whale trip by 08:30.</li></ul></div>
+ </div>
+</div></section>
+
+<section id="documentos"><div class="t-es">
+ <h2>14. Documentos — comprobantes de reservas</h2>
+ <div class="callout good"><strong>Repositorio de documentos.</strong> Desde la v0.02 están en <code>documentos\</code> los <b>PDF originales</b> (billete, voucher del hotel, pago de Hertz, descriptivo de la estancia) además de los resúmenes «reconstruidos del mail» de la v0.01. Los avistajes todavía no tienen voucher del operador.</div>
+ <table>
+ <thead><tr><th>Servicio</th><th>Referencia</th><th>Comprobante en la carpeta</th><th>Original (Gmail)</th></tr></thead>
+ <tbody>
+ <tr><td>✈ Aéreo AR1814 / AR1813</td><td>EKOLXX · NFWYEM</td><td><a href="documentos/Aereo%20AR1814-AR1813%20EKOLXX%2016-19%20nov%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">📄 Aereo AR1814-AR1813 EKOLXX (reconstruido del mail 8 oct)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878486361465841704" target="_blank" rel="noopener">✉️ «BILLETE EMITIDO … EKOLXX» (8 oct)</a> — <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">📄 PEDRAZA_NESTOR HUGO-EKOLXX.pdf</a> · <span style="color:#2f6f4e;font-weight:800">✅ original en documentos\</span></td></tr>
+ <tr><td>🏨 Hotel Rayentray Océano</td><td>#12041832</td><td><a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">📄 Hotel Rayentray Oceano 16-19 nov (reconstruido del mail 8 oct)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878516082025695478" target="_blank" rel="noopener">✉️ «Puerto Madryn: Confirmaciones» (8 oct)</a> — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 Localizador 5FY8F2.pdf</a> (voucher del hotel, Amichi Viajes) · <span style="color:#2f6f4e;font-weight:800">✅ original en documentos\</span></td></tr>
+ <tr><td>🚗 Hertz SUV compacto</td><td>#1918761</td><td><a href="documentos/Hertz%201918761%20SUV%20compacto%20PMY%2016-19%20nov%20PAGADO%20%28reconstruido%20del%20mail%2016%20oct%29.pdf" target="_blank" rel="noopener">📄 Hertz 1918761 PAGADO (reconstruido del mail 16 oct)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1879215079830883170" target="_blank" rel="noopener">✉️ «Confirmación Pago Hertz Puerto Madryn» (16 oct)</a> — <a href="documentos/hertz%20pedraza%2016nov%20PMY.pdf" target="_blank" rel="noopener">📄 hertz pedraza 16nov PMY.pdf</a> · <span style="color:#2f6f4e;font-weight:800">✅ original en documentos\</span></td></tr>
+ <tr><td>🐋 Avistajes 17 y 18 nov</td><td>Amichi · vía Centurion</td><td><a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">📄 Avistaje de ballenas 17 y 18 nov Amichi (reconstruido del mail 14 oct)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1879032102983024770" target="_blank" rel="noopener">✉️ «Viaje a Puerto Madryn - Información» (14 oct, horarios y mapas)</a> · sin voucher PDF del operador todavía: pedirlo a Tatiana</td></tr>
+ <tr><td>🐧 Estancia San Lorenzo</td><td>⏳ sin reserva</td><td>—</td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878596523268825048" target="_blank" rel="noopener">✉️ «Estancia San Lorenzo / Lobería de Punta Loma» (9 oct)</a> — <a href="documentos/Estancia%20San%20Lorenzo%20Descriptivo.pdf" target="_blank" rel="noopener">📄 Estancia San Lorenzo Descriptivo.pdf</a> · <a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1879032102983024770" target="_blank" rel="noopener">✉️ tarifas y horarios (16 oct)</a></td></tr>
+ </tbody></table>
+ <h3>Contactos</h3>
+ <ul><li><b>Centurion Travel (Tatiana Segatti):</b> 0810 888 2368 / 4515 2368, opción 1 Travel · 24 h · centuriontravelar@centurion.com</li><li><b>Hertz Argentina:</b> 11 7090 4000 · reservas@hertz.com.ar</li><li><b>Aerolíneas Plus:</b> 26425207</li></ul>
+</div><div class="t-en">
+ <h2>14. Documents — booking vouchers</h2>
+ <div class="callout good"><strong>Document repository.</strong> Since v0.02 <code>documentos\</code> holds the <b>original PDFs</b> (ticket, hotel voucher, Hertz payment, estancia brochure) plus the v0.01 summaries "rebuilt from the e-mail". The whale trips still have no operator voucher.</div>
+ <table>
+ <thead><tr><th>Service</th><th>Reference</th><th>Voucher in the folder</th><th>Original (Gmail)</th></tr></thead>
+ <tbody>
+ <tr><td>✈ Flights AR1814 / AR1813</td><td>EKOLXX · NFWYEM</td><td><a href="documentos/Aereo%20AR1814-AR1813%20EKOLXX%2016-19%20nov%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">📄 Aereo AR1814-AR1813 EKOLXX (rebuilt from the Oct 8 e-mail)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878486361465841704" target="_blank" rel="noopener">✉️ "TICKET ISSUED … EKOLXX" (Oct 8)</a> — <a href="documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf" target="_blank" rel="noopener">📄 PEDRAZA_NESTOR HUGO-EKOLXX.pdf</a> · <span style="color:#2f6f4e;font-weight:800">✅ original in documentos\</span></td></tr>
+ <tr><td>🏨 Hotel Rayentray Océano</td><td>#12041832</td><td><a href="documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf" target="_blank" rel="noopener">📄 Hotel Rayentray Oceano Nov 16-19 (rebuilt from the Oct 8 e-mail)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878516082025695478" target="_blank" rel="noopener">✉️ "Puerto Madryn: Confirmaciones" (Oct 8)</a> — <a href="documentos/Localizador%205FY8F2.pdf" target="_blank" rel="noopener">📄 Localizador 5FY8F2.pdf</a> (hotel voucher, Amichi Viajes) · <span style="color:#2f6f4e;font-weight:800">✅ original in documentos\</span></td></tr>
+ <tr><td>🚗 Hertz compact SUV</td><td>#1918761</td><td><a href="documentos/Hertz%201918761%20SUV%20compacto%20PMY%2016-19%20nov%20PAGADO%20%28reconstruido%20del%20mail%2016%20oct%29.pdf" target="_blank" rel="noopener">📄 Hertz 1918761 PAID (rebuilt from the Oct 16 e-mail)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1879215079830883170" target="_blank" rel="noopener">✉️ "Confirmación Pago Hertz Puerto Madryn" (Oct 16)</a> — <a href="documentos/hertz%20pedraza%2016nov%20PMY.pdf" target="_blank" rel="noopener">📄 hertz pedraza 16nov PMY.pdf</a> · <span style="color:#2f6f4e;font-weight:800">✅ original in documentos\</span></td></tr>
+ <tr><td>🐋 Whale trips Nov 17 and 18</td><td>Amichi · via Centurion</td><td><a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">📄 Whale watching Nov 17 and 18 Amichi (rebuilt from the Oct 14 e-mail)</a></td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1879032102983024770" target="_blank" rel="noopener">✉️ "Viaje a Puerto Madryn - Información" (Oct 14, times and maps)</a> · no operator PDF voucher yet: ask Tatiana</td></tr>
+ <tr><td>🐧 Estancia San Lorenzo</td><td>⏳ not booked</td><td>—</td><td><a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1878596523268825048" target="_blank" rel="noopener">✉️ "Estancia San Lorenzo / Lobería de Punta Loma" (Oct 9)</a> — <a href="documentos/Estancia%20San%20Lorenzo%20Descriptivo.pdf" target="_blank" rel="noopener">📄 Estancia San Lorenzo Descriptivo.pdf</a> · <a href="https://mail.google.com/mail/?authuser=nhpedraza@gmail.com#all/thread-f:1879032102983024770" target="_blank" rel="noopener">✉️ rates and times (Oct 16)</a></td></tr>
+ </tbody></table>
+ <h3>Contacts</h3>
+ <ul><li><b>Centurion Travel (Tatiana Segatti):</b> 0810 888 2368 / 4515 2368, option 1 Travel · 24 h · centuriontravelar@centurion.com</li><li><b>Hertz Argentina:</b> 11 7090 4000 · reservas@hertz.com.ar</li><li><b>Aerolíneas Plus:</b> 26425207</li></ul>
+</div></section>
+
+<section id="pendientes"><div class="t-es">
+ <h2>15. Pendientes — acciones sobre reservas</h2>
+ <div class="callout warning"><strong>Lo que tenés que hacer vos (en orden):</strong></div>
+ <table><thead><tr><th>#</th><th>Acción</th><th>Para quién</th><th>Cuándo</th></tr></thead><tbody>
+ <tr><td>1</td><td><b>Responder a Tatiana en el hilo «Estancia San Lorenzo / Experiencias, Tarifas y Horarios»:</b> autorizás que compartan tu mail con la estancia · fecha <b>miércoles 18</b> · Experiencia Pingüinos 14:00 (ARS 270.000) + Sunset en privado 18:00 (ARS 552.600, se paga por 4) · pedís los links de pago (1 pago cada uno).</td><td>Tatiana</td><td>Cuanto antes (la estancia tiene cupo de 25 por grupo)</td></tr>
+ <tr><td>2</td><td><b>Decidir la Lobería del 19:</b> regular Amichi ARS 147.675,17 (sujeto a grupo; Tatiana consultó si lo garantizan) <b>o</b> privada Grupo 8 USD 630 ≈ ARS 963.900 (horario a convenir) <b>o</b> por tu cuenta con el auto. Avisarle en el mismo hilo.</td><td>Tatiana</td><td>Esta semana</td></tr>
+ <tr><td>3</td><td><b>Esperar la respuesta de Tatiana</b> al mail del 17 oct (llegada tardía ≈ 22:45: confirmar que la recepción de Rayentray Las Restingas / Pirámides atiende a esa hora y un teléfono de guardia). <b>Todavía pedirle:</b> que Hertz registre el AR1814 en la reserva #1918761 (retiro 20:30 = hora de aterrizaje) o corra el retiro a 21:00; tarifa y forma de pago de la entrada al Área Natural Protegida Península Valdés; voucher de los avistajes.</td><td>Tatiana</td><td>Esta semana</td></tr>
+
+ <tr><td>5</td><td><b>Almuerzo de cumpleaños del 19 en Puerto Madryn:</b> elegir restaurante (Náutico Bistró del Mar · Finca Caballo Blanco · Cantina El Náutico) y pedirle a Tatiana la reserva ≈ 13:30.</td><td>Tatiana</td><td>Antes del 10 nov</td></tr>
+ <tr><td>4</td><td><b>Borrar de la raíz</b> de la carpeta las 4 copias de los PDF originales (ya están en <code>documentos\</code>; el puente no puede borrar).</td><td>Néstor</td><td>Cuando puedas</td></tr>
+ <tr><td>6</td><td><b>Sitio del VOYAGE:</b> creado el 17 oct con tu OK (repo no adivinable en GitHub Pages); instalar en el celular siguiendo el mail de instrucciones.</td><td>Néstor</td><td>Cuando quieras el sitio en el celular</td></tr>
+ </tbody></table>
+ <div class="callout"><strong>⏰ Relojes:</strong> hotel cancelable sin penalidad hasta el <b>mié 11 nov 2026</b> (5 días antes; pedirlo a Centurion con ≥ 72 h hábiles → en la práctica, <b>viernes 6 nov</b>). Aéreo: 40 % de penalidad en cualquier momento. Hertz prepago: penalidad de Hertz + 4 %. Estancia y Lobería: sin reserva todavía, sin reloj.</div>
+</div><div class="t-en">
+ <h2>15. To-do — actions on bookings</h2>
+ <div class="callout warning"><strong>What you need to do (in order):</strong></div>
+ <table><thead><tr><th>#</th><th>Action</th><th>Who</th><th>When</th></tr></thead><tbody>
+ <tr><td>1</td><td><b>Reply to Tatiana in the thread "Estancia San Lorenzo / Experiencias, Tarifas y Horarios":</b> you authorize sharing your e-mail with the estancia · date <b>Wednesday 18</b> · Penguin Experience 14:00 (ARS 270.000) + private Sunset 18:00 (ARS 552.600, charged as 4) · ask for the payment links (1 payment each).</td><td>Tatiana</td><td>ASAP (the estancia caps groups at 25)</td></tr>
+ <tr><td>2</td><td><b>Decide Punta Loma on the 19th:</b> regular Amichi ARS 147.675,17 (subject to group; Tatiana asked whether it can be guaranteed) <b>or</b> private Grupo 8 USD 630 ≈ ARS 963.900 (time to agree) <b>or</b> on your own with the car. Tell her in the same thread.</td><td>Tatiana</td><td>This week</td></tr>
+ <tr><td>3</td><td><b>Wait for Tatiana's answer</b> to the Oct 17 e-mail (late arrival ≈ 22:45: confirm Rayentray Las Restingas / Pirámides reception is staffed then, plus an on-call phone). <b>Still to ask:</b> Hertz to record AR1814 on booking #1918761 (pick-up 20:30 = landing time) or move pick-up to 21:00; fee and payment for the Península Valdés protected area; whale-trip voucher.</td><td>Tatiana</td><td>This week</td></tr>
+
+ <tr><td>5</td><td><b>Birthday lunch on the 19th in Puerto Madryn:</b> pick a restaurant (Náutico Bistró del Mar · Finca Caballo Blanco · Cantina El Náutico) and ask Tatiana to book ≈ 13:30.</td><td>Tatiana</td><td>Before Nov 10</td></tr>
+ <tr><td>4</td><td><b>Delete from the folder root</b> the 4 copies of the original PDFs (they are already in <code>documentos\</code>; the bridge cannot delete).</td><td>Néstor</td><td>When you can</td></tr>
+ <tr><td>6</td><td><b>VOYAGE site:</b> created Oct 17 with your OK (unguessable GitHub Pages repo); install on the phone following the instructions e-mail.</td><td>Néstor</td><td>When you want the site on the phone</td></tr>
+ </tbody></table>
+ <div class="callout"><strong>⏰ Clocks:</strong> hotel cancellable without penalty until <b>Wed Nov 11, 2026</b> (5 days before; request via Centurion with ≥ 72 business hours → in practice <b>Friday Nov 6</b>). Flights: 40% penalty at any time. Hertz prepaid: Hertz penalty + 4%. Estancia and sea lions: not booked yet, no clock.</div>
+</div></section>
+
+<section id="calendario"><div>
+<h2>16. <span class="lt-es">📅 Calendario de noches — estado de reservas</span><span class="lt-en">📅 Nights calendar — booking status</span></h2>
+<p class="small-note"><span class="lt-es">Tocá cualquier fecha para ver la ficha de esa noche (vuelo, auto, alojamiento y el tour de ESE DÍA, con su hora y sus comprobantes). Se cierra con ✕, Esc o tocando afuera.</span><span class="lt-en">Tap any date to open that night's card (flight, car, lodging and THAT DAY's tour, with its time and vouchers). Close with ✕, Esc or a tap outside.</span></p>
+<div class="pend-summary">
+<div class="pend-card g"><div class="lbl">✈ <span class="lt-es">Vuelos</span><span class="lt-en">Flights</span></div><div class="big">2 / 2</div><div class="note">✅ AR1814 16 nov · AR1813 19 nov · EKOLXX</div></div>
+<div class="pend-card g"><div class="lbl">🚗 <span class="lt-es">Autos</span><span class="lt-en">Cars</span></div><div class="big">1 / 1</div><div class="note">✅ Hertz #1918761 · <span class="lt-es">pagado</span><span class="lt-en">paid</span></div></div>
+<div class="pend-card g"><div class="lbl">🏨 <span class="lt-es">Alojamiento</span><span class="lt-en">Lodging</span></div><div class="big">3 / 3</div><div class="note">✅ Rayentray Océano #12041832 · 2 hab.</div></div>
+<div class="pend-card r"><div class="lbl">🎫 Tours</div><div class="big">2 / 4</div><div class="note"><span class="lt-es">✅ ballenas 17 y 18 · ⏳ Estancia San Lorenzo (18) · ⏳ Lobería Punta Loma (19)</span><span class="lt-en">✅ whales 17 and 18 · ⏳ Estancia San Lorenzo (18) · ⏳ Punta Loma sea lions (19)</span></div></div>
+</div>
+<div class="pend-legend"><span><i class="pend-sw g"></i> <span class="lt-es">Reservado <b>en firme</b></span><span class="lt-en"><b>Confirmed</b> booking</span></span><span><i class="pend-sw r"></i> <span class="lt-es">Falta reservar</span><span class="lt-en">Still to book</span></span><span><i class="pend-sw n"></i> <span class="lt-es">Vuelo/sin noche</span><span class="lt-en">Flight/no night</span></span><span>🏨 · ✈ · 🎫</span></div>
+<div style="margin-top:14px"><button id="pend-toggle" onclick="pendToggle()" style="cursor:pointer;border:1px solid var(--line);background:#f3ede2;border-radius:10px;padding:9px 16px;font-weight:800;color:#173b4a;font-size:14px">📅 <span class="lt-es">Calendario día por día</span><span class="lt-en">Day-by-day calendar</span> <span id="pend-arrow">▼</span></button></div>
+<div id="pend-collapse">
+<p class="small-note"><span class="lt-es">💡 👤 Responsable de reservar: <b style="color:#1a4f9c">Amex</b> (Tatiana Segatti, Centurion) en todo el viaje. 🎫 <b style="color:#2f6f4e">verde ✅</b> = tour reservado ESE DÍA con su hora · <b style="color:#b8860b">⏳</b> = tour cotizado, sin reservar.</span><span class="lt-en">💡 👤 Booking owner: <b style="color:#1a4f9c">Amex</b> (Tatiana Segatti, Centurion) for the whole trip. 🎫 <b style="color:#2f6f4e">green ✅</b> = tour booked THAT DAY with its time · <b style="color:#b8860b">⏳</b> = tour quoted, not booked.</span></p>
+<div class="pend-months" id="pend-months"></div>
+</div>
+</div></section>
+
+<section id="anulaciones">
+<h2><span class="lt-es">17. ⊘ Anulaciones pendientes</span><span class="lt-en">17. ⊘ Bookings still to cancel</span></h2>
+<div class="callout good"><span class="lt-es"><strong>Nada que anular.</strong> La única variante descartada (toninas en Rawson el 18 nov, en la carta del 7 oct) se reemplazó antes de emitir por el segundo avistaje de ballenas; no generó cargo. Reintegros en camino: ninguno.</span><span class="lt-en"><strong>Nothing to cancel.</strong> The only dropped variant (Rawson dolphins on Nov 18, in the Oct 7 letter) was replaced before issuing by the second whale trip; no charge. Refunds on the way: none.</span></div>
+</section>
+
+<section id="tours"><div class="t-es">
+ <h2>18. Tours y actividades — reservas</h2>
+ <div class="callout good"><strong>Todo por Centurion (Tatiana), operador Amichi; no hay tours de Viator en este viaje.</strong> 2 reservados · 2 pendientes de tu decisión.</div>
+ <table><thead><tr><th>Fecha · hora</th><th>Actividad</th><th>Punto de encuentro</th><th>Duración · pax</th><th>Precio</th><th>Estado</th></tr></thead><tbody>
+ <tr><td style="white-space:nowrap">mar 17 nov · <b>09:00</b></td><td>🐋 Avistaje de ballenas tradicional (embarcado) · Amichi</td><td><a href="https://maps.app.goo.gl/txfpDCesEjqdMLkJ6" target="_blank" rel="noopener">📍 Punta Ballena, Puerto Pirámides</a> — presentarse PUNTUALES</td><td>≈ 1 h 30 · 3 ad · guía ES/EN</td><td>ARS 601.969,82</td><td>✅ confirmado · <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ <tr><td style="white-space:nowrap">mié 18 nov · <b>08:45</b></td><td>🐋 Avistaje de ballenas tradicional (embarcado) · Amichi</td><td><a href="https://maps.app.goo.gl/AUR5L5LGCZ2GvJLV8" target="_blank" rel="noopener">📍 Southern Spirit, Puerto Pirámides</a></td><td>≈ 1 h 30 · 3 ad · guía ES/EN</td><td>ARS 601.969,82</td><td>✅ confirmado · <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ <tr style="background:#fffbea"><td style="white-space:nowrap">mié 18 nov · <b>14:00</b></td><td>🐧 Experiencia Pingüinos · Estancia San Lorenzo (Punta Norte) · caminata guiada 700 m con guardaparque</td><td>Estancia San Lorenzo, RP3 (76 km de ripio desde Pirámides)</td><td>≈ 1 h 30 · 3 ad · grupos ≤ 25</td><td>ARS 270.000 · 1 pago por link de la estancia</td><td>⏳ por autorizar (fecha 17 o 18: vos pediste el 18)</td></tr>
+ <tr style="background:#fffbea"><td style="white-space:nowrap">mié 18 nov · <b>18:00</b></td><td>🐧 Sunset Pingüinos en privado · Estancia San Lorenzo</td><td>Estancia San Lorenzo</td><td>≈ 1 h 30 · mínimo 4 pax (se paga por 4)</td><td>ARS 552.600 · 1 pago por link</td><td>⏳ por autorizar</td></tr>
+ <tr style="background:#fffbea"><td style="white-space:nowrap">jue 19 nov · a convenir</td><td>🦭 Lobería de Punta Loma (+ Monumento al Indio Tehuelche, Punta Cuevas, Baliza Punta Este)</td><td>Salida desde Puerto Madryn (pickup en hotel solo si estás en Madryn)</td><td>2 h · 40 km · 3 ad</td><td>Regular Amichi ARS 147.675,17 (sujeto a grupo) <b>o</b> privada Grupo 8 USD 630 ≈ ARS 963.900</td><td>⏳ por decidir</td></tr>
+ </tbody></table>
+ <p class="muted">Cotizado y descartado: toninas en Rawson (18 nov, ARS 524.792,88) → reemplazado el 8 oct por la 2.ª salida de ballenas · Valle del Río Chubut (Trelew–Gaiman, ARS 309.196,91) → descartado el 8 oct · Yellow Submarine → no opera en noviembre.</p>
+</div><div class="t-en">
+ <h2>18. Tours &amp; activities — bookings</h2>
+ <div class="callout good"><strong>All through Centurion (Tatiana), operator Amichi; no Viator tours on this trip.</strong> 2 booked · 2 pending your decision.</div>
+ <table><thead><tr><th>Date · time</th><th>Activity</th><th>Meeting point</th><th>Duration · pax</th><th>Price</th><th>Status</th></tr></thead><tbody>
+ <tr><td style="white-space:nowrap">Tue Nov 17 · <b>09:00</b></td><td>🐋 Traditional whale watching (boat) · Amichi</td><td><a href="https://maps.app.goo.gl/txfpDCesEjqdMLkJ6" target="_blank" rel="noopener">📍 Punta Ballena, Puerto Pirámides</a> — be ON TIME</td><td>≈ 1 h 30 · 3 ad · ES/EN guide</td><td>ARS 601.969,82</td><td>✅ confirmed · <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ <tr><td style="white-space:nowrap">Wed Nov 18 · <b>08:45</b></td><td>🐋 Traditional whale watching (boat) · Amichi</td><td><a href="https://maps.app.goo.gl/AUR5L5LGCZ2GvJLV8" target="_blank" rel="noopener">📍 Southern Spirit, Puerto Pirámides</a></td><td>≈ 1 h 30 · 3 ad · ES/EN guide</td><td>ARS 601.969,82</td><td>✅ confirmed · <a href="documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf" target="_blank" rel="noopener">PDF</a></td></tr>
+ <tr style="background:#fffbea"><td style="white-space:nowrap">Wed Nov 18 · <b>14:00</b></td><td>🐧 Penguin Experience · Estancia San Lorenzo (Punta Norte) · 700 m guided walk with a ranger</td><td>Estancia San Lorenzo, RP3 (76 km of gravel from Pirámides)</td><td>≈ 1 h 30 · 3 ad · groups ≤ 25</td><td>ARS 270.000 · 1 payment via the estancia's link</td><td>⏳ to authorize (date 17 or 18: you asked for the 18th)</td></tr>
+ <tr style="background:#fffbea"><td style="white-space:nowrap">Wed Nov 18 · <b>18:00</b></td><td>🐧 Private Penguin Sunset · Estancia San Lorenzo</td><td>Estancia San Lorenzo</td><td>≈ 1 h 30 · minimum 4 pax (charged as 4)</td><td>ARS 552.600 · 1 payment via link</td><td>⏳ to authorize</td></tr>
+ <tr style="background:#fffbea"><td style="white-space:nowrap">Thu Nov 19 · to agree</td><td>🦭 Punta Loma sea lions (+ Tehuelche monument, Punta Cuevas, Punta Este beacon)</td><td>Departs from Puerto Madryn (hotel pick-up only if you're in Madryn)</td><td>2 h · 40 km · 3 ad</td><td>Regular Amichi ARS 147.675,17 (subject to group) <b>or</b> private Grupo 8 USD 630 ≈ ARS 963.900</td><td>⏳ to decide</td></tr>
+ </tbody></table>
+ <p class="muted">Quoted and dropped: Rawson dolphins (Nov 18, ARS 524.792,88) → replaced Oct 8 by the 2nd whale trip · Chubut river valley (Trelew–Gaiman, ARS 309.196,91) → dropped Oct 8 · Yellow Submarine → doesn't run in November.</p>
+</div></section>
+
+<section id="guias"><div class="t-es">
+ <h2>19. 📘 Guías del día (PDF)</h2>
+ <div class="callout good"><strong>Guías operativas de cada jornada</strong> — formato canónico: distancias y tiempos, checkout/check-in con códigos y WiFi, parada intermedia, lavanderías, cambio, comer verificado, mapas y direcciones copiables con links a Google/Apple Maps. Viven en <code>GUIAS\</code> (espejo en el sitio).</div>
+ <table><thead><tr><th>Día</th><th>Guía</th><th>Abrir</th></tr></thead><tbody>
+ <tr><td style="white-space:nowrap">lun 16 nov</td><td>Aeroparque → PMY → Hertz → Puerto Pirámides + llegada tardía al Rayentray Océano</td><td><span style="color:#b8860b;font-weight:700">⏳ se arma cuando Tatiana confirme el acceso al hotel y las entradas</span></td></tr>
+ <tr><td style="white-space:nowrap">mié 18 nov</td><td>Pirámides → Estancia San Lorenzo (RP3) → Pirámides de noche</td><td><span style="color:#b8860b;font-weight:700">⏳ cuando se confirme la estancia</span></td></tr>
+ <tr><td style="white-space:nowrap">jue 19 nov</td><td>Pirámides → Punta Loma → almuerzo en Madryn → Hertz → AR1813</td><td><span style="color:#b8860b;font-weight:700">⏳ cuando se decida la lobería</span></td></tr>
+ </tbody></table>
+ <div class="callout" style="margin-top:14px"><b>🔑 Accesos rápidos</b> — sin datos todavía (WiFi y código del hotel: pendientes de Tatiana).</div>
+</div><div class="t-en">
+ <h2>19. 📘 Daily guides (PDF)</h2>
+ <div class="callout good"><strong>Operational guide for each day</strong> — canonical format: distances and times, checkout/check-in with codes and WiFi, mid-route stop, laundromats, exchange, verified dining, maps and copyable addresses with Google/Apple Maps links. They live in <code>GUIAS\</code> (mirrored on the site).</div>
+ <table><thead><tr><th>Day</th><th>Guide</th><th>Open</th></tr></thead><tbody>
+ <tr><td style="white-space:nowrap">Mon Nov 16</td><td>Aeroparque → PMY → Hertz → Puerto Pirámides + late arrival at Rayentray Océano</td><td><span style="color:#b8860b;font-weight:700">⏳ built once Tatiana confirms hotel access and the fees</span></td></tr>
+ <tr><td style="white-space:nowrap">Wed Nov 18</td><td>Pirámides → Estancia San Lorenzo (RP3) → Pirámides after dark</td><td><span style="color:#b8860b;font-weight:700">⏳ once the estancia is confirmed</span></td></tr>
+ <tr><td style="white-space:nowrap">Thu Nov 19</td><td>Pirámides → Punta Loma → lunch in Madryn → Hertz → AR1813</td><td><span style="color:#b8860b;font-weight:700">⏳ once the sea lions are decided</span></td></tr>
+ </tbody></table>
+ <div class="callout" style="margin-top:14px"><b>🔑 Quick access</b> — no data yet (hotel WiFi and code: pending from Tatiana).</div>
+</div></section>
+
+<section id="km"><div class="t-es">
+ <h2>20. 🚗 KM — kilómetros día a día</h2>
+ <div class="callout"><strong>Tabla día a día (4 días, 1 = lun 16 nov):</strong> km planificados, acumulados y promedios (por día de manejo y por día de viaje). Fuente: líneas de transporte de las fichas «Día por día» (OSRM, suma de tramos; el real es ≈ 10 % mayor). La fila de HOY se resalta sola. Total planificado <b>386 km</b> en <b>3</b> días de manejo, <b>152 km</b> de ripio.</div>
+ <div class="table-wrap"><table class="km-table"><thead><tr><th>Día</th><th>Fecha</th><th>Tramo / base</th><th>km del día</th><th>km acumulados</th><th>Prom. km/día de manejo</th><th>Prom. km/día de viaje</th></tr></thead><tbody><tr data-d="1" class="km-drive"><td>1</td><td style="white-space:nowrap">lun 16 nov</td><td>✈ AEP → PMY · aeropuerto → Puerto Pirámides</td><td style="text-align:right">98</td><td style="text-align:right">98</td><td style="text-align:right">98</td><td style="text-align:right">98</td></tr><tr data-d="2"><td>2</td><td style="white-space:nowrap">mar 17 nov</td><td>Avistaje 09:00 · Puerto Pirámides (sin manejo largo)</td><td style="text-align:right">—</td><td style="text-align:right">98</td><td style="text-align:right">98</td><td style="text-align:right">49</td></tr><tr data-d="3" class="km-drive"><td>3</td><td style="white-space:nowrap">mié 18 nov</td><td>Avistaje 08:45 · Pirámides ⇄ Estancia San Lorenzo (ripio)</td><td style="text-align:right">152</td><td style="text-align:right">250</td><td style="text-align:right">125</td><td style="text-align:right">83</td></tr><tr data-d="4" class="km-drive"><td>4</td><td style="white-space:nowrap">jue 19 nov</td><td>Pirámides → Madryn → Punta Loma → aeropuerto · ✈ PMY → AEP</td><td style="text-align:right">136</td><td style="text-align:right">386</td><td style="text-align:right">129</td><td style="text-align:right">96</td></tr><tr style="background:#f0e7d8;font-weight:800"><td colspan="3">TOTAL · Hertz PMY 16 → 19 nov (3 días de manejo)</td><td style="text-align:right">386</td><td style="text-align:right">386</td><td style="text-align:right">129</td><td style="text-align:right">96</td></tr></tbody></table></div>
+</div><div class="t-en">
+ <h2>20. 🚗 KM — kilometres day by day</h2>
+ <div class="callout"><strong>Day-by-day table (4 days, 1 = Mon Nov 16):</strong> planned km, cumulative and averages (per driving day and per trip day). Source: the transport lines of the "Day by day" cards (OSRM, sum of legs; real ≈ 10 % more). Today's row highlights itself. Planned total <b>386 km</b> over <b>3</b> driving days, <b>152 km</b> on gravel.</div>
+ <div class="table-wrap"><table class="km-table"><thead><tr><th>Day</th><th>Date</th><th>Leg / base</th><th>km that day</th><th>cumulative km</th><th>Avg km/driving day</th><th>Avg km/trip day</th></tr></thead><tbody><tr data-d="1" class="km-drive"><td>1</td><td style="white-space:nowrap">Mon Nov 16</td><td>✈ AEP → PMY · airport → Puerto Pirámides</td><td style="text-align:right">98</td><td style="text-align:right">98</td><td style="text-align:right">98</td><td style="text-align:right">98</td></tr><tr data-d="2"><td>2</td><td style="white-space:nowrap">Tue Nov 17</td><td>Whales 09:00 · Puerto Pirámides (no long drive)</td><td style="text-align:right">—</td><td style="text-align:right">98</td><td style="text-align:right">98</td><td style="text-align:right">49</td></tr><tr data-d="3" class="km-drive"><td>3</td><td style="white-space:nowrap">Wed Nov 18</td><td>Whales 08:45 · Pirámides ⇄ Estancia San Lorenzo (gravel)</td><td style="text-align:right">152</td><td style="text-align:right">250</td><td style="text-align:right">125</td><td style="text-align:right">83</td></tr><tr data-d="4" class="km-drive"><td>4</td><td style="white-space:nowrap">Thu Nov 19</td><td>Pirámides → Madryn → Punta Loma → airport · ✈ PMY → AEP</td><td style="text-align:right">136</td><td style="text-align:right">386</td><td style="text-align:right">129</td><td style="text-align:right">96</td></tr><tr style="background:#f0e7d8;font-weight:800"><td colspan="3">TOTAL · Hertz PMY Nov 16 → 19 (3 driving days)</td><td style="text-align:right">386</td><td style="text-align:right">386</td><td style="text-align:right">129</td><td style="text-align:right">96</td></tr></tbody></table></div>
+</div></section>
+
+<section id="monedas"><div class="t-es">
+ <h2>21. 💱 Monedas — país del viaje y equivalencias</h2>
+ <div class="callout"><strong>Un solo país, una sola moneda: peso argentino (ARS).</strong> Referencias del <b>15–16 oct 2026</b>: dólar oficial BNA vendedor <b>ARS 1.530</b> (dolarapi.com; coincide con el tipo que usó Centurion el 16 oct) · 1 US$ = 0,8887 € (BCE, frankfurter.dev) · dólar «tarjeta» ARS 1.989 (solo para tarjetas del exterior). Regla de oro: <b>pagar en pesos con la Centurion argentina</b> (sin DCC, sin impuesto PAIS); efectivo en pesos para los accesos y el pueblo. Se refresca al versionar.</div>
+ <div class="table-wrap"><table class="monedas-table"><thead><tr><th>País</th><th>Moneda</th><th>Noches</th><th>US$ 100 =</th><th>€ 100 =</th><th>1 unidad local =</th><th>Cómo pagar</th></tr></thead><tbody>
+ <tr><td>🇦🇷 Argentina</td><td>Peso argentino <b>ARS</b> ($)</td><td style="text-align:right">3</td><td style="text-align:right"><b>$ 153.000</b></td><td style="text-align:right"><b>$ 172.171</b></td><td>US$ 0,000654 · € 0,000581</td><td>Centurion (Amex Argentina) en todo lo grande; efectivo para entradas, propinas y comercios chicos de Pirámides. Cajeros de banco en Madryn, no en la península.</td></tr>
+ <tr><td colspan="3" style="color:var(--muted)">Referencia para una tarjeta del exterior (dólar «tarjeta» con impuestos)</td><td style="text-align:right">$ 198.900</td><td style="text-align:right">—</td><td colspan="2" style="color:var(--muted)">No aplica a la Centurion argentina.</td></tr>
+ </tbody></table></div>
+</div><div class="t-en">
+ <h2>21. 💱 Currencies — country of the trip and equivalents</h2>
+ <div class="callout"><strong>One country, one currency: Argentine peso (ARS).</strong> References as of <b>Oct 15–16, 2026</b>: official BNA selling rate <b>ARS 1,530</b> per US$ (dolarapi.com; matches the rate Centurion used on Oct 16) · 1 US$ = 0.8887 € (ECB, frankfurter.dev) · "card" dollar ARS 1,989 (foreign cards only). Golden rule: <b>pay in pesos with the Argentine Centurion</b> (no DCC, no PAIS tax); cash in pesos for gates and the village. Refreshed with each version.</div>
+ <div class="table-wrap"><table class="monedas-table"><thead><tr><th>Country</th><th>Currency</th><th>Nights</th><th>US$ 100 =</th><th>€ 100 =</th><th>1 local unit =</th><th>How to pay</th></tr></thead><tbody>
+ <tr><td>🇦🇷 Argentina</td><td>Argentine peso <b>ARS</b> ($)</td><td style="text-align:right">3</td><td style="text-align:right"><b>$ 153.000</b></td><td style="text-align:right"><b>$ 172.171</b></td><td>US$ 0.000654 · € 0.000581</td><td>Centurion (Amex Argentina) for everything big; cash for fees, tips and small shops in Pirámides. Bank ATMs in Madryn, none to rely on in the peninsula.</td></tr>
+ <tr><td colspan="3" style="color:var(--muted)">Reference for a foreign card ("card" dollar with taxes)</td><td style="text-align:right">$ 198.900</td><td style="text-align:right">—</td><td colspan="2" style="color:var(--muted)">Doesn't apply to the Argentine Centurion.</td></tr>
+ </tbody></table></div>
+</div></section>
+
+<section id="reqatencion"><div class="t-es">
+ <h2>22. ⚠️ REQ. ATENCIÓN — conflictos e incongruencias que necesitan tu decisión</h2>
+ <div class="callout" style="border-left:6px solid #b42318;background:#fff1f0"><strong>Auditoría v0.01 (17 oct 2026) de los 17 hilos de mail con Centurion (2 → 16 oct).</strong> Lo que está en firme coincide entre mails, cartas y confirmaciones. Estos son los puntos abiertos, en orden de urgencia:</div>
+ <table><thead><tr><th>#</th><th>Qué pasa</th><th>Fuente</th><th>Decisión / acción</th></tr></thead><tbody>
+ <tr><td>1</td><td><b>Llegada al hotel ≈ 22:45 y el hotel no tiene recepción propia.</b> El vuelo aterriza 20:30, el Hertz se retira 20:30 y hay 98 km hasta Pirámides. El voucher 5FY8F2 dice: presentarse en Rayentray Las Restingas o Rayentray Pirámides (check-in 14:00).</td><td>Voucher del hotel «Localizador 5FY8F2.pdf» (8 oct)</td><td>✉️ Mail a Tatiana enviado el 17 oct pidiendo que avisen y confirmen que esa recepción atiende a esa hora + teléfono de guardia. Esperar respuesta.</td></tr>
+ <tr><td>2</td><td><b>Estancia San Lorenzo sin cerrar.</b> Tatiana pidió tu autorización escrita para compartir tu mail con la estancia; vos contestaste que preferís las dos experiencias el 18, pero no dijiste «autorizo». El Sunset privado exige mínimo 4 → se paga por 4 (ARS 552.600).</td><td>Hilo «Estancia San Lorenzo / Experiencias, Tarifas y Horarios» (16 oct)</td><td>Responder con la autorización y la fecha. Decidir si vale el Sunset (ARS 552.600) sabiendo que implica volver 77 km de ripio de noche.</td></tr>
+ <tr><td>3</td><td><b>Lobería del 19: dos precios muy distintos.</b> Regular Amichi ARS 147.675,17 pero «sujeto a armado de grupo» (Tatiana consultó si lo garantizan) vs privada Grupo 8 USD 630 ≈ ARS 963.900. Además, el regular sale de Puerto Madryn con pickup en hotel — ustedes duermen en Pirámides.</td><td>Mails 9 oct y 16 oct</td><td>Elegir: regular (si lo garantizan), privada, o por tu cuenta con el Hertz (la reserva de Punta Loma se visita con auto propio pagando la entrada).</td></tr>
+ <tr><td>4</td><td><b>Hertz: retiro a la misma hora del aterrizaje.</b> Hertz aclara que un atraso en el retiro «NO garantiza la disponibilidad de la categoría».</td><td>Carta Hertz (7 oct) y confirmación #1918761</td><td>Pedir a Tatiana que Hertz cargue el vuelo AR1814 en la reserva o mueva el retiro a 21:00.</td></tr>
+ <tr><td>5</td><td><b>Entrada al Área Natural Protegida Península Valdés no incluida.</b> La pediste el 2 oct («entradas para los 3»); las cartas dicen que el avistaje «se deberá tomar combinada con la visita a la Península» pero se vendió suelto, y nada menciona las entradas. Se pagan en el acceso de la RP2 (y Punta Loma aparte).</td><td>Tu mail 2 oct · cartas 7 oct · confirmaciones 8 oct</td><td>Preguntar a Tatiana tarifa vigente y medio de pago en el acceso; llevar efectivo por las dudas.</td></tr>
+ <tr><td>6</td><td><b>Copias sueltas en la raíz.</b> Pegaste los 4 PDF originales en la raíz de la carpeta; ya están copiados a <code>documentos\</code> y el VOYAGE enlaza ahí.</td><td>Carpeta (17 oct)</td><td>Borrar las 4 copias de la raíz (el puente no puede borrar).</td></tr>
+ <tr><td>7</td><td><b>Nombre de Ana.</b> El aéreo se emitió como PEDRAZA/ANA MARIA (corregido a tu pedido). Hotel y excursiones: «Ana María Pedraza». Los pases VIP de Ezeiza (hilo con Belén) usan «Ana María D'Andrea».</td><td>Billete 8 oct · cartas 7 oct · hilo «Pase vip»</td><td>Nada que hacer para este viaje (vuelo de cabotaje con DNI). Lo anoto para que no te sorprenda en el aeropuerto.</td></tr>
+ <tr><td>8</td><td><b>Fuera del alcance de este VOYAGE pero abiertos con Tatiana:</b> cena Dining For Two en Happening (Puerto Madero) sáb 14 nov 21:00 para 3 (el beneficio es para 2 y solo por la app; vos dijiste que lo hacías como ella indicó) · pases VIP/Fast Pass de Ezeiza (hilo con Belén).</td><td>Hilos «Reserva» (14 oct) y «Pase vip» (7–8 oct)</td><td>Se siguen en sus propios hilos; no entran en este documento.</td></tr>
+ </tbody></table>
+</div><div class="t-en">
+ <h2>22. ⚠️ NEEDS ATTENTION — conflicts and inconsistencies that need your decision</h2>
+ <div class="callout" style="border-left:6px solid #b42318;background:#fff1f0"><strong>v0.01 audit (Oct 17, 2026) of the 17 e-mail threads with Centurion (Oct 2 → 16).</strong> Everything firm matches across e-mails, letters and confirmations. These are the open points, by urgency:</div>
+ <table><thead><tr><th>#</th><th>What's going on</th><th>Source</th><th>Decision / action</th></tr></thead><tbody>
+ <tr><td>1</td><td><b>Hotel arrival ≈ 22:45 and the hotel has no reception of its own.</b> The flight lands 20:30, Hertz pick-up is 20:30 and it's 98 km to Pirámides. Voucher 5FY8F2 says: report to Rayentray Las Restingas or Rayentray Pirámides (check-in 14:00).</td><td>Hotel voucher "Localizador 5FY8F2.pdf" (Oct 8)</td><td>✉️ E-mail sent to Tatiana Oct 17 asking them to notify and confirm that reception is staffed then + on-call phone. Awaiting answer.</td></tr>
+ <tr><td>2</td><td><b>Estancia San Lorenzo not closed.</b> Tatiana asked for your written authorization to share your e-mail with the estancia; you replied you'd rather do both experiences on the 18th, but didn't say "I authorize". The private Sunset requires a minimum of 4 → charged as 4 (ARS 552.600).</td><td>Thread "Estancia San Lorenzo / Experiencias, Tarifas y Horarios" (Oct 16)</td><td>Reply with the authorization and the date. Decide whether the Sunset (ARS 552.600) is worth it knowing it means 77 km of gravel back after dark.</td></tr>
+ <tr><td>3</td><td><b>Sea lions on the 19th: two very different prices.</b> Regular Amichi ARS 147.675,17 but "subject to a group forming" (Tatiana asked whether it can be guaranteed) vs private Grupo 8 USD 630 ≈ ARS 963.900. Also, the regular one departs from Puerto Madryn with hotel pick-up — you sleep in Pirámides.</td><td>E-mails Oct 9 and Oct 16</td><td>Choose: regular (if guaranteed), private, or on your own with the Hertz (the Punta Loma reserve can be visited by car paying the fee).</td></tr>
+ <tr><td>4</td><td><b>Hertz: pick-up at the same time as landing.</b> Hertz states a late pick-up "does NOT guarantee availability of the category".</td><td>Hertz letter (Oct 7) and confirmation #1918761</td><td>Ask Tatiana to have Hertz add flight AR1814 to the booking or move pick-up to 21:00.</td></tr>
+ <tr><td>5</td><td><b>Península Valdés protected-area fee not included.</b> You asked for it on Oct 2 ("entries for the 3"); the letters say the whale trip "must be combined with the Península visit" but it was sold alone, and nothing mentions the fee. It's paid at the RP2 gate (Punta Loma separately).</td><td>Your Oct 2 e-mail · Oct 7 letters · Oct 8 confirmations</td><td>Ask Tatiana for the current fee and payment method at the gate; carry cash just in case.</td></tr>
+ <tr><td>6</td><td><b>Loose copies in the root.</b> You pasted the 4 original PDFs in the folder root; they are already copied into <code>documentos\</code> and the VOYAGE links there.</td><td>Folder (Oct 17)</td><td>Delete the 4 copies from the root (the bridge cannot delete).</td></tr>
+ <tr><td>7</td><td><b>Ana's name.</b> The ticket was issued as PEDRAZA/ANA MARIA (corrected at your request). Hotel and excursions: "Ana María Pedraza". The Ezeiza VIP passes (thread with Belén) use "Ana María D'Andrea".</td><td>Ticket Oct 8 · letters Oct 7 · "Pase vip" thread</td><td>Nothing to do for this trip (domestic flight with DNI). Noted so it doesn't surprise you at the airport.</td></tr>
+ <tr><td>8</td><td><b>Outside this VOYAGE but open with Tatiana:</b> Dining For Two dinner at Happening (Puerto Madero) Sat Nov 14 21:00 for 3 (the benefit is for 2 and app-only; you said you'd do it as she indicated) · Ezeiza VIP/Fast Pass passes (thread with Belén).</td><td>Threads "Reserva" (Oct 14) and "Pase vip" (Oct 7–8)</td><td>Followed in their own threads; not part of this document.</td></tr>
+ </tbody></table>
+</div></section>
+<script>
+window.copiarTexto=function(txt,btn){function ok(){if(btn){var o=btn.textContent;btn.textContent='✅';setTimeout(function(){btn.textContent=o;},1500);}}
+function fb(){try{var ta=document.createElement('textarea');ta.value=txt;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);ok();}catch(e){window.prompt(document.body.classList.contains('lang-en')?'Copy manually:':'Copiar a mano:',txt);}}
+if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(ok,fb);}else{fb();}};
+</script>
+</main>
+<script>
+(function(){
+var NIGHTS={"11-16": [1, "Puerto Pirámides", true, 0], "11-17": [2, "Puerto Pirámides", true, 0], "11-18": [3, "Puerto Pirámides", true, 0]};
+var SPECIAL={"11-19": "✈ PMY→AEP 19:05"};
+var RESP={"11-16": "Amex", "11-17": "Amex", "11-18": "Amex", "11-19": "Amex"};
+var TOURDATE={"11-17": "09:00 🐋 Avistaje de ballenas — Punta Ballena (Amichi) ✅ · 3 ad · ≈ 1 h 30", "11-18": "08:45 🐋 Avistaje de ballenas — Southern Spirit (Amichi) ✅ · ⏳ 14:00 Experiencia Pingüinos + 18:00 Sunset privado, Estancia San Lorenzo (por autorizar)"};var TOURDATE_EN={"11-17": "09:00 🐋 Whale watching — Punta Ballena (Amichi) ✅ · 3 ad · ≈ 1 h 30", "11-18": "08:45 🐋 Whale watching — Southern Spirit (Amichi) ✅ · ⏳ 14:00 Penguin Experience + 18:00 private Sunset, Estancia San Lorenzo (to authorize)"};var TOURTIME={"11-17": "09:00", "11-18": "08:45"};
+var TOURCITY={"Puerto Pirámides":1};var TOURBOOKED={"Puerto Pirámides":"2 avistajes de ballenas (17 y 18 nov) — Amichi vía Centurion"};var TOURBOOKED_EN={"Puerto Pirámides":"2 whale trips (Nov 17 and 18) — Amichi via Centurion"};
+window.TOURDATE=TOURDATE;window.TOURDATE_EN=TOURDATE_EN;window.TOURTIME=TOURTIME;
+window.CITY_EN={"Puerto Pirámides":"Puerto Pirámides","Buenos Aires":"Buenos Aires"};
+window.cityLbl=function(b){return (document.body.classList.contains('lang-en')&&window.CITY_EN[b])||b;};
+var MONTHS_ES=[{m:11,name:"Noviembre 2026",days:30,fd:6}];
+var MONTHS_EN=[{m:11,name:"November 2026",days:30,fd:6}];
+var DOW_ES=["L","M","M","J","V","S","D"],DOW_EN=["M","T","W","T","F","S","S"];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+var PENDING={};
+function cell(m,d){var k=m+"-"+d,i=NIGHTS[k];var rp='';if(RESP[k]){var _w=RESP[k],_c=/amex/i.test(_w)?'ra':/bel/i.test(_w)?'rb':'rc';rp='<div class="pend-resp '+_c+'">👤 '+_w+'</div>';}
+ if(i){var n=i[0],b=i[1],ok=i[2];var tbd=(b==='A definir');var pend=!!PENDING[k];var cls=ok?(pend?"pending":"green"):(tbd?"amber":"red");var ic=(tbd?'🔎':'🏨'+(ok?(pend?'⏳':'✅'):'❌'));
+  var tp=TOURDATE[k]?'<div class="pend-tour tb">🎫 '+(TOURTIME[k]||'tour')+' ✅'+(k==='11-18'?' · ⏳':'')+'</div>':((TOURCITY[b]&&!TOURBOOKED[b])?'<div class="pend-tour tn">🎫 tour ❌</div>':'');
+  return '<div class="pend-cell '+cls+'" style="cursor:pointer" onclick="pendShow(\''+m+'-'+d+'\')"><div class="d">'+d+'</div><div class="b">'+esc(window.cityLbl(b))+'</div><div style="display:flex;justify-content:space-between"><span>'+ic+'</span><span style="font-size:8px;opacity:.6">N'+n+'</span></div>'+tp+rp+'</div>';}
+ if(SPECIAL[k]) return '<div class="pend-cell neutral"><div class="d">'+d+'</div><div class="b" style="color:var(--muted)">'+esc(SPECIAL[k])+'</div><div style="font-size:8px">✈ ⏳ 🦭</div>'+rp+'</div>';
+ return '<div class="pend-cell neutral" style="opacity:.5"><div class="d">'+d+'</div></div>';}
+window.TOURBOOKED_EN=TOURBOOKED_EN;window.PENDN=NIGHTS;window.PENDRESP=RESP;window.PENDTOURC=TOURCITY;window.PENDTOURB=TOURBOOKED;
+window.renderPend=function(){var en=document.body.classList.contains('lang-en');var MONTHS=en?MONTHS_EN:MONTHS_ES,DOW=en?DOW_EN:DOW_ES;var out='';
+MONTHS.forEach(function(M){out+='<div class="pend-month"><h3>'+M.name+'</h3><div class="pend-grid">';
+ DOW.forEach(function(x){out+='<div class="pend-dow">'+x+'</div>';});
+ for(var i=0;i<M.fd;i++)out+='<div class="pend-cell empty"></div>';
+ for(var d=1;d<=M.days;d++)out+=cell(M.m,d);
+ out+='</div></div>';});
+var el=document.getElementById('pend-months');if(el)el.innerHTML=out;};
+window.renderPend();
+})();
+</script>
+<script>
+/* VOYAGE PMY26 — ficha por noche: comprobantes por evento. Al cargar una reserva nueva, su PDF entra en VOYDOC.H (por noche), R (ref → PDF), T (por fecha M-D), C/F/FL (autos, ferries, vuelos). S = servicios por base (lavanderías/supermercados): pendiente de cargar desde el Chrome del operador (Overpass no es accesible desde el sandbox). */
+window.VOYDOC={"H": {"1": ["documentos/Localizador%205FY8F2.pdf", "documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf"], "2": ["documentos/Localizador%205FY8F2.pdf", "documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf"], "3": ["documentos/Localizador%205FY8F2.pdf", "documentos/Hotel%20Rayentray%20Oceano%20Puerto%20Piramides%2016-19%20nov%20loc%2012041832%20%28reconstruido%20del%20mail%208%20oct%29.pdf"]}, "R": {}, "T": {"11-17": ["documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf"], "11-18": ["documentos/Avistaje%20de%20ballenas%2017%20y%2018%20nov%20Amichi%20Puerto%20Piramides%20%28reconstruido%20del%20mail%2014%20oct%29.pdf", "documentos/Estancia%20San%20Lorenzo%20Descriptivo.pdf"]}, "C": {"PMY": ["documentos/hertz%20pedraza%2016nov%20PMY.pdf", "documentos/Hertz%201918761%20SUV%20compacto%20PMY%2016-19%20nov%20PAGADO%20%28reconstruido%20del%20mail%2016%20oct%29.pdf"]}, "F": {}, "FL": {"1": ["documentos/PEDRAZA_NESTOR%20HUGO-EKOLXX.pdf", "documentos/Aereo%20AR1814-AR1813%20EKOLXX%2016-19%20nov%20%28reconstruido%20del%20mail%208%20oct%29.pdf"]}, "S": []};
+window.VOYLBL=function(u){var s=decodeURIComponent(u).split('/').pop().replace(/\.pdf$/i,'');return s.replace(/\(reconstruido del mail ([^)]+)\)/,'(rec. $1)').replace(/\(reconstruido ([^)]+)\)/,'(rec. $1)');};
+window.VOYDL=function(arr,en){if(!arr||!arr.length)return '';return '<div style="margin-top:4px;font-size:12px;line-height:1.5">📄 '+arr.map(function(u){return '<a href="'+u+'" target="_blank" rel="noopener" style="color:#1d4ed8">'+window.VOYLBL(u)+'</a>';}).join(' · ')+'</div>';};
+window.VOYTDOCS=function(key,txt){var out=[],R=window.VOYDOC.R,T=window.VOYDOC.T[key]||[];T.forEach(function(u){if(out.indexOf(u)<0)out.push(u);});return out;};
+window.VOYSVC=function(n){var S=window.VOYDOC.S;for(var i=0;i<S.length;i++){if(n>=S[i][0]&&n<=S[i][1])return S[i][2];}return null;};
+window.VOYHRS=function(h,en){if(!h)return en?'hours not listed':'horario no publicado';var D=en?{Mo:'Mon',Tu:'Tue',We:'Wed',Th:'Thu',Fr:'Fri',Sa:'Sat',Su:'Sun',PH:'hol.'}:{Mo:'lun',Tu:'mar',We:'mié',Th:'jue',Fr:'vie',Sa:'sáb',Su:'dom',PH:'fer.'};return h.replace(/\b(Mo|Tu|We|Th|Fr|Sa|Su|PH)\b/g,function(m){return D[m];}).replace(/\boff\b/g,en?'closed':'cerrado').replace(/;\s*/g,' · ');};
+window.VOYDIST=function(m,en){if(m<100)return m+' m';var k=(m/1000).toFixed(1);return (en?k:k.replace('.',','))+' km';};
+window.VOYMAPL=function(p,city,en){var g,a;var nm=p.n+', '+p.a+', '+city;if(p.lat!=null){g='https://www.google.com/maps?q='+p.lat+','+p.lon+'('+encodeURIComponent(p.n)+')';a='https://maps.apple.com/?ll='+p.lat+','+p.lon+'&q='+encodeURIComponent(p.n);}else{g='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(nm);a='https://maps.apple.com/?q='+encodeURIComponent(nm);}return '<a href="'+g+'" target="_blank" rel="noopener" style="color:#1d4ed8;white-space:nowrap">🗺 Google Maps</a> · <a href="'+a+'" target="_blank" rel="noopener" style="color:#1d4ed8;white-space:nowrap">🍎 Apple Maps</a>';};
+window.VOYSVCROWS=function(n,svc,tail,en){
+ function fmt(p,city){var kind=p.k==='dry'?(en?'🧼 dry cleaner':'🧼 tintorería'):(p.k==='self'?(en?'🔄 self-service':'🔄 autoservicio'):'');var note=en?p.nn:p.ne;return '<div style="margin:4px 0;line-height:1.45"><b>'+p.n+'</b> — '+p.a+' · <b>'+window.VOYDIST(p.m,en)+'</b>'+(kind?' · '+kind:'')+' · <span style="color:#555">'+window.VOYHRS(p.h,en)+'</span>'+(note?' · <i>'+note+'</i>':'')+'<br>'+window.VOYMAPL(p,city,en)+'</div>';}
+ var g,l;
+ if(svc){g={s:3,t:svc.g.map(function(p){return fmt(p,svc.c);}).join('')||(en?'(no supermarket listed)':'(sin supermercado registrado)')};var lt=svc.l.map(function(p){return fmt(p,svc.c);}).join('');var nt=en?svc.ne:svc.n;if(nt)lt+='<div style="margin-top:4px;color:#555;font-size:12px">ℹ️ '+nt+'</div>';l={s:3,t:lt||(en?'(no laundromat listed)':'(sin lavandería registrada)')};}
+ else{var nd=en?'(not loaded for this night — pending)':'(no cargado para esta noche — pendiente)';g={s:2,t:nd};l=tail?{s:3,t:tail}:{s:2,t:nd};}
+ return {g:g,l:l};};
+</script>
+<script>
+window.pendShow=function(key){
+var N=window.PENDN[key];if(!N)return;
+var n=N[0],base=N[1],hotelOk=N[2];
+var p=key.split('-'),m=parseInt(p[0]),d=parseInt(p[1]),x=m*100+d;
+var HB={"1": "Rayentray Océano (Puerto Pirámides · frente a la playa) · loc. #12041832 · 2 hab: Suite Standard Playa Doble + Single, vista a la playa · desayuno · ARS 1.385.152,95 en 3 cuotas s/i · ✅ CONFIRMADO 8 oct · noche 1 de 3 · ⚠️ sin recepción propia: check-in en Rayentray Las Restingas o Pirámides (voucher 5FY8F2) · llegada ≈ 22:45 consultada a Tatiana el 17 oct", "2": "Rayentray Océano (Puerto Pirámides · frente a la playa) · loc. #12041832 · 2 hab vista a la playa · desayuno · ✅ CONFIRMADO · noche 2 de 3", "3": "Rayentray Océano (Puerto Pirámides · frente a la playa) · loc. #12041832 · 2 hab vista a la playa · desayuno · ✅ CONFIRMADO · noche 3 de 3 · checkout jue 19 10:00 (voucher)"};
+var HB_EN={"1": "Rayentray Océano (Puerto Pirámides · on the beach) · loc. #12041832 · 2 rooms: Standard Beach Suite Double + Single, beach view · breakfast · ARS 1.385.152,95 in 3 instalments · ✅ CONFIRMED Oct 8 · night 1 of 3 · ⚠️ no reception of its own: check in at Rayentray Las Restingas or Pirámides (voucher 5FY8F2) · ≈ 22:45 arrival asked to Tatiana Oct 17", "2": "Rayentray Océano (Puerto Pirámides · on the beach) · loc. #12041832 · 2 beach-view rooms · breakfast · ✅ CONFIRMED · night 2 of 3", "3": "Rayentray Océano (Puerto Pirámides · on the beach) · loc. #12041832 · 2 beach-view rooms · breakfast · ✅ CONFIRMED · night 3 of 3 · checkout Thu 19 10:00 (voucher)"};
+var en=document.body.classList.contains('lang-en');var HBX=en?HB_EN:HB;var baseL=window.cityLbl?window.cityLbl(base):base;
+var hotel=hotelOk?{s:1,t:HBX[n]||(en?'Booked':'Reservado')}:{s:0,t:(en?'Lodging still to book in ':'Falta reservar alojamiento en ')+baseL};
+var _svc=window.VOYSVC?window.VOYSVC(n):null,_ltail='';if(hotel.s===1){hotel.t+=window.VOYDL(window.VOYDOC.H[n],en);}
+var car={s:1,t:en?'Hertz #1918761 · compact automatic SUV (Chevrolet Tracker or similar) · PAID ARS 548.395,03 · pick-up Mon 16 20:30 PMY airport → return Thu 19 18:00 PMY airport · SMART COVER + tyres · ARS 900,000 hold':'Hertz #1918761 · SUV compacto automático (Chevrolet Tracker o similar) · PAGADO ARS 548.395,03 · retiro lun 16 20:30 aeropuerto PMY → devolución jue 19 18:00 aeropuerto PMY · SMART COVER + CUBIERTAS · garantía ARS 900.000'};
+car.t+=window.VOYDL(window.VOYDOC.C['PMY'],en);
+var fl;
+if(n===1)fl={s:1,t:en?'AR1814 Aeroparque 18:25 → Puerto Madryn 20:30 · Premium Economy · seats 1D·1C·1A · EKOLXX / NFWYEM':'AR1814 Aeroparque 18:25 → Puerto Madryn 20:30 · Premium Economy · asientos 1D·1C·1A · EKOLXX / NFWYEM'};
+else if(n===3)fl={s:1,t:en?'Next day (Thu 19): AR1813 Puerto Madryn 19:05 → Aeroparque 20:55 · seats 1D·1C·1F · EKOLXX / NFWYEM':'Al día siguiente (jue 19): AR1813 Puerto Madryn 19:05 → Aeroparque 20:55 · asientos 1D·1C·1F · EKOLXX / NFWYEM'};
+else fl={s:2,t:en?'(no flight that day)':'(no hay vuelo ese día)'};
+if(fl.s===1)fl.t+=window.VOYDL(window.VOYDOC.FL['1'],en);
+function VOYCHIP(n){var p=["#dbe8ff","#1a4f9c"];return " <span style=\"background:"+p[0]+";color:"+p[1]+";border:1px solid "+p[1]+"33;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:800;vertical-align:1px;letter-spacing:.03em\">AMEX</span>";}
+function row(lbl,o){var mk=o.s===1?'✅':(o.s===2?'—':(o.s===3?'📍':'❌')),col=o.s===1?'#2f6f4e':(o.s===2?'#999':(o.s===3?'#173b4a':'#b42318'));return '<div style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #eee"><span style="width:18px;flex:none">'+mk+'</span><div style="min-width:0;flex:1 1 auto"><b style="color:'+col+'">'+lbl+'</b><br><div style="font-size:12.5px;color:#333;overflow-wrap:anywhere">'+o.t+'</div></div></div>';}
+var MES=en?['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['','ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+var tour;var _td=(en&&window.TOURDATE_EN&&window.TOURDATE_EN[key])||(window.TOURDATE&&window.TOURDATE[key]);if(_td){tour={s:1,t:_td};}else tour={s:2,t:en?'(no tour that day — arrival day)':'(sin tour ese día — día de llegada)'};
+if(tour.s!==2)tour.t+=window.VOYDL(window.VOYTDOCS(key,tour.s===1?tour.t:''),en);
+var _sr=window.VOYSVCROWS(n,_svc,_ltail,en);
+var allok=hotel.s===1;
+var badge=allok?'<span style="color:#2f6f4e;font-weight:800">'+(en?'✅ Everything booked for this night':'✅ Todo reservado para esta noche')+'</span>':'<span style="color:#b42318;font-weight:800">'+(en?'🔴 Bookings missing (marked ❌)':'🔴 Faltan reservas (lo marcado con ❌)')+'</span>';
+document.getElementById('pend-modal-t').innerHTML='N'+n+' · '+(en?(MES[m]+' '+d):(d+' '+MES[m]))+' · '+baseL;
+document.getElementById('pend-modal-b').innerHTML='<p style="margin:0 0 6px">'+badge+'</p><p style="margin:0 0 10px;font-size:13px">👤 <b>'+(en?'Booking owner:':'Responsable de reservar:')+'</b> '+(window.PENDRESP[key]||(en?'(unassigned)':'(sin asignar)'))+' (Tatiana Segatti · Centurion)</p>'+row(en?'✈ Flight':'✈ Vuelo',fl)+row(en?'🚗 Car':'🚗 Auto',car)+row((en?'🏨 Lodging':'🏨 Alojamiento')+VOYCHIP(n),hotel)+row(en?'🎫 Tour of the day':'🎫 Tour del día',tour)+row(en?'🧺 Laundry':'🧺 Lavandería',_sr.l)+row(en?'🛒 Groceries':'🛒 Supermercados',_sr.g);
+document.getElementById('pend-modal').style.display='flex';document.body.style.overflow='hidden';var _pb=document.getElementById('pend-modal-b');if(_pb)_pb.scrollTop=0;};
+window.pendHide=function(){document.getElementById('pend-modal').style.display='none';document.body.style.overflow='';};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){try{if(window.pendHide)pendHide();}catch(x){}try{if(window.hoyHide)hoyHide();}catch(x){}try{if(window.alertasHide)alertasHide();}catch(x){}}});
+window.sortNav=function(){var nav=document.querySelector('nav .wrap');if(!nav)return;var en=document.body.classList.contains('lang-en');var as=[].slice.call(nav.querySelectorAll('a'));function lbl(a){var sp=a.querySelector(en?'.lt-en':'.lt-es');var t=(sp?sp.textContent:a.textContent)||'';return t.replace(/^[^A-Za-z\u00C0-\u024F]+/,'').trim();}as.sort(function(a,b){return lbl(a).localeCompare(lbl(b),en?'en':'es',{sensitivity:'base'});});as.forEach(function(a){nav.appendChild(a);});};
+try{window.sortNav();}catch(x){}
+window.pendToggle=function(){var c=document.getElementById('pend-collapse'),a=document.getElementById('pend-arrow');var hid=(c.style.display==='none');c.style.display=hid?'block':'none';a.textContent=hid?'▼':'▶';};
+(function(){var P=window.PENDN||{},REV={};for(var k in P){REV[P[k][0]]=k;}
+function wire(){var sec=document.getElementById('noches');
+ if(sec&&!sec.getAttribute('data-hint')){sec.setAttribute('data-hint','1');var h=document.createElement('p');h.style.cssText='margin:0 0 10px;font-size:12.5px;color:#2a78d6;font-weight:600';h.innerHTML='<span class="lt-es">👉 Tocá cualquier ciudad para ver el estado de sus reservas con sus comprobantes 📄.</span><span class="lt-en">👉 Tap any city for its booking status with vouchers 📄.</span>';sec.insertBefore(h,sec.firstChild);}
+ document.querySelectorAll('.overnight-cell').forEach(function(sp){if(sp.getAttribute('data-cw'))return;var tr=sp.closest('tr');if(!tr)return;var td0=tr.querySelector('td');if(!td0)return;var num=parseInt((td0.textContent||'').trim(),10);if(!num)return;var key=REV[num];if(!key)return;sp.setAttribute('data-cw','1');sp.style.cursor='pointer';sp.style.textDecoration='underline';sp.style.textDecorationStyle='dotted';sp.style.textUnderlineOffset='3px';sp.addEventListener('click',function(){pendShow(key);});});}
+if(document.readyState!=='loading')wire();else document.addEventListener('DOMContentLoaded',wire);})();
+</script>
+<div id="pend-modal" role="dialog" aria-modal="true" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;padding:12px;box-sizing:border-box" onclick="if(event.target===this)pendHide()"><div style="background:#fff;border-radius:14px;width:100%;max-width:min(460px,calc(100vw - 24px));max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);display:flex;flex-direction:column;padding:16px 18px;box-sizing:border-box;box-shadow:0 12px 44px rgba(0,0,0,.3)"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto"><h3 id="pend-modal-t" style="margin:0;color:#173b4a;font-size:17px;line-height:1.25"></h3><button onclick="pendHide()" aria-label="Cerrar / Close" style="border:0;background:#eee;border-radius:8px;width:34px;height:34px;flex:0 0 auto;cursor:pointer;font-size:18px;line-height:1">✕</button></div><div id="pend-modal-b" style="overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0;padding-right:2px"></div></div></div>
+<div id="hoy-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:flex-start;justify-content:center;padding:14px;overflow:auto" onclick="if(event.target===this)hoyHide()">
+<div style="background:#fffaf2;border-radius:14px;max-width:720px;width:100%;padding:16px 18px;box-shadow:0 12px 44px rgba(0,0,0,.35);margin:20px 0">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:2px solid #8a5a44;padding-bottom:6px">
+<h3 id="hoy-modal-t" style="margin:0;color:#173b4a;font-size:18px"></h3>
+<button onclick="hoyHide()" style="border:0;background:#eee;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:16px">✕</button>
+</div>
+<div id="hoy-modal-b" style="font-size:15px;line-height:1.6"></div>
+</div></div>
+<div id="alertas-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:stretch;justify-content:center;padding:0;overflow:hidden" onclick="if(event.target===this)alertasHide()">
+<div style="background:#fff6f4;width:100%;height:100%;max-width:none;margin:0;border-radius:0;padding:14px 18px;box-shadow:none;display:flex;flex-direction:column;box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:2px solid #b42318;padding-bottom:6px">
+<h3 style="margin:0;color:#b42318;font-size:18px">⚠️ <span class="lt-es">ALERTAS — requieren tu atención</span><span class="lt-en">ALERTS — need your attention</span></h3>
+<button onclick="alertasHide()" style="border:0;background:#eee;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:16px">✕</button>
+</div>
+<div id="alertas-b" style="font-size:15px;line-height:1.55;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0;padding-right:4px"></div>
+</div></div>
+<script>
+(function(){
+var A=[{"d": "", "i": "✉️", "es": "<b>Responder a Tatiana (hilo «Estancia San Lorenzo / Experiencias, Tarifas y Horarios»):</b> autorizás compartir tu mail con la estancia, fecha mié 18, Experiencia Pingüinos 14:00 + Sunset privado 18:00, y pedís los links de pago.", "en": "<b>Reply to Tatiana (thread \"Estancia San Lorenzo / Experiencias, Tarifas y Horarios\"):</b> authorize sharing your e-mail with the estancia, date Wed 18, Penguin Experience 14:00 + private Sunset 18:00, and ask for the payment links."}, {"d": "", "i": "🦭", "es": "<b>Decidir la Lobería del 19:</b> regular Amichi ARS 147.675,17 (sujeto a grupo) vs privada Grupo 8 USD 630 ≈ ARS 963.900 vs por tu cuenta — y avisarle a Tatiana.", "en": "<b>Decide Punta Loma on the 19th:</b> regular Amichi ARS 147.675,17 (subject to group) vs private Grupo 8 USD 630 ≈ ARS 963.900 vs on your own — and tell Tatiana."}, {"d": "", "i": "🏨", "es": "<b>Esperar respuesta de Tatiana</b> (mail 17 oct): llegada ≈ 22:45 al Rayentray Océano, que no tiene recepción propia (check-in en Las Restingas o Pirámides). <b>Además pedirle:</b> que Hertz cargue el AR1814 o corra el retiro a 21:00 · tarifa de la entrada a Península Valdés · voucher de los avistajes.", "en": "<b>Wait for Tatiana's answer</b> (Oct 17 e-mail): ≈ 22:45 arrival at Rayentray Océano, which has no reception of its own (check in at Las Restingas or Pirámides). <b>Also ask:</b> Hertz to add AR1814 or move pick-up to 21:00 · Península Valdés fee · whale-trip voucher."}, {"d": "", "i": "📄", "es": "Borrar de la raíz de la carpeta las 4 copias de los PDF originales (ya están en <code>documentos\\</code>).", "en": "Delete the 4 copies of the original PDFs from the folder root (they are already in <code>documentos\\</code>)."}, {"d": "2026-11-06", "i": "⏰", "es": "<b>Último día práctico para cancelar el hotel sin penalidad</b> (la política dice 5 días antes = 11 nov, pero Centurion pide ≥ 72 h hábiles). Rayentray Océano #12041832.", "en": "<b>Last practical day to cancel the hotel without penalty</b> (policy says 5 days before = Nov 11, but Centurion needs ≥ 72 business hours). Rayentray Océano #12041832."}, {"d": "2026-11-11", "i": "⏰", "es": "<b>Vence la cancelación sin penalidad del hotel</b> (5 días antes del check-in). Desde el 12 nov: 3–4 días antes = 1 noche; ≤ 2 días = 100 %%.", "en": "<b>Hotel free-cancellation window closes</b> (5 days before check-in). From Nov 12: 3–4 days before = 1 night; ≤ 2 days = 100%%."}, {"d": "2026-11-14", "i": "✈", "es": "Check-in online de Aerolíneas para el AR1814 (abre 48 h antes): elegir/confirmar asientos 1D·1C·1A. DNI de los tres.", "en": "Aerolíneas online check-in for AR1814 (opens 48 h before): pick/confirm seats 1D·1C·1A. DNI for all three."}, {"d": "2026-11-16", "i": "✈", "es": "<b>AR1814 Aeroparque 18:25 → Puerto Madryn 20:30</b> (estar 16:45) · Hertz #1918761 en el aeropuerto (DNI, licencia, Centurion) · <b>98 km</b> a Pirámides de noche, fauna en la ruta · entrada al área protegida en el acceso · llegada al hotel ≈ 22:45.", "en": "<b>AR1814 Aeroparque 18:25 → Puerto Madryn 20:30</b> (be there 16:45) · Hertz #1918761 at the airport (DNI, licence, Centurion) · <b>98 km</b> to Pirámides after dark, wildlife on the road · protected-area fee at the gate · hotel arrival ≈ 22:45."}, {"d": "2026-11-17", "i": "🐋", "es": "<b>09:00 — presentarse PUNTUALES en Punta Ballena</b> (<a href=\"https://maps.app.goo.gl/txfpDCesEjqdMLkJ6\" target=\"_blank\" rel=\"noopener\">mapa</a>) · avistaje ≈ 1 h 30 · abrigo e impermeable.", "en": "<b>09:00 — be ON TIME at Punta Ballena</b> (<a href=\"https://maps.app.goo.gl/txfpDCesEjqdMLkJ6\" target=\"_blank\" rel=\"noopener\">map</a>) · ≈ 1 h 30 on the boat · warm, waterproof clothing."}, {"d": "2026-11-18", "i": "🐋", "es": "<b>08:45 — Southern Spirit</b> (<a href=\"https://maps.app.goo.gl/AUR5L5LGCZ2GvJLV8\" target=\"_blank\" rel=\"noopener\">mapa</a>) · después, si se confirmó: salir 11:45 a Estancia San Lorenzo (76 km ripio) para las 14:00; sunset 18:00; vuelta de noche.", "en": "<b>08:45 — Southern Spirit</b> (<a href=\"https://maps.app.goo.gl/AUR5L5LGCZ2GvJLV8\" target=\"_blank\" rel=\"noopener\">map</a>) · then, if confirmed: leave 11:45 for Estancia San Lorenzo (76 km gravel) for 14:00; sunset 18:00; back after dark."}, {"d": "2026-11-19", "i": "🎂", "es": "<b>Cumpleaños de Néstor y Carolina.</b> Checkout 10:00 · Punta Loma (según lo decidido) · almuerzo en Madryn · nafta · <b>Hertz 18:00 aeropuerto</b> · <b>AR1813 19:05 → AEP 20:55</b>.", "en": "<b>Néstor's and Carolina's birthday.</b> Checkout 10:00 · Punta Loma (as decided) · lunch in Madryn · fuel · <b>Hertz 18:00 airport</b> · <b>AR1813 19:05 → AEP 20:55</b>."}];
+var DIA_ES=['dom','lun','mar','mié','jue','vie','sáb'],DIA_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var MES_ES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],MES_EN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function item(chip,txt,hoy){return '<div style="margin:8px 0;padding:9px 12px;background:#fff;border:1.5px solid '+(hoy?'#b42318':'#f1d4cf')+';border-radius:10px"><div style="font-weight:800;color:#b42318;margin-bottom:3px">'+chip+'</div><div>'+txt+'</div></div>';}
+window.alertasShow=function(){
+  var en=document.body.classList.contains('lang-en');
+  var hoy=new Date(); hoy.setHours(0,0,0,0);
+  var dd=[],nd=[];
+  for(var k=0;k<A.length;k++){var a=A[k];if(!a.d){nd.push(a);continue;}var p=a.d.split('-');var f=new Date(+p[0],+p[1]-1,+p[2]);if(f>=hoy)dd.push([f,a]);}
+  dd.sort(function(x,y){return x[0]-y[0];});
+  var h='';
+  h+='<div style="font-weight:800;color:#b42318;margin:2px 0 4px">'+(en?'⚡ NO DATE — as soon as you can':'⚡ SIN FECHA — cuanto antes')+'</div>';
+  for(var q=0;q<nd.length;q++)h+=item(nd[q].i,(en?nd[q].en:nd[q].es),false);
+  h+='<div style="font-weight:800;color:#173b4a;margin:12px 0 4px">'+(en?'📆 BY DATE (from today)':'📆 CON FECHA (desde hoy)')+'</div>';
+  if(!dd.length)h+='<div style="opacity:.7">'+(en?'Nothing dated pending. Enjoy.':'Nada con fecha pendiente. A disfrutar.')+'</div>';
+  for(var q2=0;q2<dd.length;q2++){var f2=dd[q2][0],a2=dd[q2][1];var esHoy=(f2.getTime()===hoy.getTime());
+    var chip=(en?DIA_EN[f2.getDay()]+' '+MES_EN[f2.getMonth()]+' '+f2.getDate():DIA_ES[f2.getDay()]+' '+f2.getDate()+' '+MES_ES[f2.getMonth()])+(esHoy?(en?' · TODAY':' · HOY'):'');
+    h+=item(a2.i+' '+chip,(en?a2.en:a2.es),esHoy);}
+  h+='<div style="margin-top:10px;font-size:12.5px;opacity:.75">'+(en?'Sources tracked: Centurion e-mails (Tatiana), Hertz, cancellation windows. Updated with every version.':'Fuentes rastreadas: mails de Centurion (Tatiana), Hertz, ventanas de cancelación. Se actualiza con cada versión.')+'</div>';
+  document.getElementById('alertas-b').innerHTML=h;
+  document.getElementById('alertas-modal').style.display='flex';
+};
+window.alertasHide=function(){document.getElementById('alertas-modal').style.display='none';};
+})();
+</script>
+<footer><div class="wrap"><p><span class="lt-es">Puerto Madryn 2026 · documento unificado bilingüe PMY26 v0.02 (modelo VOYAGE, armado desde los mails de Centurion Travel del 2 al 16 oct 2026). Validar antes de reservar.</span><span class="lt-en">Puerto Madryn 2026 · unified bilingual document PMY26 v0.02 (VOYAGE model, built from the Centurion Travel e-mails of Oct 2–16, 2026). Verify before booking.</span></p></div></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+<script>
+function escMap(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function drawFallbackMap(id,stops,visits,route){visits=visits||[];var all=stops.concat(visits);
+var lats=all.map(function(p){return p.coords[0];}),lons=all.map(function(p){return p.coords[1];});
+var minLat=Math.min.apply(null,lats),maxLat=Math.max.apply(null,lats),minLon=Math.min.apply(null,lons),maxLon=Math.max.apply(null,lons);
+var midLat=(minLat+maxLat)/2,kx=Math.cos(midLat*Math.PI/180);var spanX=((maxLon-minLon)*kx)||1,spanY=(maxLat-minLat)||1;
+var W=1000,padX=70,padTop=64,padBot=42;var H=Math.round(Math.max(360,Math.min(900,(W-2*padX)*(spanY/spanX)+padTop+padBot)));
+function X(lo){return padX+((lo-minLon)*kx)/spanX*(W-2*padX);}function Y(la){return padTop+(maxLat-la)/spanY*(H-padTop-padBot);}
+var rp=route.map(function(c){return X(c[1]).toFixed(1)+','+Y(c[0]).toFixed(1);}).join(' ');
+var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;background:#e9f0ec">';
+svg+='<polyline points="'+rp+'" fill="none" stroke="#315f72" stroke-width="3" stroke-opacity="0.55"/>';
+visits.forEach(function(v){var x=X(v.coords[1]),y=Y(v.coords[0]);svg+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="6" fill="#315f72" stroke="#fff" stroke-width="1.5"><title>'+escMap(v.name)+'</title></circle>';});
+stops.forEach(function(s){var x=X(s.coords[1]),y=Y(s.coords[0]);svg+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="11" fill="#b42318" stroke="#fff" stroke-width="2"><title>'+escMap(s.n+'. '+s.name)+'</title></circle><text x="'+x.toFixed(1)+'" y="'+(y+4).toFixed(1)+'" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#fff">'+s.n+'</text>';});
+svg+='</svg>';document.getElementById(id).innerHTML=svg;}
+window.addEventListener('load',function(){
+var stops=[{"n": 1, "name": "Puerto Pirámides", "coords": [-42.5747, -64.2833], "note": "N1–3 · Rayentray Océano"}];
+var visits=[{"name": "Aeropuerto Puerto Madryn (PMY) · Hertz", "coords": [-42.7592, -65.1027]}, {"name": "Estancia San Lorenzo · Punta Norte (18 nov, por confirmar)", "coords": [-42.1328, -63.8912]}, {"name": "Puerto Madryn (19 nov · almuerzo 🎂)", "coords": [-42.7692, -65.0385]}, {"name": "Lobería de Punta Loma (19 nov, por decidir)", "coords": [-42.8125, -64.888]}];
+var route=[[-42.7592, -65.1027], [-42.5747, -64.2833], [-42.1328, -63.8912], [-42.5747, -64.2833], [-42.7692, -65.0385], [-42.8125, -64.888], [-42.7592, -65.1027]];
+if(typeof L==='undefined'){drawFallbackMap('map',stops,visits,route);return;}
+var map=L.map('map').setView([-42.5,-64.5],9);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd',attribution:'&copy; OpenStreetMap contributors &copy; CARTO'}).addTo(map);
+stops.forEach(function(s){var icon=L.divIcon({className:'',html:'<div class="numbered-marker sleep">'+s.n+'</div>',iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-16]});
+L.marker(s.coords,{icon:icon}).addTo(map).bindPopup(function(){return '<strong>'+s.n+'. '+s.name+'</strong><br><b>'+(document.body.classList.contains('lang-en')?'NIGHTS':'NOCHES')+'</b><br>'+(s.note||'');});});
+visits.forEach(function(v){var icon=L.divIcon({className:'',html:'<div class="numbered-marker visit" style="width:16px;height:16px;font-size:0"></div>',iconSize:[16,16],iconAnchor:[8,8],popupAnchor:[0,-8]});
+L.marker(v.coords,{icon:icon}).addTo(map).bindPopup('<strong>'+v.name+'</strong>');});
+L.polyline(route,{weight:3.5,opacity:.55,color:'#315f72'}).addTo(map);
+map.fitBounds(route,{padding:[28,28]});setTimeout(function(){map.invalidateSize();},250);});
+</script>
+<script>
+var PDF_ES2EN={"VOYAGE - PUERTO MADRYN 2026":"VOYAGE - PUERTO MADRYN 2026","16 - 19 nov 2026 - 3 noches - 1 auto (~386 km) - 2 vuelos":"Nov 16 - 19, 2026 - 3 nights - 1 car (~386 km) - 2 flights","Vuelos":"Flights","Vuelo":"Flight","Ruta":"Route","Fecha":"Date","Horario":"Times","Clase":"Class","Reserva":"Booking","Calendario maestro":"Master calendar","Tramo":"Leg","Fechas":"Dates","Noches":"Nights","Km auto":"Car km","Noche":"Night","Dormir en":"Sleep in","Plan":"Plan","Distancias":"Distances","Dia":"Day","Distancia":"Distance","Tiempo":"Time","Acum.":"Cum.","Tours y actividades":"Tours & activities","Actividad":"Activity","Encuentro":"Meeting point","Estado":"Status","Costos":"Costs","Concepto":"Item","Pago":"Payment","TOTAL RESERVADO":"TOTAL BOOKED","confirmado":"confirmed","por autorizar":"to authorize","por decidir":"to decide","emitido":"issued","pagado":"paid","lun":"Mon","mar":"Tue","mie":"Wed","jue":"Thu","nov":"Nov","Puerto Piramides":"Puerto Piramides"};
+function pdfT(s){if(!document.body.classList.contains('lang-en')||typeof s!=='string')return s;var out=s;var keys=Object.keys(PDF_ES2EN).sort(function(a,b){return b.length-a.length;});keys.forEach(function(k){var v=PDF_ES2EN[k];var re=new RegExp('(^|[^\\p{L}])'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?![\\p{L}])','gu');out=out.replace(re,function(m,p){return p+v;});});return out;}
+function pdfTT(x){if(Array.isArray(x))return x.map(pdfTT);return pdfT(x);}
+function generarPDFModeloANA(){
+var jsPDF=window.jspdf.jsPDF;var doc=new jsPDF({orientation:'portrait',unit:'pt',format:'letter'});
+var _t=doc.text.bind(doc);doc.text=function(s,a,b,c){return _t(pdfTT(s),a,b,c);};var _at=doc.autoTable.bind(doc);doc.autoTable=function(o){if(o&&o.head)o.head=pdfTT(o.head);if(o&&o.body)o.body=pdfTT(o.body);return _at(o);};
+var pw=doc.internal.pageSize.getWidth();
+doc.setFillColor(23,59,74);doc.rect(0,0,pw,118,'F');
+doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(21);
+doc.text('VOYAGE - PUERTO MADRYN 2026 - V. 0.02',40,48);
+doc.setFontSize(11);doc.setFont('helvetica','normal');
+doc.text('16 - 19 nov 2026 - 3 noches - 1 auto (~386 km) - 2 vuelos',40,72);
+doc.setFontSize(9);doc.text('10/16/2026 21:03 ET',40,92);
+doc.setTextColor(31,41,51);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text('Vuelos',40,150);
+doc.autoTable({startY:160,head:[['Vuelo','Ruta','Fecha','Horario','Clase','Reserva']],
+body:[['AR1814','Aeroparque (AEP) -> Puerto Madryn (PMY)','lun 16 nov','18:25-20:30','Premium Economy 1D/1C/1A','EKOLXX / NFWYEM'],
+['AR1813','Puerto Madryn (PMY) -> Aeroparque (AEP)','jue 19 nov','19:05-20:55','Premium Economy 1D/1C/1F','EKOLXX / NFWYEM']],
+theme:'grid',styles:{fontSize:8,cellPadding:3.5},headStyles:{fillColor:[49,95,114]},margin:{left:40,right:40}});
+var y=doc.lastAutoTable.finalY+22;
+doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text('Noches',40,y);
+doc.autoTable({startY:y+10,head:[['Noche','Fecha','Dormir en','Plan']],
+body:[['1','lun 16 nov','Puerto Piramides','AR1814 18:25-20:30 - Hertz PMY 20:30 - 98 km a Piramides (llegada 22:45)'],
+['2','mar 17 nov','Puerto Piramides','09:00 avistaje de ballenas (Punta Ballena) - tarde libre'],
+['3','mie 18 nov','Puerto Piramides','08:45 avistaje (Southern Spirit) - Estancia San Lorenzo 14:00 + 18:00 (por autorizar) - 152 km ripio'],
+['-','jue 19 nov','(vuelo a Buenos Aires)','Checkout - Punta Loma (por decidir) - Hertz 18:00 - AR1813 19:05 - cumpleanos']],
+theme:'grid',styles:{fontSize:8,cellPadding:3.5},headStyles:{fillColor:[49,95,114]},margin:{left:40,right:40}});
+y=doc.lastAutoTable.finalY+22;
+doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text('Distancias',40,y);
+doc.autoTable({startY:y+10,head:[['Dia','Tramo','Distancia','Tiempo','Acum.']],
+body:[['1','Aeropuerto PMY -> Puerto Piramides','98 km','1 h 34','98 km'],
+['3','Piramides -> Estancia San Lorenzo (ripio)','76 km','2 h 08','174 km'],
+['3','Estancia San Lorenzo -> Piramides (de noche)','76 km','2 h 08','250 km'],
+['4','Piramides -> Puerto Madryn','95 km','1 h 36','345 km'],
+['4','Puerto Madryn -> Punta Loma','16 km','22 min','361 km'],
+['4','Punta Loma -> aeropuerto PMY','25 km','35 min','386 km']],
+theme:'grid',styles:{fontSize:8,cellPadding:3.5},headStyles:{fillColor:[49,95,114]},margin:{left:40,right:40}});
+doc.addPage();doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('Tours y actividades',40,46);
+doc.autoTable({startY:60,head:[['Fecha','Actividad','Encuentro','Estado']],
+body:[['mar 17 nov 09:00','Avistaje de ballenas - Amichi - 3 ad','Punta Ballena, Puerto Piramides (puntuales)','confirmado'],
+['mie 18 nov 08:45','Avistaje de ballenas - Amichi - 3 ad','Southern Spirit, Puerto Piramides','confirmado'],
+['mie 18 nov 14:00','Experiencia Pinguinos - Estancia San Lorenzo - ARS 270.000','Estancia San Lorenzo (RP3)','por autorizar'],
+['mie 18 nov 18:00','Sunset Pinguinos privado - ARS 552.600 (min. 4)','Estancia San Lorenzo','por autorizar'],
+['jue 19 nov','Loberia Punta Loma - regular ARS 147.675 o privada USD 630','Puerto Madryn','por decidir']],
+theme:'grid',styles:{fontSize:8,cellPadding:3.5},headStyles:{fillColor:[49,95,114]},margin:{left:40,right:40}});
+y=doc.lastAutoTable.finalY+22;
+doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text('Costos',40,y);
+doc.autoTable({startY:y+10,head:[['Concepto','ARS','Pago','Estado']],
+body:[['Aereo AR1814 + AR1813 (3 pax)','ARS 2.179.956,24','1 pago','emitido'],['Hotel Rayentray Oceano (2 hab, 3 noches)','ARS 1.385.152,95','3 cuotas','confirmado'],['Hertz SUV compacto (3 dias)','ARS 548.395,03','prepago','pagado'],['Avistajes de ballenas x2','ARS 1.203.939,64','3 cuotas','confirmado'],['TOTAL RESERVADO','ARS 5.317.443,86','',''],['Estancia San Lorenzo (pendiente)','ARS 822.600','1 pago c/u','por autorizar'],['Loberia Punta Loma (pendiente)','ARS 147.675 o ARS 963.900','3 cuotas','por decidir']],
+theme:'grid',styles:{fontSize:8,cellPadding:3.5},headStyles:{fillColor:[49,95,114]},margin:{left:40,right:40}});
+doc.save(document.body.classList.contains('lang-en')?'VOYAGE - PUERTO MADRYN 2026 - PMY26 v0.02 (EN).pdf':'VOYAGE - PUERTO MADRYN 2026 - PMY26 v0.02.pdf');
+}
+</script>
+<script>
+window.isEN=function(){return document.body.classList.contains('lang-en');};
+window.voyAvance=function(){var el=document.getElementById('voy-avance');if(!el)return;var start=new Date(2026,10,16),total=4,now=new Date(),d0=new Date(now.getFullYear(),now.getMonth(),now.getDate());var en=document.body.classList.contains('lang-en');var day=Math.floor((d0-start)/86400000)+1;if(day<1){el.textContent=en?'Planned 4 days':'Proy 4 días';}else if(day>total){el.textContent=en?'Trip completed · 4/4 days (100 %)':'Viaje completado · 4/4 días (100 %)';}else{el.textContent=(en?'Progress ':'Avance ')+day+'/'+total+(en?' days (':' días (')+(day/total*100).toFixed(1)+' %)';}};
+try{window.voyAvance();}catch(x){}
+(function(){try{var start=new Date(2026,10,16),now=new Date(),d0=new Date(now.getFullYear(),now.getMonth(),now.getDate());var day=Math.floor((d0-start)/86400000)+1;if(day>=1&&day<=4){[].forEach.call(document.querySelectorAll('.km-table tr[data-d="'+day+'"]'),function(tr){tr.classList.add('km-today');});}}catch(x){}})();
+function setLang(l){var en=(l==='en');document.body.classList.toggle('lang-en',en);
+if(window.renderPend)try{window.renderPend();}catch(x){}
+if(window.voyAvance)try{window.voyAvance();}catch(x){}
+if(window.sortNav)try{window.sortNav();}catch(x){}
+var e=document.getElementById('fl-es'),u=document.getElementById('fl-en');if(e&&u){e.classList.toggle('active',!en);u.classList.toggle('active',en);}
+try{localStorage.setItem('pmyLang',l);}catch(x){}}
+window.addEventListener('load',function(){var l='es';try{l=localStorage.getItem('pmyLang')||'es';}catch(x){}setLang(l);});
+</script>
+<script>
+(function(){
+var INI=new Date(2026,10,16), FIN=new Date(2026,10,19,23,59,59);
+var MES={nov:11};
+function enViaje(){var n=new Date();return n>=INI&&n<=FIN;}
+function cardDe(f){
+  var d=f.getDate(), m=f.getMonth()+1;
+  var en=document.body.classList.contains('lang-en');
+  var cards=document.querySelectorAll(en?'#itinerario .t-en article.day-card':'#itinerario .t-es article.day-card');
+  var MEN={Nov:11};
+  for(var i=0;i<cards.length;i++){
+    var num=cards[i].querySelector('.day-num'); if(!num)continue;
+    var t=num.textContent||'';
+    if(en){var me=t.match(/(Nov)\s+(\d+)/); if(me && parseInt(me[2],10)===d && MEN[me[1]]===m) return cards[i]; continue;}
+    var mm=t.match(/(\d+)\s+(nov)/);
+    if(mm && parseInt(mm[1],10)===d && MES[mm[2]]===m) return cards[i];
+  }
+  return null;
+}
+window.hoyShow=function(off){
+  off=off||0;
+  var en=document.body.classList.contains('lang-en');
+  if(!enViaje()){alert(en?'The TODAY and TOMORROW buttons are active during the trip (Nov 16 \u2013 19, 2026).':'Los botones HOY y MA\u00d1ANA se encienden durante el viaje (16 \u2013 19 nov 2026).');return;}
+  var n=new Date(); n.setDate(n.getDate()+off);
+  var c=cardDe(n);
+  var modal=document.getElementById('hoy-modal');
+  var tit=document.getElementById('hoy-modal-t');
+  var body=document.getElementById('hoy-modal-b');
+  var DIAS=en?['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']:['domingo','lunes','martes','mi\u00e9rcoles','jueves','viernes','s\u00e1bado'];
+  var MESN=en?['January','February','March','April','May','June','July','August','September','October','November','December']:['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var pref = en ? (off===0 ? '\ud83d\udcc5 Today\u2019s agenda \u2014 ' : '\ud83c\udf19 Tomorrow\u2019s agenda \u2014 ') : (off===0 ? '\ud83d\udcc5 Agenda de hoy \u2014 ' : '\ud83c\udf19 Agenda de ma\u00f1ana \u2014 ');
+  tit.textContent=en ? (pref+DIAS[n.getDay()]+', '+MESN[n.getMonth()]+' '+n.getDate()) : (pref+DIAS[n.getDay()]+' '+n.getDate()+' de '+MESN[n.getMonth()]);
+  if(c){var clone=c.cloneNode(true);body.innerHTML='';body.appendChild(clone);try{VOYWX(body,n,clone,en);}catch(e){}}
+  else {body.innerHTML=en?'<p>No card for that date (the itinerary covers Nov 16 to 19, 2026).</p>':'<p>No hay ficha para esa fecha (el itinerario cubre del 16 al 19 de noviembre de 2026).</p>';}
+  modal.style.display='flex';
+};
+window.VOYWXC={"Puerto Pirámides":[-42.57,-64.28],"Puerto Madryn":[-42.77,-65.04],"Buenos Aires":[-34.6,-58.4]};
+window.VOYWXW=function(code,en){var m={0:['despejado','clear'],1:['mayormente despejado','mostly clear'],2:['parcialmente nublado','partly cloudy'],3:['nublado','overcast'],45:['niebla','fog'],48:['niebla','fog'],51:['llovizna','drizzle'],53:['llovizna','drizzle'],55:['llovizna','drizzle'],61:['lluvia ligera','light rain'],63:['lluvia','rain'],65:['lluvia fuerte','heavy rain'],71:['nieve','snow'],73:['nieve','snow'],75:['nieve','snow'],80:['chubascos','showers'],81:['chubascos','showers'],82:['chubascos fuertes','heavy showers'],95:['tormenta','thunderstorm'],96:['tormenta','thunderstorm'],99:['tormenta','thunderstorm']};var w=m[code]||['—','—'];return en?w[1]:w[0];};
+window.VOYWXI=function(c){if(c==null)return '·';if(c===0)return '☀️';if(c===1)return '🌤';if(c===2)return '⛅';if(c===3)return '☁️';if(c===45||c===48)return '🌫';if(c>=51&&c<=57)return '🌦';if(c>=61&&c<=67)return '🌧';if(c>=71&&c<=77)return '🌨';if(c>=80&&c<=82)return '🌦';if(c>=85&&c<=86)return '🌨';if(c>=95)return '⛈';return '·';};
+window.VOYWX=function(body,n,clone,en){
+  var ot=clone.querySelector('.overnight-text'); if(!ot) return;
+  var city=(ot.textContent||'').trim().split('(')[0].trim();
+  var co=window.VOYWXC[city]; if(!co) return;
+  var d=n.getFullYear()+'-'+((n.getMonth()<9?'0':'')+(n.getMonth()+1))+'-'+((n.getDate()<10?'0':'')+n.getDate());
+  var chip=document.createElement('div');
+  chip.style.cssText='background:#eef7ff;border:1px solid #bcd7ee;border-radius:8px;padding:8px 11px;margin:0 0 6px;font-size:14px;font-weight:600';
+  chip.textContent=(en?'Weather ':'Pronóstico ')+city+' …';
+  body.insertBefore(chip,body.firstChild);
+  var strip=document.createElement('div');
+  strip.style.cssText='display:none;gap:4px;overflow-x:auto;padding:4px 0 6px;margin:0 0 10px;-webkit-overflow-scrolling:touch';
+  body.insertBefore(strip,chip.nextSibling);
+  fetch('https://api.open-meteo.com/v1/forecast?latitude='+co[0]+'&longitude='+co[1]+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m&start_date='+d+'&end_date='+d+'&timezone=auto')
+   .then(function(r){return r.json();})
+   .then(function(j){var dd=j.daily;if(!dd||!dd.time||!dd.time.length){chip.style.display='none';return;}
+     chip.textContent='🌤 '+(en?'Weather — ':'Pronóstico — ')+city+': '+window.VOYWXW(dd.weather_code[0],en)+' · '+Math.round(dd.temperature_2m_max[0])+'°/'+Math.round(dd.temperature_2m_min[0])+'° · '+(en?'rain ':'lluvia ')+(dd.precipitation_probability_max[0]!=null?dd.precipitation_probability_max[0]:'—')+'%% · '+(en?'wind ':'viento ')+Math.round(dd.wind_speed_10m_max[0])+' km/h';
+     var h=j.hourly; if(!h||!h.time) return; var html='';
+     for(var i=0;i<h.time.length;i++){var hr=parseInt(h.time[i].slice(11,13),10); if(hr<6||hr>23) continue;
+       var pp=h.precipitation_probability?h.precipitation_probability[i]:null, mm=h.precipitation?h.precipitation[i]:null, wc=h.weather_code?h.weather_code[i]:null, ws=h.wind_speed_10m?h.wind_speed_10m[i]:null;
+       var wet=(pp!=null&&pp>=40)||(mm!=null&&mm>=0.5);
+       html+='<div style="flex:0 0 auto;min-width:48px;text-align:center;border:1px solid '+(wet?'#f0b4b4':'#d6e4f0')+';border-radius:8px;padding:4px 3px;background:'+(wet?'#fff1f1':'#f7fbff')+';font-size:12px;line-height:1.3"><div style="font-weight:700">'+(hr<10?'0':'')+hr+'h</div><div style="font-size:18px;line-height:1.2" title="'+window.VOYWXW(wc,en)+'">'+window.VOYWXI(wc)+'</div><div style="font-weight:700">'+Math.round(h.temperature_2m[i])+'°</div><div style="color:'+(wet?'#b42318':'#4a6a8a')+'">'+(pp!=null?pp+'%%':'—')+'</div><div style="font-size:10.5px;color:#666">'+(mm!=null&&mm>0?mm.toFixed(1)+' mm':(ws!=null?Math.round(ws)+' km/h':''))+'</div></div>';}
+     if(html){strip.innerHTML='<div style="flex:0 0 auto;min-width:40px;font-size:11px;color:#555;align-self:center;line-height:1.3">'+(en?'hour<br>sky<br>temp<br>rain %%<br>mm/wind':'hora<br>cielo<br>temp<br>lluvia %%<br>mm/viento')+'</div>'+html; strip.style.display='flex';}
+   })
+   .catch(function(){chip.style.display='none';});
+};
+window.nocheHoy=function(){
+  var en=document.body.classList.contains('lang-en');
+  var sec=document.getElementById('noches'); if(!sec) return;
+  var now=new Date(); var t=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var nn=Math.round((t-new Date(2026,10,15))/86400000);
+  try{history.replaceState(null,'','#noches');}catch(e){}
+  var rows=sec.querySelectorAll('tbody tr'), hits=[];
+  if(nn>=1&&nn<=3){for(var i=0;i<rows.length;i++){var c=rows[i].querySelector('td');if(c&&c.textContent.trim()===String(nn))hits.push(rows[i]);}}
+  document.querySelectorAll('tr.noche-hoy').forEach(function(r){r.classList.remove('noche-hoy');});
+  if(!hits.length){sec.scrollIntoView({behavior:'smooth'});return;}
+  hits.forEach(function(r){r.classList.add('noche-hoy');});
+  var vis=null;for(var k=0;k<hits.length;k++){if(hits[k].offsetParent!==null){vis=hits[k];break;}}
+  (vis||hits[0]).scrollIntoView({behavior:'smooth',block:'center'});
+};
+window.hoyHide=function(){document.getElementById('hoy-modal').style.display='none';};
+document.addEventListener('DOMContentLoaded',function(){
+  ['hoy-btn','man-btn'].forEach(function(id){var b=document.getElementById(id);
+    if(b && !enViaje()){b.disabled=true; b.style.opacity='.45'; b.style.cursor='not-allowed';
+      b.title=document.body.classList.contains('lang-en')?'Activates when the trip starts (Nov 16, 2026)':'Se enciende cuando empieza el viaje (16 nov 2026)';}});
+});
+})();
+</script>
+</body>
+</html>
