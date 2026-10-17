@@ -1,0 +1,22 @@
+{
+ "name": "VOYAGE · PUERTO MADRYN 2026",
+ "short_name": "VOYAGE",
+ "start_url": "../index.html",
+ "scope": "../",
+ "display": "browser",
+ "background_color": "#173b4a",
+ "theme_color": "#173b4a",
+ "icons": [
+  {
+   "src": "voyage-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "voyage-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  }
+ ]
+}
